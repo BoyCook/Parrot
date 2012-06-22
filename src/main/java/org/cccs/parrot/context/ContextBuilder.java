@@ -28,6 +28,11 @@ import static java.lang.String.format;
 public class ContextBuilder {
 
     protected static final Logger log = LoggerFactory.getLogger(ContextBuilder.class);
+    private static ParrotContext context;
+
+    public static void init(final String packageName) {
+        setContext(build(packageName));
+    }
 
     public static ParrotContext build(final String packageName) {
         ContextBuilder builder = new ContextBuilder();
@@ -90,5 +95,13 @@ public class ContextBuilder {
                 requestMappings.put(path + newPath, type);
             }
         }
+    }
+
+    public static ParrotContext getContext() {
+        return context;
+    }
+
+    public static void setContext(ParrotContext context) {
+        ContextBuilder.context = context;
     }
 }

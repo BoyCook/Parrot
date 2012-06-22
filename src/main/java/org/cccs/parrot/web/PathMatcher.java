@@ -18,6 +18,10 @@ import static java.lang.String.format;
  */
 public class PathMatcher {
 
+    public static PathMatcher getMatcher() {
+        return new PathMatcher();
+    }
+
     public String match(String urlPath) {
         urlPath = urlPath.toLowerCase();
         // Pattern match?

@@ -1,5 +1,6 @@
 package org.cccs.parrot.web;
 
+import org.cccs.parrot.context.ContextBuilder;
 import org.cccs.parrot.context.ParrotContext;
 import org.cccs.parrot.util.Utils;
 import org.slf4j.Logger;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
+
+import static java.lang.String.format;
 
 /**
  * User: boycook
@@ -28,7 +32,18 @@ public class ParrotController {
     @RequestMapping(value = "/**", method = RequestMethod.GET)
     @ResponseBody
     public Object getParrotEntity(HttpServletRequest request) {
-        log.debug(urlPathHelper.getPathWithinApplication(request));
+        final String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        log.debug("Inbound URL: " + inboundPath);
+
+        final String match = PathMatcher.getMatcher().match(inboundPath);
+
+        if (match != null) {
+            Class clazz = ContextBuilder.getContext().getRequestMappings().get(match);
+            log.debug(format("Found resource match [%s] as [%s]", match, clazz.getSimpleName()));
+        } else {
+            log.error("No resource match found");
+        }
+
         return new ParrotContext(null, null);
     }
 

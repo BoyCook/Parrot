@@ -1,0 +1,34 @@
+A simple ORM and REST wrapper around resources auto-generated from JPA annotated domain objects.
+
+Modules:
+- Core
+- Web service
+- Web UI
+- Generator
+
+High level
+- Domain Object
+- MVC controller
+- Hibernate persistence
+
+Controller mapping per domain object
+- 'Codeless' default behaviour
+- Can override/delegate custom controller
+- URL hierarchy need to map to object hierarchy
+
+Web XML manual config?
+- Spring context loader
+- Web MVC dispatcher servlet
+
+#mvn versions:display-dependency-updates
+
+Top = !Child
+Parent = OneToOne || One2Many ||  ManyToMany
+Child = ManyToOne
+
+Find top, if parent move down
+
+Consider - if item qualifies as child, but no class with parent annotation is present
+
+Depth first traversal!!!
+

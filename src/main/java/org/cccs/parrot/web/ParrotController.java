@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 import static java.lang.String.format;
@@ -28,11 +29,16 @@ public class ParrotController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
     protected final UrlPathHelper urlPathHelper = new UrlPathHelper();
+    protected static final String SERVICE_PATH = "/service";
 
     @RequestMapping(value = "/**", method = RequestMethod.GET)
     @ResponseBody
-    public Object getParrotEntity(HttpServletRequest request) {
-        final String inboundPath = urlPathHelper.getPathWithinApplication(request);
+    public Object getParrotEntity(HttpServletRequest request,
+                                  HttpServletResponse response) {
+        ContextBuilder.init("org.cccs.parrot.domain");
+        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+
         log.debug("Inbound URL: " + inboundPath);
 
         final String match = PathMatcher.getMatcher().match(inboundPath);
@@ -42,9 +48,10 @@ public class ParrotController {
             log.debug(format("Found resource match [%s] as [%s]", match, clazz.getSimpleName()));
         } else {
             log.error("No resource match found");
+            response.setStatus(404);
         }
 
-        return new ParrotContext(null, null);
+        return ContextBuilder.getContext();
     }
 
     public String extractParameter(HttpServletRequest request, int position) {

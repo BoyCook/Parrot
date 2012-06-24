@@ -46,5 +46,4 @@ public class PathMatcher {
     private org.springframework.util.PathMatcher getPathMatcher() {
         return new AntPathMatcher();
     }
-
 }

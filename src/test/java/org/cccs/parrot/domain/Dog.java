@@ -8,6 +8,7 @@ import java.util.Collection;
  * Date: 30/06/2011
  * Time: 17:08
  */
+@Entity
 @Table
 public class Dog {
 
@@ -26,7 +27,7 @@ public class Dog {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dog_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -37,7 +38,7 @@ public class Dog {
     }
 
     @ManyToOne
-    @Column(name = "person_id")
+    @JoinColumn(name = "person_id")
     public Person getOwner() {
         return owner;
     }

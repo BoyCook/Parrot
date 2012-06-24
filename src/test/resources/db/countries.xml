@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <table name="country">
+        <column>id</column>
+        <column>name</column>
+        <row>
+            <value>1</value>
+            <value>England</value>
+        </row>
+    </table>
+</dataset>

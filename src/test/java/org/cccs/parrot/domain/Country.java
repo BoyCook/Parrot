@@ -8,7 +8,8 @@ import java.util.Collection;
  * Date: 12/07/2011
  * Time: 15:53
  */
-@Table(name = "countries")
+@Entity
+@Table(name = "country")
 public class Country {
 
     private long id;
@@ -24,8 +25,8 @@ public class Country {
     }
 
     @Id
-    @Column(name = "cntId")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cnt_seq")
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }

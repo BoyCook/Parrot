@@ -3,13 +3,16 @@
     <table name="cat">
         <column>id</column>
         <column>name</column>
+        <column>person_id</column>
         <row>
             <value>1</value>
             <value>Bagpuss</value>
+            <value>1</value>
         </row>
         <row>
             <value>2</value>
             <value>Kitty</value>
+            <value>1</value>
         </row>
     </table>
 </dataset>

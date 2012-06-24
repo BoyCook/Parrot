@@ -21,15 +21,16 @@ public class DataDrivenTestEnvironment  {
     private String[] dataFileNames = new String[]{};
     protected static final String[] DEFAULT_TABLES = new String[] {
             "/db/countries.xml",
+            "/db/people.xml",
             "/db/cats.xml",
-            "/db/dogs.xml",
-            "/db/people.xml"
+            "/db/dogs.xml"
+
     };
     private static final String[] DELETE_TABLES = new String[] {
             "country",
+            "person",
             "cat",
-            "dog",
-            "person"
+            "dog"
     };
     private boolean tearDown = false;
     private static boolean dataInstalled = false;

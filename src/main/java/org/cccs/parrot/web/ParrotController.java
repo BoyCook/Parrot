@@ -18,6 +18,8 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 import static java.lang.String.format;
@@ -48,6 +50,13 @@ public class ParrotController {
     @ResponseBody
     public ParrotContext getParrotContext() {
         return ContextBuilder.getContext();
+    }
+
+
+    @RequestMapping(value = "/resources", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<String> getResources() {
+        return ContextBuilder.getContext().getRequestMappings().keySet();
     }
 
     @RequestMapping(value = "/**", method = RequestMethod.GET)

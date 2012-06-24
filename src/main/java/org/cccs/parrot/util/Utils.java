@@ -15,4 +15,9 @@ public final class Utils {
         List<String> stringList = asList(path.split("/"));
         return stringList.get(position);
     }
+
+    public static String extractParameterFromEnd(String path, int position) {
+        List<String> stringList = asList(path.split("/"));
+        return stringList.get(stringList.size() - position);
+    }
 }

@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
  * Date: 24/06/2012
  * Time: 14:19
  */
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenericFinderITCase extends DataDrivenTestEnvironment {
 

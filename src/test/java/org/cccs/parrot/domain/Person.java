@@ -2,6 +2,7 @@ package org.cccs.parrot.domain;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * User: boycook
@@ -16,8 +17,8 @@ public class Person {
     private String name;
     private String email;
     private String phone;
-    private Collection<Dog> dogs;
-    private Collection<Cat> cats;
+    private Set<Dog> dogs;
+    private Set<Cat> cats;
 
     public Person() {
     }
@@ -54,23 +55,23 @@ public class Person {
         return phone;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @Column(name = "person_id")
-    public Collection<Dog> getDogs() {
+    public Set<Dog> getDogs() {
         return dogs;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @Column(name = "person_id")
-    public Collection<Cat> getCats() {
+    public Set<Cat> getCats() {
         return cats;
     }
 
-    public void setCats(Collection<Cat> cats) {
+    public void setCats(Set<Cat> cats) {
         this.cats = cats;
     }
 
-    public void setDogs(Collection<Dog> dogs) {
+    public void setDogs(Set<Dog> dogs) {
         this.dogs = dogs;
     }
 

@@ -10,6 +10,8 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.String.format;
+
 /**
  * User: boycook
  * Date: 24/04/2012
@@ -25,18 +27,13 @@ public class GenericFinder {
         this.entityManagerFactory = entityManagerFactory;
     }
 
-    public <T> T executeNative(final String sql, final Map<String, Object> params) {
+    public <T> List<T> all(final Class<T> c) {
+        log.debug(format("Finding all [%s]", c.getSimpleName()));
         EntityManager entityManager = getEntityManager();
-        Query query = entityManager.createNativeQuery(sql);
-
-        for (String key : params.keySet()) {
-            query.setParameter(key, params.get(key));
-        }
-
-        T result;
+        List<T> results;
 
         try {
-            result = (T) query.getSingleResult();
+            results = entityManager.createQuery("from " + c.getSimpleName(), c).getResultList();
         } catch (NoResultException e) {
             log.error(ERROR_MESSAGE, e);
             throw e;
@@ -47,10 +44,11 @@ public class GenericFinder {
             }
         }
 
-        return result;
+        return results;
     }
 
     public <T> T find(final Class<T> c, long id) {
+        log.debug(format("Finding [%s] as [%d]", c.getSimpleName(), id));
         EntityManager entityManager = getEntityManager();
         T result = null;
 
@@ -73,6 +71,7 @@ public class GenericFinder {
     }
 
     public <T> T find(final Class<T> c, String key, Object value) {
+        log.debug(format("Finding [%s] as [%s] = [%s]", c.getSimpleName(), key, value));
         EntityManager entityManager = getEntityManager();
         T result = null;
 
@@ -99,25 +98,6 @@ public class GenericFinder {
         return result;
     }
 
-    public <T> List<T> all(final Class<T> c) {
-        EntityManager entityManager = getEntityManager();
-        List<T> results;
-
-        try {
-            results = entityManager.createQuery("from " + c.getSimpleName(), c).getResultList();
-        } catch (NoResultException e) {
-            log.error(ERROR_MESSAGE, e);
-            throw e;
-        } finally {
-            if (entityManager.isOpen()) {
-                log.debug("Closing entityManager");
-                entityManager.close();
-            }
-        }
-
-        return results;
-    }
-
     public <T> List<T> query(final Class<T> c, String key, Object value) {
         EntityManager entityManager = getEntityManager();
         List<T> results = null;
@@ -140,6 +120,31 @@ public class GenericFinder {
         }
 
         return results;
+    }
+
+    public <T> T executeNative(final String sql, final Map<String, Object> params) {
+        EntityManager entityManager = getEntityManager();
+        Query query = entityManager.createNativeQuery(sql);
+
+        for (String key : params.keySet()) {
+            query.setParameter(key, params.get(key));
+        }
+
+        T result;
+
+        try {
+            result = (T) query.getSingleResult();
+        } catch (NoResultException e) {
+            log.error(ERROR_MESSAGE, e);
+            throw e;
+        } finally {
+            if (entityManager.isOpen()) {
+                log.debug("Closing entityManager");
+                entityManager.close();
+            }
+        }
+
+        return result;
     }
 
     protected EntityManager getEntityManager() {

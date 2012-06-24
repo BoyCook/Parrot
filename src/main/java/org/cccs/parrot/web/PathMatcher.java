@@ -2,6 +2,8 @@ package org.cccs.parrot.web;
 
 import org.cccs.parrot.context.ContextBuilder;
 import org.cccs.parrot.context.ParrotContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import static java.lang.String.format;
  */
 public class PathMatcher {
 
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+
     public static PathMatcher getMatcher() {
         return new PathMatcher();
     }
@@ -29,7 +33,7 @@ public class PathMatcher {
         for (String registeredPattern : ContextBuilder.getContext().getRequestMappings().keySet()) {
             registeredPattern = registeredPattern.toLowerCase();
             if (getPathMatcher().match(registeredPattern, urlPath)) {
-                System.out.println(format("Matched [%s] with [%s]", urlPath, registeredPattern));
+                log.debug(format("Matched [%s] with [%s]", urlPath, registeredPattern));
                 matchingPatterns.add(registeredPattern);
             }
         }

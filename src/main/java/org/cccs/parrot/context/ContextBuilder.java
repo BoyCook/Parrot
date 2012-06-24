@@ -103,11 +103,11 @@ public class ContextBuilder {
         requestMappings.put(uniqueAttribute, c);
     }
 
-    public String getResourcePath(final Class c) {
+    public static String getResourcePath(final Class c) {
         return ("/" + c.getSimpleName()).toLowerCase();
     }
 
-    public String getUniquePath(final Class c) {
+    public static String getUniquePath(final Class c) {
         return ("/{" + c.getSimpleName() + "Id" + "}").toLowerCase();
     }
 

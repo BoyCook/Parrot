@@ -3,6 +3,7 @@ package org.cccs.parrot.util;
 import org.junit.Test;
 
 import static org.cccs.parrot.util.Utils.extractParameter;
+import static org.cccs.parrot.util.Utils.extractParameterFromEnd;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -17,6 +18,14 @@ public class TestUtils {
         assertThat(extractParameter(PATH, 2), is(equalTo("cccs")));
         assertThat(extractParameter(PATH, 3), is(equalTo("boycook")));
         assertThat(extractParameter(PATH, 4), is(equalTo("parrot")));
+    }
+
+    @Test
+    public void extractParameterFromEndShouldWork() {
+        assertThat(extractParameterFromEnd(PATH, 1), is(equalTo("parrot")));
+        assertThat(extractParameterFromEnd(PATH, 2), is(equalTo("boycook")));
+        assertThat(extractParameterFromEnd(PATH, 3), is(equalTo("cccs")));
+        assertThat(extractParameterFromEnd(PATH, 4), is(equalTo("org")));
     }
 }
 

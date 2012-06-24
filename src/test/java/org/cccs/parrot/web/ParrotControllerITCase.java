@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 18/06/2012
  * Time: 12:05
  */
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Ignore
 public class ParrotControllerITCase extends JettyIntegrationTestEnvironment {

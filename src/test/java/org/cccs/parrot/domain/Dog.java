@@ -2,6 +2,7 @@ package org.cccs.parrot.domain;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * User: boycook
@@ -15,7 +16,7 @@ public class Dog {
     private long id;
     private String name;
     private Person owner;
-    private Collection<Country> countries;
+    private Set<Country> countries;
 
     public Dog() {
     }
@@ -37,19 +38,19 @@ public class Dog {
         return name;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     public Person getOwner() {
         return owner;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "dog_countries", joinColumns = {@JoinColumn(name = "dog_id")}, inverseJoinColumns = @JoinColumn(name = "cntId"))
-    public Collection<Country> getCountries() {
+    public Set<Country> getCountries() {
         return countries;
     }
 
-    public void setCountries(Collection<Country> countries) {
+    public void setCountries(Set<Country> countries) {
         this.countries = countries;
     }
 

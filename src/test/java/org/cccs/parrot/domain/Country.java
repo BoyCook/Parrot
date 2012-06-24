@@ -2,6 +2,7 @@ package org.cccs.parrot.domain;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * User: boycook
@@ -14,8 +15,8 @@ public class Country {
 
     private long id;
     private String name;
-    private Collection<Dog> dogs;
-    private Collection<Cat> cats;
+    private Set<Dog> dogs;
+    private Set<Cat> cats;
 
     public Country() {
     }
@@ -36,32 +37,32 @@ public class Country {
         return name;
     }
 
-    @ManyToMany
-    @JoinTable(name = "dog_countries", joinColumns = {@JoinColumn(name = "cntId")}, inverseJoinColumns = @JoinColumn(name = "dog_id"))
-    public Collection<Dog> getDogs() {
-        return dogs;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "cat_countries", joinColumns = {@JoinColumn(name = "cntId")}, inverseJoinColumns = @JoinColumn(name = "cat_id"))
+    public Set<Cat> getCats() {
+        return cats;
     }
 
-    @ManyToMany
-    @JoinTable(name = "cat_countries", joinColumns = {@JoinColumn(name = "cntId")}, inverseJoinColumns = @JoinColumn(name = "cat_id"))
-    public Collection<Cat> getCats() {
-        return cats;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "dog_countries", joinColumns = {@JoinColumn(name = "cntId")}, inverseJoinColumns = @JoinColumn(name = "dog_id"))
+    public Set<Dog> getDogs() {
+        return dogs;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public void setCats(Collection<Cat> cats) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCats(Set<Cat> cats) {
         this.cats = cats;
     }
 
-    public void setDogs(Collection<Dog> dogs) {
+    public void setDogs(Set<Dog> dogs) {
         this.dogs = dogs;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.cccs.parrot.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -13,12 +12,16 @@ import java.util.Set;
 @Table
 public class Cat {
 
-    private long id;
+    private Long id;
     private String name;
     private Person owner;
     private Set<Country> countries;
 
     public Cat() {
+    }
+
+    public Cat(String name) {
+        this.name = name;
     }
 
     public Cat(final String name, final Person owner) {
@@ -29,7 +32,7 @@ public class Cat {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -50,7 +53,7 @@ public class Cat {
         return countries;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -78,14 +81,17 @@ public class Cat {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Cat cat = (Cat) o;
-        return id == cat.id && name.equals(cat.name);
+
+        if (!id.equals(cat.id)) return false;
+        if (!name.equals(cat.name)) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + name.hashCode();
-        return result;
+        return name.hashCode();
     }
 }

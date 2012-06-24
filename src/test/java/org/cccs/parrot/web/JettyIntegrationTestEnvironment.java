@@ -1,5 +1,6 @@
 package org.cccs.parrot.web;
 
+import org.cccs.parrot.DataDrivenTestEnvironment;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertThat;
  * Date: May 14, 2010
  * Time: 9:58:56 AM
  */
-public abstract class JettyIntegrationTestEnvironment  {
+public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvironment {
 
     protected static final Logger log = LoggerFactory.getLogger(JettyIntegrationTestEnvironment.class);
     protected static XStreamMarshaller marshaller;
@@ -53,6 +54,7 @@ public abstract class JettyIntegrationTestEnvironment  {
     @SuppressWarnings("unchecked")
     @Before
     public void beforeEach() throws Exception {
+        super.beforeEach();
         client = new RestTemplate();
         client.setMessageConverters(CollectionUtils.arrayToList(
             new HttpMessageConverter<?>[] {

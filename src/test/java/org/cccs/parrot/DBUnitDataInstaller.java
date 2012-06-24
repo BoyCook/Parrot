@@ -48,14 +48,15 @@ public class DBUnitDataInstaller {
     }
 
     public void install() throws Exception {
-        tester.getConnection().getConfig().setProperty(DatabaseConfig.FEATURE_BATCHED_STATEMENTS, true);
-        tester.getConnection().getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 1000);
+        IDatabaseConnection conn = tester.getConnection();
+        conn.getConfig().setProperty(DatabaseConfig.FEATURE_BATCHED_STATEMENTS, true);
+        conn.getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 1000);
 //        tester.getConnection().getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, false);
 //        tester.getConnection().getConfig().setProperty(DatabaseConfig.FEATURE_QUALIFIED_TABLE_NAMES, false);
 //        tester.getConnection().getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
         tester.setDataSet(getDataSet(getDataFileNames()));
         tester.onSetup();
-        tester.getConnection().close();
+        conn.close();
     }
 
     public void tearDown() throws Exception {
@@ -80,17 +81,17 @@ public class DBUnitDataInstaller {
 //                "/db/product_instances.xml"
 //        }));
 //        DatabaseOperation.CLEAN_INSERT.execute(conn, getDataSet(getDataFileNames()));
-        delete();
+        deleteAll();
         DatabaseOperation.CLEAN_INSERT.execute(conn, getDataSet(getDataFileNames()));
         conn.close();
     }
 
-    private void delete() throws SQLException {
+    public void deleteAll() throws SQLException {
         Connection conn = dataSource.getConnection();
         for (String table : getDeleteTables()) {
             delete(table, conn);
         }
-        dataSource.getConnection().close();
+        conn.close();
     }
 
     private void delete(final String name, final Connection conn) throws SQLException {

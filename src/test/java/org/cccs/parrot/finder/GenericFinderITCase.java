@@ -11,12 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-
-import static org.hamcrest.Matchers.equalTo;
+import static org.cccs.parrot.finder.FinderAssertions.*;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -28,7 +25,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenericFinderITCase extends DataDrivenTestEnvironment {
 
-    private GenericFinder finder;
+    protected GenericFinder finder;
 
     @Before
     public void beforeEach() throws Exception {
@@ -75,29 +72,5 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     @Test
     public void findPersonByIdShouldWork() {
         assertCraig(finder.find(Person.class, 1));
-    }
-
-    private void assertEngland(final Country country) {
-        assertNotNull(country);
-        assertThat(country.getId(), is(equalTo(1l)));
-        assertThat(country.getName(), is(equalTo("England")));
-    }
-
-    private void assertBagpuss(final Cat cat) {
-        assertNotNull(cat);
-        assertThat(cat.getId(), is(equalTo(1l)));
-        assertThat(cat.getName(), is(equalTo("Bagpuss")));
-    }
-
-    private void assertFido(final Dog dog) {
-        assertNotNull(dog);
-        assertThat(dog.getId(), is(equalTo(1l)));
-        assertThat(dog.getName(), is(equalTo("Fido")));
-    }
-
-    private void assertCraig(final Person person) {
-        assertNotNull(person);
-        assertThat(person.getId(), is(equalTo(1l)));
-        assertThat(person.getName(), is(equalTo("Craig Cook")));
     }
 }

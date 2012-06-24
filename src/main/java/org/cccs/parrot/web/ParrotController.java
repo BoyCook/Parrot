@@ -18,9 +18,7 @@ import org.springframework.web.util.UrlPathHelper;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
 import java.util.Set;
-import java.util.UUID;
 
 import static java.lang.String.format;
 import static org.cccs.parrot.context.ContextBuilder.getUniquePath;
@@ -51,7 +49,6 @@ public class ParrotController {
     public ParrotContext getParrotContext() {
         return ContextBuilder.getContext();
     }
-
 
     @RequestMapping(value = "/resources", method = RequestMethod.GET)
     @ResponseBody

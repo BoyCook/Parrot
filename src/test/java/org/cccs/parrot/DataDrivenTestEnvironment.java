@@ -28,13 +28,13 @@ public class DataDrivenTestEnvironment  {
     };
     private static final String[] DELETE_TABLES = new String[] {
             "country",
-            "person",
             "cat",
-            "dog"
+            "dog",
+            "person"
     };
     private boolean tearDown = false;
     private static boolean dataInstalled = false;
-    private DBUnitDataInstaller installer;
+    protected DBUnitDataInstaller installer;
 
     @Before
     public void beforeEach() throws Exception {

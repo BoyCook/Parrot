@@ -18,14 +18,24 @@ Web XML manual config?
 - Spring context loader
 - Web MVC dispatcher servlet
 
-#mvn versions:display-dependency-updates
-
 Top = !Child
 Parent = OneToOne || One2Many ||  ManyToMany
 Child = ManyToOne
 
-Find top, if parent move down
+#mvn versions:display-dependency-updates
+org.hibernate.InstantiationException: No default constructor for entity: org.cccs.parrot.domain.Country
 
-Consider - if item qualifies as child, but no class with parent annotation is present
-
-Depth first traversal!!!
+TODO for RC1
+- Throw appropriate exceptions from ContextBuilder
+- Automatically call ContextBuilder
+- Find for GET using all entities in path hierarchy (currently just last entity)
+- Complex querying
+- Finder exceptions
+- Service validation
+- Service exceptions
+- REST exceptions
+- Custom entity controller (via annotation)
+- Map PUT Controller to service
+- Map POST Controller to service
+- Map DELETE Controller to service
+- UI to CRUD

@@ -1,7 +1,6 @@
 package org.cccs.parrot.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -13,7 +12,7 @@ import java.util.Set;
 @Table(name = "Person")
 public class Person {
 
-    private long id;
+    private Long id;
     private String name;
     private String email;
     private String phone;
@@ -36,7 +35,7 @@ public class Person {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -79,7 +78,7 @@ public class Person {
         this.phone = phone;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -92,6 +91,24 @@ public class Person {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (!id.equals(person.id)) return false;
+        if (!name.equals(person.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "Person{" +
                 "phone='" + phone + '\'' +
@@ -99,22 +116,5 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", id=" + id +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return id == person.id && !(email != null ? !email.equals(person.email) : person.email != null) && name.equals(person.name) && !(phone != null ? !phone.equals(person.phone) : person.phone != null);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + name.hashCode();
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        return result;
     }
 }

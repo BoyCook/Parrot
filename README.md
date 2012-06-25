@@ -1,7 +1,4 @@
-[![Build Status]()]
-
-[![Build Status](http://craigcook.co.uk/build/Parrot/parrot.png?branch=master)](https://craigcook.co.uk/build/Parrot)
-
+[![Build Status](http://craigcook.co.uk/build/job/Parrot/badge/icon)](http://craigcook.co.uk/build/job/Parrot/)
 
 ## DESCRIPTION
 

@@ -23,7 +23,8 @@ Currently 1-4 are partially implemented. You can get started locally with its sa
 	$ mvn clean package jetty:run
 
 To see possible resources:
-http://localhost:9001/service/resources
+
+[[http://localhost:9001/service/resources]]
 
 The test domain model will make the following available:
 

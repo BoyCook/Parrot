@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Parrot - create new entity</title>
+    <link type="text/css" href="css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
+    <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/NewEntity.js"></script>
+    <script type="text/javascript">
+        var newEntityApp = undefined;
+        $(document).ready(function() {
+            newEntityApp = new NewEntity();
+            newEntityApp.setup();
+        });
+    </script>
+</head>
+
+<body>
+
+<div id="home">
+    <h3>Create new entity</h3>
+
+    <select id="selResource"></select>
+
+</div>
+</body>
+</html>

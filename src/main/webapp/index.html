@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Parrot</title>
+    <link type="text/css" href="css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
+    <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/Resources.js"></script>
+    <script type="text/javascript">
+        var rootResources = undefined;
+        var allResources = undefined;
+        $(document).ready(function() {
+            rootResources = new RootResources('#rootResources');
+            rootResources.render();
+
+            allResources = new Resources('#allResources');
+            allResources.render();
+        });
+    </script>
+</head>
+
+<body>
+
+<div id="home">
+    <h3>Welcome to Parrot</h3>
+    <a href="new.html" target="_blank">Create new entity</a>
+    <h5>Root level resources are:</h5>
+    <div id="rootResources"></div>
+
+    <h5>All available resources are:</h5>
+    <div id="allResources"></div>
+</div>
+</body>
+</html>

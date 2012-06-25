@@ -5,21 +5,20 @@ import org.cccs.parrot.context.ContextBuilder;
 import org.cccs.parrot.context.ParrotContext;
 import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.service.GenericService;
+import org.cccs.parrot.util.ClassUtils;
 import org.cccs.parrot.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 import java.util.Set;
 
 import static java.lang.String.format;
@@ -56,6 +55,24 @@ public class ParrotController {
     @ResponseBody
     public Set<String> getResources() {
         return ContextBuilder.getContext().getRequestMappings().keySet();
+    }
+
+    @RequestMapping(value = "/resources/root", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<String> getRootResources() {
+        return ContextBuilder.getContext().getRootMappings().keySet();
+    }
+
+    @RequestMapping(value = "/example/{entity}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getExampleEntity(@PathVariable("entity") String entity) {
+        Collection<Class> classes = ContextBuilder.getContext().getRequestMappings().values();
+        for (Class clazz : classes) {
+            if (clazz.getSimpleName().equalsIgnoreCase(entity)) {
+                return ClassUtils.getNewObject(clazz);
+            }
+        }
+        return null;
     }
 
     @RequestMapping(value = "/**", method = RequestMethod.GET)

@@ -40,7 +40,7 @@ public class ContextBuilder {
     }
 
     public ParrotContext create(final String packageName) {
-        final Set<Class> tops = new HashSet<Class>();
+        final Map<String, Class> rootMappings = new HashMap<String, Class>();
         final Map<String, Class> requestMappings = new HashMap<String, Class>();
         final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Table.class));
@@ -48,17 +48,17 @@ public class ContextBuilder {
         for (BeanDefinition bd : scanner.findCandidateComponents(packageName)) {
             Class clazz = ContextUtils.getClassByName(bd.getBeanClassName());
             if (ContextUtils.isTop(clazz)) {
-                tops.add(clazz);
+                rootMappings.put(getResourcePath(clazz), clazz);
             }
         }
 
-        log.debug(format("Found [%d] top level resources", tops.size()));
-        for (Class top : tops) {
+        log.debug(format("Found [%d] top level resources", rootMappings.size()));
+        for (Class top : rootMappings.values()) {
             log.debug(format("Building resource path for [%s]", top.getName()));
             buildResourcePath(requestMappings, top, "");
         }
 
-        return new ParrotContext(packageName, requestMappings);
+        return new ParrotContext(packageName, rootMappings, requestMappings);
     }
 
     public void buildResourcePath(final Map<String, Class> requestMappings, final Class c, String path) {
@@ -96,10 +96,10 @@ public class ContextBuilder {
         log.debug(format("Adding mapping [%s] [%s]", resourcePath, c));
         requestMappings.put(resourcePath, c);
 
-        log.debug(format("Adding mapping [%s] [%s]", uniquePath , c));
+        log.debug(format("Adding mapping [%s] [%s]", uniquePath, c));
         requestMappings.put(uniquePath, c);
 
-        log.debug(format("Adding mapping [%s] [%s]", uniqueAttribute , c));
+        log.debug(format("Adding mapping [%s] [%s]", uniqueAttribute, c));
         requestMappings.put(uniqueAttribute, c);
     }
 

@@ -1,5 +1,8 @@
 package org.cccs.parrot.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 import java.lang.reflect.*;
 
@@ -12,10 +15,10 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
  */
 public final class ClassUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(ClassUtils.class);
     private static final String GET = "get";
     private static final String IS = "is";
     private static final String HAS = "has";
-
 
     protected static boolean isSelectableColumn(AccessibleObject object) {
         Column column = object.getAnnotation(Column.class);
@@ -101,5 +104,24 @@ public final class ClassUtils {
 
     public static String lowerFirst(String word) {
         return word.substring(0, 1).toLowerCase() + word.substring(1);
+    }
+
+    public static Object getNewObject(Class c) {
+        Object o = null;
+        //Not for primitives
+        if (!c.equals(Integer.TYPE) && !c.equals(Long.TYPE)) {
+            try {
+                o = c.getConstructor().newInstance();
+            } catch (InvocationTargetException e) {
+                log.error("Error getting new object", e);
+            } catch (NoSuchMethodException e) {
+                log.error("Error getting new object", e);
+            } catch (InstantiationException e) {
+                log.error("Error getting new object", e);
+            } catch (IllegalAccessException e) {
+                log.error("Error getting new object", e);
+            }
+        }
+        return o;
     }
 }

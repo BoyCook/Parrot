@@ -11,15 +11,21 @@ import java.util.Set;
 public class ParrotContext {
 
     private final String packageName;
+    private final Map<String, Class> rootMappings;
     private final Map<String, Class> requestMappings;
 
-    public ParrotContext(final String packageName, final Map<String, Class> mappings) {
+    public ParrotContext(final String packageName, final Map<String, Class> rootMappings, final Map<String, Class> mappings) {
         this.packageName = packageName;
+        this.rootMappings = rootMappings;
         this.requestMappings = mappings;
     }
 
     public String getPackageName() {
         return packageName;
+    }
+
+    public Map<String, Class> getRootMappings() {
+        return rootMappings;
     }
 
     public Map<String, Class> getRequestMappings() {

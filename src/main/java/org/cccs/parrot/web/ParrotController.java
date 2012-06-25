@@ -4,12 +4,14 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.cccs.parrot.context.ContextBuilder;
 import org.cccs.parrot.context.ParrotContext;
 import org.cccs.parrot.finder.GenericFinder;
+import org.cccs.parrot.service.GenericService;
 import org.cccs.parrot.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,6 +85,91 @@ public class ParrotController {
         return null;
     }
 
+    @RequestMapping(value = "/**", method = RequestMethod.PUT)
+    @ResponseBody
+    public String createParrotEntity(@RequestBody Object entity,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response) {
+        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+        log.debug("Inbound URL: " + inboundPath);
+
+        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
+        if (matchedPath != null) {
+            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
+            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
+
+            //TODO: build query from FULL path hierarchy, not just last entity
+            if (matchedPath.endsWith(getUniquePath(clazz))) {
+                //Create with ID
+                getService().create(entity);
+            } else {
+                //Create without ID
+                getService().create(entity);
+            }
+        } else {
+            log.error("No resource match found");
+            response.setStatus(404);
+        }
+        return "success";
+    }
+
+    @RequestMapping(value = "/**", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateParrotEntity(@RequestBody Object entity,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response) {
+        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+        log.debug("Inbound URL: " + inboundPath);
+
+        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
+        if (matchedPath != null) {
+            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
+            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
+
+            //TODO: build query from FULL path hierarchy, not just last entity
+            if (matchedPath.endsWith(getUniquePath(clazz))) {
+                //Update using ID
+                getService().update(entity);
+            } else {
+                //Throw exception, ID must be specified
+            }
+        } else {
+            log.error("No resource match found");
+            response.setStatus(404);
+        }
+        return "success";
+    }
+
+    @RequestMapping(value = "/**", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteParrotEntity(@RequestBody Object entity,
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) {
+        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+        log.debug("Inbound URL: " + inboundPath);
+
+        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
+        if (matchedPath != null) {
+            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
+            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
+
+            //TODO: build query from FULL path hierarchy, not just last entity
+            if (matchedPath.endsWith(getUniquePath(clazz))) {
+                //Delete using ID
+                getService().delete(entity);
+            } else {
+                //Throw exception, ID must be specified
+            }
+        } else {
+            log.error("No resource match found");
+            response.setStatus(404);
+        }
+        return "success";
+    }
+
     public String extractParameter(HttpServletRequest request, int position) {
         return Utils.extractParameter(urlPathHelper.getPathWithinApplication(request), position);
     }
@@ -93,5 +180,9 @@ public class ParrotController {
 
     private GenericFinder getFinder() {
         return new GenericFinder(entityManagerFactory);
+    }
+
+    private GenericService getService() {
+        return new GenericService(entityManagerFactory);
     }
 }

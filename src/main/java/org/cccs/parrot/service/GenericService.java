@@ -71,6 +71,25 @@ public class GenericService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void delete(final Object entity) {
+//        validate(entity);
+        log.debug(format(UPDATE_MESSAGE, entity.getClass().getSimpleName(), entity.toString()));
+        EntityManager entityManager = getEntityManager();
+        EntityTransaction txn = entityManager.getTransaction();
+        try {
+            txn.begin();
+            entityManager.remove(entity);
+            txn.commit();
+        } catch (PersistenceException e) {
+            handleException(entity, e);
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
     protected EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }

@@ -45,7 +45,7 @@
     </bean>
 
     <bean id="jacksonMessageConverter"
-          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+          class="org.cccs.parrot.oxm.ParrotJSONConverter"/>
 
     <!-- XStream marshaller for OXM -->
     <bean id="marshaller"

@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
  */
 @ContextConfiguration(locations = "classpath:testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ParrotControllerITCase extends JettyIntegrationTestEnvironment {
+public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironment {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

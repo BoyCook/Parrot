@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,15 +19,17 @@ public class Dog {
     private Set<Country> countries;
 
     public Dog() {
+        this(null, null);
     }
 
     public Dog(String name) {
-        this.name = name;
+        this(name, null);
     }
 
     public Dog(String name, Person owner) {
         this.name = name;
         this.owner = owner;
+        this.countries = new HashSet<Country>();
     }
 
     @Id
@@ -68,7 +71,6 @@ public class Dog {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     @Override
     public String toString() {

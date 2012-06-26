@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,10 +19,13 @@ public class Country {
     private Set<Cat> cats;
 
     public Country() {
+        this(null);
     }
 
     public Country(String name) {
         this.name = name;
+        this.dogs = new HashSet<Dog>();
+        this.cats = new HashSet<Cat>();
     }
 
     @Id
@@ -62,23 +66,5 @@ public class Country {
 
     public void setDogs(Set<Dog> dogs) {
         this.dogs = dogs;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Country country = (Country) o;
-
-        if (!id.equals(country.id)) return false;
-        if (!name.equals(country.name)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
     }
 }

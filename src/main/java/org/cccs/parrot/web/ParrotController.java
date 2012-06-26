@@ -66,10 +66,13 @@ public class ParrotController {
     @RequestMapping(value = "/example/{entity}", method = RequestMethod.GET)
     @ResponseBody
     public Object getExampleEntity(@PathVariable("entity") String entity) {
+        log.debug(format("Looking for example entity [%s]", entity));
         Collection<Class> classes = ContextBuilder.getContext().getRequestMappings().values();
         for (Class clazz : classes) {
             if (clazz.getSimpleName().equalsIgnoreCase(entity)) {
-                return ClassUtils.getNewObject(clazz);
+                Object newObject = ClassUtils.getNewObject(clazz);
+                log.debug(format("Created new example object [%s] as [%s]", newObject.getClass().getSimpleName(), newObject.toString()));
+                return newObject;
             }
         }
         return null;
@@ -105,8 +108,8 @@ public class ParrotController {
     @RequestMapping(value = "/**", method = RequestMethod.PUT)
     @ResponseBody
     public String createParrotEntity(@RequestBody Object entity,
-                                    HttpServletRequest request,
-                                    HttpServletResponse response) {
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) {
         String inboundPath = urlPathHelper.getPathWithinApplication(request);
         inboundPath = inboundPath.substring(SERVICE_PATH.length());
         log.debug("Inbound URL: " + inboundPath);
@@ -134,8 +137,8 @@ public class ParrotController {
     @RequestMapping(value = "/**", method = RequestMethod.POST)
     @ResponseBody
     public String updateParrotEntity(@RequestBody Object entity,
-                                    HttpServletRequest request,
-                                    HttpServletResponse response) {
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) {
         String inboundPath = urlPathHelper.getPathWithinApplication(request);
         inboundPath = inboundPath.substring(SERVICE_PATH.length());
         log.debug("Inbound URL: " + inboundPath);

@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,15 +19,17 @@ public class Cat {
     private Set<Country> countries;
 
     public Cat() {
+        this(null, null);
     }
 
     public Cat(String name) {
-        this.name = name;
+        this(name, null);
     }
 
     public Cat(final String name, final Person owner) {
         this.name = name;
         this.owner = owner;
+        this.countries = new HashSet<Country>();
     }
 
     @Id

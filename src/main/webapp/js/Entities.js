@@ -1,12 +1,12 @@
-function NewEntity() {
+
+function Entities() {
     this.rootUrl = '/service/resources/root';
-    this.exampleUrl = '/service/example';
+    this.entityUrl = '/service';
     this.resourceDDId = '#selResource';
-    this.newEntityId = '#newEntity';
-    this.example = undefined;
+    this.entitiesId = '#entities';
 }
 
-NewEntity.prototype.setup = function () {
+Entities.prototype.setup = function () {
     var context = this;
     //Load dropdown content
     $.getJSON(context.rootUrl, function (data) {
@@ -18,25 +18,27 @@ NewEntity.prototype.setup = function () {
     });
 
     //Load example JSON and create UI form
-    $('#selResource').change(function () {
+    $('#selResource').change(function() {
         var val = $(this).val();
         if (val != -1) {
-            $.getJSON(context.exampleUrl + val, function(data){
-                context.renderInputForm(data);
+            $.getJSON(context.entityUrl + val, function(data){
+                context.render(data);
             });
         }
     });
 };
 
-NewEntity.prototype.renderInputForm = function (data) {
+Entities.prototype.render = function(data) {
     var context = this;
     var html = "<table>";
-    context.example = data;
-    $.each(data, function (key, value) {
-        if (!(value instanceof Array)) {
-            html += "<tr><td>" + key + "</td><td><input type='text'/></td></tr>";
-        }
+    $.each(data, function (index, entity) {
+        $.each(entity, function(key, value){
+            if (!(value instanceof Array)) {
+                html += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+            }
+        });
     });
     html += "</table>";
-    $(context.newEntityId).html(html);
+    $(context.entitiesId).html(html);
 };
+

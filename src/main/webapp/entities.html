@@ -2,26 +2,28 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Parrot - create new entity</title>
+    <title>Parrot - entities</title>
     <link type="text/css" href="css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
-    <script type="text/javascript" src="js/NewEntity.js"></script>
+    <script type="text/javascript" src="js/Entities.js"></script>
     <script type="text/javascript">
-        var newEntityApp = undefined;
+        var entities = undefined;
+
         $(document).ready(function() {
-            newEntityApp = new NewEntity();
-            newEntityApp.setup();
+            entities = new Entities('#rootResources');
+            entities.setup();
         });
     </script>
 </head>
 
 <body>
+
 <div id="home">
-    <h3>Create new entity</h3>
+    <h3>View entities</h3>
     Select entity:
     <select id="selResource"></select>
-    <div id="newEntity"></div>
+    <div id="entities"></div>
 </div>
 </body>
 </html>

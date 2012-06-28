@@ -11,7 +11,7 @@ Resources.prototype.render = function () {
         var html = "<table>";
         $.each(data, function (index, value) {
             html += "<tr><td>";
-            html += value;
+            html += "<a href='/service" + value + "' target='_blank'>" + value + "</a>"
             html += "</td></tr>";
         });
         html += "<table>";

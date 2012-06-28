@@ -9,12 +9,12 @@ It will automatically create a REST service for each entity defined, and its ref
 It then has some default UI's to allow you to view and edit the data.
 
 Parrots main features are:
-1 - Automatically works out available resources from the JPA annotated entities
-2 - Automatically works out URLs to map the resources to
-3 - Automatically create REST wrapper around JPA annotated entities
-4 - Automatically delegates to its reflection based hibernate layer for all persistence
-5 - Automatically creates Ajax based UIs for CRUD of entities
-6 - Allows override hooks at any point so you can use your own code if you want
+** Automatically works out available resources from the JPA annotated entities
+** Automatically works out URLs to map the resources to
+** Automatically create REST wrapper around JPA annotated entities
+** Automatically delegates to its reflection based hibernate layer for all persistence
+** Automatically creates Ajax based UIs for CRUD of entities
+** Allows override hooks at any point so you can use your own code if you want
 
 ## GET PLAYING
 

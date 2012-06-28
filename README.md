@@ -5,7 +5,7 @@
 Parrot ORM (Object Resource Model) is designed to simplify the amount of code you need to write when creating a new persistent REST service.
 Simply define your domain model using JPA annotated entities, and Parrot does the rest of the work for you.
 
-It will automatically create a REST service for each entity defined, and its reflection based hibernate layer deals with all persistence.
+It automatically generates REST endpoints for each entity defined, and its reflection based hibernate layer deals with all persistence.
 It then has some default UI's to allow you to view and edit the data.
 
 Parrots main features are:
@@ -20,7 +20,7 @@ Parrots main features are:
 
 Currently 1-4 are partially implemented. You can get started locally with its sample domain model, simply use:
 
-	$ mvn clean package jetty:run
+  $ mvn clean package jetty:run
 
 To see possible resources:
 

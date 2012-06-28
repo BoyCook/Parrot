@@ -20,7 +20,7 @@ Parrots main features are:
 
 Currently 1-4 are partially implemented. You can get started locally with its sample domain model, simply use:
 
-   $ mvn clean package jetty:run
+    $ mvn clean package jetty:run
 
 To see possible resources:
 

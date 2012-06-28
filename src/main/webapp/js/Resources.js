@@ -1,3 +1,4 @@
+
 function Resources(divId) {
     this.url = '/service/resources';
     this.divId = divId;

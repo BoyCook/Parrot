@@ -21,7 +21,9 @@
                 id:'#selResource',
                 url:'/service/resources/root',
                 changeCallBack:function (val) {
-                    newEntityApp.renderInputForm(model.get(val.substring(1)));
+                    var type = val.substring(1);
+                    newEntityApp.renderInputForm(model.get(type));
+                    newEntityApp.loadExample(type);
                 }
             });
             resourceDD.setup();

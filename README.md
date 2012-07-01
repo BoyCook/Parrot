@@ -6,7 +6,7 @@ Parrot ORM (Object Resource Model) is designed to simplify the amount of code yo
 Simply define your domain model using JPA annotated entities, and Parrot does the rest of the work for you.
 
 It automatically generates REST endpoints for each entity defined, and its reflection based hibernate layer deals with all persistence.
-It then has some default UI's to allow you to view and edit the data.
+It then has some default UIs to allow you to view and edit the data.
 
 Parrots main features are:
   1. Automatically works out available resources from the JPA annotated entities

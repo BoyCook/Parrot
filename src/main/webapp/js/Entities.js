@@ -1,34 +1,17 @@
 
-function Entities() {
-    this.rootUrl = '/service/resources/root';
-    this.entityUrl = '/service';
-    this.resourceDDId = '#selResource';
-    this.entitiesId = '#entities';
+function Entities(params) {
+    this.entityUrl = params.url;
+    this.entitiesId = params.id;
 }
 
-Entities.prototype.setup = function () {
+Entities.prototype.loadEntities = function (entityType) {
     var context = this;
-    //Load dropdown content
-    $.getJSON(context.rootUrl, function (data) {
-        var html = "<option value='-1'>-- Select --</option>";
-        $.each(data, function (index, value) {
-            html += "<option value='" + value + "'>" + value + "</option>";
-        });
-        $(context.resourceDDId).append(html);
-    });
-
-    //Load example JSON and create UI form
-    $('#selResource').change(function() {
-        var val = $(this).val();
-        if (val != -1) {
-            $.getJSON(context.entityUrl + val, function(data){
-                context.render(data);
-            });
-        }
+    $.getJSON(context.entityUrl + entityType, function(data){
+        context.renderEntities(data);
     });
 };
 
-Entities.prototype.render = function(data) {
+Entities.prototype.renderEntities = function(data) {
     var context = this;
     var html = "<table>";
     $.each(data, function (index, entity) {
@@ -41,4 +24,3 @@ Entities.prototype.render = function(data) {
     html += "</table>";
     $(context.entitiesId).html(html);
 };
-

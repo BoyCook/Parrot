@@ -1,9 +1,6 @@
 package org.cccs.parrot.context;
 
-import org.cccs.parrot.domain.Cat;
-import org.cccs.parrot.domain.Country;
-import org.cccs.parrot.domain.Dog;
-import org.cccs.parrot.domain.Person;
+import org.cccs.parrot.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +22,7 @@ public class TestParrotContext {
 
     private static final String PACKAGE_NAME = "org.cccs.parrot.domain";
     private Map<String, Class> expectedRequestMappings;
+    private Set<Entity> expectedModel;
 
     @Before
     public void before() {
@@ -54,19 +52,40 @@ public class TestParrotContext {
         expectedRequestMappings.put("/country/{countryid}/dog", Dog.class);
         expectedRequestMappings.put("/country/{countryid}/dog/{dogid}", Dog.class);
         expectedRequestMappings.put("/country/{countryid}/dog/{dogid}/{attribute}", Dog.class);
+
+        expectedModel = new HashSet<Entity>();
+        expectedModel.add(new Entity("Country", "Country", Country.class));
+        expectedModel.add(new Entity("Person", "Person", Person.class));
+        expectedModel.add(new Entity("Cat", "Cat", Cat.class));
+        expectedModel.add(new Entity("Dog", "Dog", Dog.class));
     }
 
     @Test
-    public void buildContextShouldWork() {
+    public void getContextShouldWork() {
         assertNotNull(ContextBuilder.getContext());
     }
 
     @Test
-    public void buildPathsShouldCreateCorrectPaths() {
+    public void contextShouldHaveCorrectPaths() {
         ParrotContext context = ContextBuilder.getContext();
+        assertContext(context);
+        assertMapEquals(context.getRequestMappings(), expectedRequestMappings);
+    }
+
+    @Test
+    public void contextShouldHaveCorrectModel() {
+        ParrotContext context = ContextBuilder.getContext();
+        assertContext(context);
+        assertThat(context.getModel().size(), is(equalTo(expectedModel.size())));
+
+        for (Entity entity : expectedModel) {
+            assertTrue(context.getModel().contains(entity));
+        }
+    }
+
+    private void assertContext(ParrotContext context) {
         assertNotNull(context);
         assertThat(context.getPackageName(), is(equalTo(PACKAGE_NAME)));
-        assertMapEquals(context.getRequestMappings(), expectedRequestMappings);
     }
 
     private void assertMapEquals(Map actual, Map expected) {

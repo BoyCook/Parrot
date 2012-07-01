@@ -3,6 +3,7 @@ package org.cccs.parrot.web;
 import org.apache.commons.lang.math.NumberUtils;
 import org.cccs.parrot.context.ContextBuilder;
 import org.cccs.parrot.context.ParrotContext;
+import org.cccs.parrot.domain.Entity;
 import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.service.GenericService;
 import org.cccs.parrot.util.ClassUtils;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import static java.lang.String.format;
@@ -51,16 +53,22 @@ public class ParrotController {
         return ContextBuilder.getContext();
     }
 
+    @RequestMapping(value = "/model", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<Entity> getModel() {
+        return ContextBuilder.getContext().getModel();
+    }
+
     @RequestMapping(value = "/resources", method = RequestMethod.GET)
     @ResponseBody
-    public Set<String> getResources() {
-        return ContextBuilder.getContext().getRequestMappings().keySet();
+    public Map<String, Class> getResources() {
+        return ContextBuilder.getContext().getRequestMappings();
     }
 
     @RequestMapping(value = "/resources/root", method = RequestMethod.GET)
     @ResponseBody
-    public Set<String> getRootResources() {
-        return ContextBuilder.getContext().getRootMappings().keySet();
+    public Map<String, Class> getRootResources() {
+        return ContextBuilder.getContext().getRootMappings();
     }
 
     @RequestMapping(value = "/example/{entity}", method = RequestMethod.GET)

@@ -1,7 +1,7 @@
 
-function Resources(divId) {
-    this.url = '/service/resources';
-    this.divId = divId;
+function Resources(params) {
+    this.id = params.id;
+    this.url = params.url;
     this.resources = undefined;
 }
 
@@ -10,20 +10,12 @@ Resources.prototype.render = function () {
     $.getJSON(context.url, function (data) {
         context.resources = data;
         var html = "<table>";
-        $.each(data, function (index, value) {
+        $.each(data, function (key, value) {
             html += "<tr><td>";
-            html += "<a href='/service" + value + "' target='_blank'>" + value + "</a>"
+            html += "<a href='/service" + key + "' target='_blank'>" + key + "</a>"
             html += "</td></tr>";
         });
         html += "<table>";
-        $(context.divId).append(html);
+        $(context.id).append(html);
     });
 };
-
-function RootResources(divId) {
-    Resources.call(this, divId);
-    this.url = '/service/resources/root';
-}
-
-RootResources.prototype = new Resources();
-RootResources.prototype.constructor = RootResources;

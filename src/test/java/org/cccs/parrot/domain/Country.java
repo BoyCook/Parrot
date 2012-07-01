@@ -1,5 +1,7 @@
 package org.cccs.parrot.domain;
 
+import org.cccs.parrot.Description;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +11,7 @@ import java.util.Set;
  * Date: 12/07/2011
  * Time: 15:53
  */
-@Entity
+@javax.persistence.Entity
 @Table(name = "country")
 public class Country {
 
@@ -35,6 +37,7 @@ public class Country {
         return id;
     }
 
+    @Description("Name")
     @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;

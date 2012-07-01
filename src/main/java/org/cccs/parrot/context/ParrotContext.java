@@ -1,5 +1,8 @@
 package org.cccs.parrot.context;
 
+import org.cccs.parrot.domain.Entity;
+
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,11 +14,13 @@ import java.util.Set;
 public class ParrotContext {
 
     private final String packageName;
+    private final Set<Entity> model;
     private final Map<String, Class> rootMappings;
     private final Map<String, Class> requestMappings;
 
-    public ParrotContext(final String packageName, final Map<String, Class> rootMappings, final Map<String, Class> mappings) {
+    public ParrotContext(final String packageName, Set<Entity> model, final Map<String, Class> rootMappings, final Map<String, Class> mappings) {
         this.packageName = packageName;
+        this.model = model;
         this.rootMappings = rootMappings;
         this.requestMappings = mappings;
     }
@@ -30,5 +35,9 @@ public class ParrotContext {
 
     public Map<String, Class> getRequestMappings() {
         return requestMappings;
+    }
+
+    public Set<Entity> getModel() {
+        return model;
     }
 }

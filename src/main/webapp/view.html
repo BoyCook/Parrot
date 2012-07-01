@@ -6,13 +6,25 @@
     <link type="text/css" href="css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/ResourceDD.js"></script>
     <script type="text/javascript" src="js/Entities.js"></script>
     <script type="text/javascript">
         var entities = undefined;
+        var resourceDD = undefined;
 
-        $(document).ready(function() {
-            entities = new Entities('#rootResources');
-            entities.setup();
+        $(document).ready(function () {
+            entities = new Entities({
+                id: '#entities',
+                url: '/service'
+            });
+            resourceDD = new ResourceDD({
+                id:'#selResource',
+                url:'/service/resources/root',
+                changeCallBack:function (val) {
+                    entities.loadEntities(val);
+                }
+            });
+            resourceDD.setup();
         });
     </script>
 </head>

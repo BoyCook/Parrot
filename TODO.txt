@@ -39,3 +39,4 @@ TODO for RC1
 - Map POST Controller to service
 - Map DELETE Controller to service
 - UI to CRUD
+  - Generate UI forms from model

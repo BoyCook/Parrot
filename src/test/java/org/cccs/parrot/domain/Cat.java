@@ -82,22 +82,4 @@ public class Cat {
                 ", id=" + id +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Cat cat = (Cat) o;
-
-        if (!id.equals(cat.id)) return false;
-        if (!name.equals(cat.name)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
 }

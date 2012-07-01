@@ -8,6 +8,8 @@ package org.cccs.parrot.domain;
 public class Attribute extends DescribedEntity {
 
     private boolean systemManaged;
+    private boolean editable;
+    private boolean column;
 
     public Attribute(String name, String description, Class clazz, boolean systemManaged) {
         super(name, description, clazz);
@@ -24,5 +26,21 @@ public class Attribute extends DescribedEntity {
 
     public void setSystemManaged(boolean systemManaged) {
         this.systemManaged = systemManaged;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public boolean isColumn() {
+        return column;
+    }
+
+    public void setColumn(boolean column) {
+        this.column = column;
     }
 }

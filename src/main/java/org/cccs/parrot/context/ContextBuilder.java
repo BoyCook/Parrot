@@ -128,11 +128,14 @@ public class ContextBuilder {
         for (PropertyDescriptor descriptor : descriptors) {
             Method method = descriptor.getReadMethod();
             if (method.isAnnotationPresent(OneToOne.class) ||
-                    method.isAnnotationPresent(ManyToOne.class) ||
-                    method.isAnnotationPresent(Column.class) ||
-                    method.isAnnotationPresent(OneToMany.class) ||
-                    method.isAnnotationPresent(ManyToMany.class)) {
+                method.isAnnotationPresent(ManyToOne.class) ||
+                method.isAnnotationPresent(OneToMany.class) ||
+                method.isAnnotationPresent(ManyToMany.class)) {
                 Attribute attribute = new Attribute(descriptor.getName(), getDescription(descriptor), method.getReturnType());
+                entity.addAttribute(attribute);
+            } else if (method.isAnnotationPresent(Column.class)) {
+                Attribute attribute = new Attribute(descriptor.getName(), getDescription(descriptor), method.getReturnType());
+                attribute.setColumn(true);
                 if (method.isAnnotationPresent(Id.class)) {
                     attribute.setSystemManaged(true);
                 }

@@ -1,8 +1,6 @@
 function NewEntity(params) {
     this.button = params.button;
     this.id = params.id;
-    this.exampleUrl = '/service/example';
-    this.example = undefined;
     this.idPrefix = 'newEntity_';
 }
 
@@ -13,20 +11,13 @@ NewEntity.prototype.setup = function () {
     });
 };
 
-NewEntity.prototype.loadInputForm = function (val) {
-    var context = this;
-    $.getJSON(context.exampleUrl + val, function(data){
-        context.renderInputForm(data);
-    });
-};
-
-NewEntity.prototype.renderInputForm = function (data) {
+NewEntity.prototype.renderInputForm = function (model) {
     var context = this;
     var html = "<table>";
-    context.example = data;
-    $.each(data, function (key, value) {
-        if (!(value instanceof Array)) {
-            html += "<tr><td>" + key + "</td><td><input type='text' id='" + context.idPrefix + key + "'/></td></tr>";
+
+    $.each(model.attributes, function (index, value) {
+        if (value.column == true) {
+            html += "<tr><td>" + value.description + "</td><td><input type='text' id='" + context.idPrefix + value.name + "'/></td></tr>";
         }
     });
     html += "</table>";

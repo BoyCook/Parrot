@@ -25,7 +25,7 @@ Child = ManyToOne
 #mvn versions:display-dependency-updates
 org.hibernate.InstantiationException: No default constructor for entity: org.cccs.parrot.domain.Country
 
-TODO for RC1
+TODO: for RC1
 - Throw appropriate exceptions from ContextBuilder
 - Automatically call ContextBuilder
 - Find for GET using all entities in path hierarchy (currently just last entity)
@@ -40,3 +40,4 @@ TODO for RC1
 - Map DELETE Controller to service
 - UI to CRUD
   - Generate UI forms from model
+  - Render exceptions in the UI

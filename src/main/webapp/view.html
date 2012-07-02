@@ -6,22 +6,27 @@
     <link type="text/css" href="css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/Model.js"></script>
     <script type="text/javascript" src="js/ResourceDD.js"></script>
     <script type="text/javascript" src="js/Entities.js"></script>
     <script type="text/javascript">
+        var model = undefined;
         var entities = undefined;
         var resourceDD = undefined;
 
         $(document).ready(function () {
+            model = new Model();
+            model.load();
             entities = new Entities({
-                id: '#entities',
-                url: '/service'
+                id:'#entities',
+                url:'/service'
             });
             resourceDD = new ResourceDD({
                 id:'#selResource',
                 url:'/service/resources/root',
                 changeCallBack:function (val) {
-                    entities.loadEntities(val);
+                    var type = val.substring(1);
+                    entities.loadEntities(model.get(type));
                 }
             });
             resourceDD.setup();
@@ -35,6 +40,7 @@
     <h3>View entities</h3>
     Select entity:
     <select id="selResource"></select>
+
     <div id="entities"></div>
 </div>
 </body>

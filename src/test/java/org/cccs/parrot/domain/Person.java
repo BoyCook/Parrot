@@ -64,13 +64,13 @@ public class Person {
     }
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "person_id")
+    @JoinColumn(name = "person_id")
     public Set<Dog> getDogs() {
         return dogs;
     }
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "person_id")
+    @JoinColumn(name = "person_id")
     public Set<Cat> getCats() {
         return cats;
     }
@@ -103,13 +103,8 @@ public class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Person person = (Person) o;
-
-        if (!id.equals(person.id)) return false;
-        if (!name.equals(person.name)) return false;
-
-        return true;
+        return id.equals(person.id) && name.equals(person.name);
     }
 
     @Override

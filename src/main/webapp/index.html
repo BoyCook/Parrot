@@ -4,6 +4,7 @@
 <head>
     <title>Parrot</title>
     <link type="text/css" href="css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
+    <link type="text/css" href="css/default.css" rel="Stylesheet"/>
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="js/Resources.js"></script>
@@ -12,6 +13,8 @@
         var allResources = undefined;
 
         $(document).ready(function() {
+            $('#main').tabs();
+
             rootResources = new Resources({
                 id: '#rootResources',
                 url: '/service/resources/root'
@@ -30,14 +33,47 @@
 <body>
 
 <div id="home">
-    <h3>Welcome to Parrot</h3>
-    <a href="view.html" target="_blank">View entities</a>
-    <a href="new.html" target="_blank">Create new entity</a>
-    <h5>Root level resources are:</h5>
-    <div id="rootResources"></div>
-
-    <h5>All available resources are:</h5>
-    <div id="allResources"></div>
+    <div id="main">
+        <ul>
+            <li><a href="#actions">Actions</a></li>
+            <li><a href="#coreResources">Core Resources</a></li>
+            <li><a href="#rootResources">Root Entity Resources</a></li>
+            <li><a href="#allResources">All Entity Resources</a></li>
+        </ul>
+        <div id="actions">
+            <table>
+                <tr>
+                    <td><a href="view.html" target="_blank">View entities</a></td>
+                </tr>
+                <tr>
+                    <td><a href="new.html" target="_blank">Create new entity</a></td>
+                </tr>
+            </table>
+        </div>
+        <div id="coreResources">
+            <table>
+                <tr>
+                    <td><a target="_blank" href="/service/context">/context</a></td>
+                </tr>
+                <tr>
+                    <td><a target="_blank" href="/service/model">/model</a></td>
+                </tr>
+                <tr>
+                    <td><a target="_blank" href="/service/resources">/resources</a></td>
+                </tr>
+                <tr>
+                    <td><a target="_blank" href="/service/resources/root">/resources/root</a></td>
+                </tr>
+                <tr>
+                    <td><a target="_blank" href="/service/example/{entity}">/example/{entity}</a></td>
+                </tr>
+            </table>
+        </div>
+        <div id="rootResources">
+        </div>
+        <div id="allResources">
+        </div>
+    </div>
 </div>
 </body>
 </html>

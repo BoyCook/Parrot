@@ -45,7 +45,7 @@ public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironme
 
     @Test
     public void findPersonByIdShouldWork() {
-        assertCraig(client.getForObject(serviceBaseURL + "person/1", Person.class));
+        assertCraigWithRelations(client.getForObject(serviceBaseURL + "person/1", Person.class));
     }
 
     @Test

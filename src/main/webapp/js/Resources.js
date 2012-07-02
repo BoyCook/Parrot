@@ -15,7 +15,7 @@ Resources.prototype.render = function () {
             html += "<a href='/service" + key + "' target='_blank'>" + key + "</a>"
             html += "</td></tr>";
         });
-        html += "<table>";
+        html += "</table>";
         $(context.id).append(html);
     });
 };

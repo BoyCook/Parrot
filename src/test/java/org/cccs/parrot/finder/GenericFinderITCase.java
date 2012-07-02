@@ -51,7 +51,7 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
 
     @Test
     public void findCatByIdShouldWork() {
-        assertBagpuss(finder.find(Cat.class, 1));
+        assertBagpussWithOwner(finder.find(Cat.class, 1));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
 
     @Test
     public void findDogByIdShouldWork() {
-        assertFido(finder.find(Dog.class, 1));
+        assertFidoWithOwner(finder.find(Dog.class, 1));
     }
 
     @Test
@@ -71,6 +71,6 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
 
     @Test
     public void findPersonByIdShouldWork() {
-        assertCraig(finder.find(Person.class, 1));
+        assertCraigWithRelations(finder.find(Person.class, 1));
     }
 }

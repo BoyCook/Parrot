@@ -30,10 +30,20 @@ public final class FinderAssertions {
         assertThat(cat.getName(), is(equalTo("Bagpuss")));
     }
 
+    public static void assertBagpussWithOwner(final Cat cat) {
+        assertBagpuss(cat);
+        assertCraig(cat.getOwner());
+    }
+
     public static void assertFido(final Dog dog) {
         assertNotNull(dog);
         assertThat(dog.getId(), is(greaterThanOrEqualTo(1l)));
         assertThat(dog.getName(), is(equalTo("Fido")));
+    }
+
+    public static void assertFidoWithOwner(final Dog dog) {
+        assertFido(dog);
+        assertCraig(dog.getOwner());
     }
 
     public static void assertCraig(final Person person) {
@@ -42,5 +52,11 @@ public final class FinderAssertions {
         assertThat(person.getName(), is(equalTo("Craig Cook")));
         assertThat(person.getEmail(), is(equalTo("craig@craigcook.co.uk")));
         assertThat(person.getPhone(), is(equalTo("07345123456")));
+    }
+
+    public static void assertCraigWithRelations(final Person person) {
+        assertCraig(person);
+        assertThat(person.getCats().size(), is(equalTo(2)));
+        assertThat(person.getDogs().size(), is(equalTo(2)));
     }
 }

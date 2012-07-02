@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import org.cccs.parrot.Description;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -47,6 +48,7 @@ public class Cat {
         return name;
     }
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     public Person getOwner() {

@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import static java.lang.String.format;
 import static org.cccs.parrot.context.ContextBuilder.getUniquePath;
@@ -42,11 +41,6 @@ public class ParrotController {
     @Autowired
     protected EntityManagerFactory entityManagerFactory;
 
-    //TODO: do this automatically somewhere
-    static {
-        ContextBuilder.init("org.cccs.parrot.domain");
-    }
-
     @RequestMapping(value = "/context", method = RequestMethod.GET)
     @ResponseBody
     public ParrotContext getParrotContext() {
@@ -55,7 +49,7 @@ public class ParrotController {
 
     @RequestMapping(value = "/model", method = RequestMethod.GET)
     @ResponseBody
-    public Set<Entity> getModel() {
+    public Map<Class, Entity> getModel() {
         return ContextBuilder.getContext().getModel();
     }
 

@@ -250,6 +250,7 @@
                                         <include>db/*.xml</include>
                                         <include>META-INF/persistence.xml</include>
                                         <include>jettyApplicationContext.xml</include>
+                                        <include>parrotContext.xml</include>
                                     </includes>
                                 </resource>
                             </resources>

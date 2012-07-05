@@ -3,6 +3,9 @@ package org.cccs.parrot.util;
 import org.cccs.parrot.domain.Person;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.cccs.parrot.util.Utils.extractParameter;
 import static org.cccs.parrot.util.Utils.extractParameterFromEnd;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -29,8 +32,24 @@ public class TestUtils {
         assertThat(extractParameterFromEnd(PATH, 4), is(equalTo("org")));
     }
 
-    public static Person getPerson() {
+    public static Person getCraig() {
         return new Person("Craig Cook", "craig@cook.com", "012341234");
+    }
+
+    public static Person getBob() {
+        return new Person("Bob Smith", "bob@smith.com", "012341234");
+    }
+
+    public static Person getJonn() {
+        return new Person("Jonn Jonzz", "jonn@jonzz.com", "012341234");
+    }
+
+    public static List<Person> getPeople() {
+        List<Person> people = new ArrayList<Person>();
+        people.add(getCraig());
+        people.add(getBob());
+        people.add(getJonn());
+        return people;
     }
 }
 

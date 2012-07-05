@@ -7,7 +7,7 @@ function Model() {
 Model.prototype.get = function(name) {
     var model = undefined;
     name = name.toLowerCase();
-    $.each(this.data, function(index, value){
+    $.each(this.data, function(key, value){
         if (value.name.toLowerCase() == name) {
             model = value;
         }

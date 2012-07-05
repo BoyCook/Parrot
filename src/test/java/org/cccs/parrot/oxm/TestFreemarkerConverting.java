@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import static org.cccs.parrot.util.TestUtils.getPerson;
+import static org.cccs.parrot.util.TestUtils.getCraig;
 
 /**
  * User: boycook
@@ -31,7 +31,7 @@ public class TestFreemarkerConverting {
     public void convertShouldWork() throws IOException, TemplateException {
         Template template = configuration.getTemplate("entity.ftl");
         StringWriter out = new StringWriter();
-        template.process(getPerson(), out);
+        template.process(getCraig(), out);
         System.out.println(out.toString());
     }
 }

@@ -35,6 +35,7 @@ public class Cat {
         this.countries = new HashSet<Country>();
     }
 
+    @Description("ID")
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -16,9 +16,7 @@ import javax.persistence.*;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static java.lang.String.format;
 
@@ -32,6 +30,13 @@ public class ContextBuilder {
     protected static final Logger log = LoggerFactory.getLogger(ContextBuilder.class);
     private static ParrotContext context;
 
+    public ContextBuilder() {
+    }
+
+    public ContextBuilder(final String packageName) {
+        setContext(build(packageName));
+    }
+
     public static void init(final String packageName) {
         setContext(build(packageName));
     }
@@ -44,8 +49,7 @@ public class ContextBuilder {
     public ParrotContext create(final String packageName) {
         final Map<String, Class> rootMappings = new HashMap<String, Class>();
         final Map<String, Class> requestMappings = new HashMap<String, Class>();
-        final Set<Entity> model = new HashSet<Entity>();
-        final Set<Class> temp = new HashSet<Class>();
+        final Map<Class, Entity> model = new HashMap<Class, Entity>();
 
         final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Table.class));
@@ -64,9 +68,8 @@ public class ContextBuilder {
         }
 
         for (Class clazz : requestMappings.values()) {
-            if (!temp.contains(clazz)) {
-                temp.add(clazz);
-                model.add(buildEntity(clazz));
+            if (!model.containsKey(clazz)) {
+                model.put(clazz, buildEntity(clazz));
             }
         }
 
@@ -138,6 +141,7 @@ public class ContextBuilder {
                 attribute.setColumn(true);
                 if (method.isAnnotationPresent(Id.class)) {
                     attribute.setSystemManaged(true);
+                    attribute.setIdentity(true);
                 }
                 entity.addAttribute(attribute);
             }

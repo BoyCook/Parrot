@@ -10,6 +10,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:jettyApplicationContext.xml
+            classpath:parrotContext.xml
         </param-value>
     </context-param>
 

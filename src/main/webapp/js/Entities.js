@@ -25,9 +25,14 @@ Entities.prototype.renderEntities = function(model, data) {
     //TODO: only render columns in the model
     $.each(data, function (index, entity) {
         html += "<tr>";
-        $.each(entity, function(key, value){
-            if (!(value instanceof Array)) {
-                html += "<td>" + value + "</td>";
+        $.each(model.attributes, function(index, value){
+            if (value.column == true) {
+                var val = entity[value.name];
+                if (value.identity == true) {
+                    html += "<td><a href='/service/" + model.name + "/" + val + "' target='_blank'>" + val + "</a></td>"
+                } else {
+                    html += "<td>" + val + "</td>";
+                }
             }
         });
         html += "</tr>";

@@ -3,11 +3,12 @@ package org.cccs.parrot.context;
 import org.cccs.parrot.domain.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
@@ -18,15 +19,16 @@ import static org.junit.Assert.*;
  * Date: 22/06/2012
  * Time: 10:00
  */
+@ContextConfiguration(locations = "classpath:parrotContext.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestParrotContext {
 
-    private static final String PACKAGE_NAME = "org.cccs.parrot.domain";
+    public static final String PACKAGE_NAME = "org.cccs.parrot.domain";
     private Map<String, Class> expectedRequestMappings;
-    private Set<Entity> expectedModel;
+    private Map<Class, Entity> expectedModel;
 
     @Before
     public void before() {
-        ContextBuilder.init(PACKAGE_NAME);
         expectedRequestMappings = new HashMap<String, Class>();
         expectedRequestMappings.put("/person", Person.class);
         expectedRequestMappings.put("/person/{personid}", Person.class);
@@ -53,11 +55,11 @@ public class TestParrotContext {
         expectedRequestMappings.put("/country/{countryid}/dog/{dogid}", Dog.class);
         expectedRequestMappings.put("/country/{countryid}/dog/{dogid}/{attribute}", Dog.class);
 
-        expectedModel = new HashSet<Entity>();
-        expectedModel.add(new Entity("Country", "Country", Country.class));
-        expectedModel.add(new Entity("Person", "Person", Person.class));
-        expectedModel.add(new Entity("Cat", "Cat", Cat.class));
-        expectedModel.add(new Entity("Dog", "Dog", Dog.class));
+        expectedModel = new HashMap<Class, Entity>();
+        expectedModel.put(Country.class, new Entity("Country", "Country", Country.class));
+        expectedModel.put(Person.class, new Entity("Person", "Person", Person.class));
+        expectedModel.put(Cat.class, new Entity("Cat", "Cat", Cat.class));
+        expectedModel.put(Dog.class, new Entity("Dog", "Dog", Dog.class));
     }
 
     @Test
@@ -77,10 +79,7 @@ public class TestParrotContext {
         ParrotContext context = ContextBuilder.getContext();
         assertContext(context);
         assertThat(context.getModel().size(), is(equalTo(expectedModel.size())));
-
-        for (Entity entity : expectedModel) {
-            assertTrue(context.getModel().contains(entity));
-        }
+        assertMapEquals(context.getModel(), expectedModel);
     }
 
     private void assertContext(ParrotContext context) {

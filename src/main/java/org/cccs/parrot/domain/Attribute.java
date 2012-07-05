@@ -7,17 +7,13 @@ package org.cccs.parrot.domain;
  */
 public class Attribute extends DescribedEntity {
 
+    private boolean identity;
     private boolean systemManaged;
     private boolean editable;
     private boolean column;
 
-    public Attribute(String name, String description, Class clazz, boolean systemManaged) {
-        super(name, description, clazz);
-        this.systemManaged = systemManaged;
-    }
-
     public Attribute(String name, String description, Class clazz) {
-        this(name, description, clazz, false);
+        super(name, description, clazz);
     }
 
     public boolean isSystemManaged() {
@@ -42,5 +38,13 @@ public class Attribute extends DescribedEntity {
 
     public void setColumn(boolean column) {
         this.column = column;
+    }
+
+    public boolean isIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(boolean identity) {
+        this.identity = identity;
     }
 }

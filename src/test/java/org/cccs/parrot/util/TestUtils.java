@@ -1,5 +1,6 @@
 package org.cccs.parrot.util;
 
+import org.cccs.parrot.domain.Person;
 import org.junit.Test;
 
 import static org.cccs.parrot.util.Utils.extractParameter;
@@ -26,6 +27,10 @@ public class TestUtils {
         assertThat(extractParameterFromEnd(PATH, 2), is(equalTo("boycook")));
         assertThat(extractParameterFromEnd(PATH, 3), is(equalTo("cccs")));
         assertThat(extractParameterFromEnd(PATH, 4), is(equalTo("org")));
+    }
+
+    public static Person getPerson() {
+        return new Person("Craig Cook", "craig@cook.com", "012341234");
     }
 }
 

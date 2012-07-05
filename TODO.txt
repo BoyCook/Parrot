@@ -1,3 +1,26 @@
+TODO: for RC1
+- Resolve JSON circular dependencies issue
+- Throw appropriate exceptions from ContextBuilder
+- Automatically call ContextBuilder
+- Find for GET using all entities in path hierarchy (currently just last entity)
+- Complex querying
+- Finder exceptions
+- Service validation
+- Service exceptions
+- REST exceptions
+- Custom entity controller (via annotation)
+- Map PUT Controller to service
+- Map POST Controller to service
+- Map DELETE Controller to service
+- UI to CRUD
+  - Generate UI forms from model
+  - Render exceptions in the UI
+  - Allow custom freemarker UIs via entity annotation
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+
 Modules:
 - Core
 - Web service
@@ -24,20 +47,3 @@ Child = ManyToOne
 
 #mvn versions:display-dependency-updates
 org.hibernate.InstantiationException: No default constructor for entity: org.cccs.parrot.domain.Country
-
-TODO: for RC1
-- Throw appropriate exceptions from ContextBuilder
-- Automatically call ContextBuilder
-- Find for GET using all entities in path hierarchy (currently just last entity)
-- Complex querying
-- Finder exceptions
-- Service validation
-- Service exceptions
-- REST exceptions
-- Custom entity controller (via annotation)
-- Map PUT Controller to service
-- Map POST Controller to service
-- Map DELETE Controller to service
-- UI to CRUD
-  - Generate UI forms from model
-  - Render exceptions in the UI

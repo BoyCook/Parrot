@@ -1,5 +1,12 @@
 package org.cccs.parrot.util;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.cccs.parrot.util.CollectionSupport.asList;
@@ -11,6 +18,8 @@ import static org.cccs.parrot.util.CollectionSupport.asList;
  */
 public final class Utils {
 
+    private static final Logger log = LoggerFactory.getLogger(Utils.class);
+
     public static String extractParameter(String path, int position) {
         List<String> stringList = asList(path.split("/"));
         return stringList.get(position);
@@ -19,5 +28,22 @@ public final class Utils {
     public static String extractParameterFromEnd(String path, int position) {
         List<String> stringList = asList(path.split("/"));
         return stringList.get(stringList.size() - position);
+    }
+
+    public static String readFile(String fileName) {
+        Validate.notEmpty(fileName);
+        String file = null;
+        try {
+            file = Utils.readFileToString(fileName);
+        } catch (IOException e) {
+            log.error("There was an error reading in file: " + fileName);
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    public static String readFileToString(final String filename) throws IOException {
+        final InputStream stream = Utils.class.getResourceAsStream(filename);
+        return IOUtils.toString(stream);
     }
 }

@@ -1,8 +1,6 @@
 package org.cccs.parrot.domain;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: boycook
@@ -21,7 +19,7 @@ public class Entity extends DescribedEntity {
     }
 
     public Entity(String name, String description, Class clazz) {
-        this(name, description, clazz, new HashSet<Attribute>(), new HashSet<String>());
+        this(name, description, clazz, new TreeSet<Attribute>(new AttributeComparator()), new HashSet<String>());
     }
 
     public Set<String> getPaths() {

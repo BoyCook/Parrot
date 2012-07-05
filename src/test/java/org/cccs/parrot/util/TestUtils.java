@@ -33,15 +33,21 @@ public class TestUtils {
     }
 
     public static Person getCraig() {
-        return new Person("Craig Cook", "craig@cook.com", "012341234");
+        Person person = new Person("Craig Cook", "craig@cook.com", "012341234");
+        person.setId(1l);
+        return person;
     }
 
     public static Person getBob() {
-        return new Person("Bob Smith", "bob@smith.com", "012341234");
+        Person person = new Person("Bob Smith", "bob@smith.com", "012341234");
+        person.setId(2l);
+        return person;
     }
 
     public static Person getJonn() {
-        return new Person("Jonn Jonzz", "jonn@jonzz.com", "012341234");
+        Person person = new Person("Jonn Jonzz", "jonn@jonzz.com", "012341234");
+        person.setId(3l);
+        return person;
     }
 
     public static List<Person> getPeople() {

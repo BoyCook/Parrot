@@ -25,12 +25,26 @@ import static org.cccs.parrot.util.Utils.readFile;
  */
 public class ParrotHtmlConverter {
 
-    private static final String HTML_OBJECT_ROW = "<tr><th>%s</th><td>%s</td></tr>";
+    private static final String HTML_DOCTYPE = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
+    private static final String HTML_HEAD = "<head>\n<title>Parrot</title>\n</head>\n";
+    private static final String HTML_OBJECT_ROW = "<tr>\n<th>%s</th>\n<td>%s</td>\n</tr>\n";
     private static final String HTML_ANCHOR = "<a href='/service/%s/%s' target='_blank'>%s</a>";
     private static final String HTML_TEMPLATE_FILE = "/html/template.html";
     private static String HTML_TEMPLATE = null;
 
     public void writeHtml(OutputStream out, Object o) throws IOException, InvocationTargetException, IllegalAccessException {
+        IOUtils.write(HTML_DOCTYPE, out);
+        IOUtils.write("<html>\n", out);
+        IOUtils.write(HTML_HEAD, out);
+        IOUtils.write("<body>\n", out);
+        IOUtils.write("<div id=\"home\">\n", out);
+        doWrite(out, o);
+        IOUtils.write("</div>\n", out);
+        IOUtils.write("</body>\n", out);
+        IOUtils.write("</html>", out);
+    }
+
+    public void doWrite(OutputStream out, Object o) throws IOException, InvocationTargetException, IllegalAccessException {
         if (Collection.class.isAssignableFrom(o.getClass())) {
             Collection items = (Collection) o;
             writeObjects(out, items);
@@ -52,10 +66,10 @@ public class ParrotHtmlConverter {
                 if (attribute.isColumn()) {
                     header.append("<th>");
                     header.append(attribute.getDescription());
-                    header.append("</th>");
+                    header.append("</th>\n");
                 }
             }
-            header.append("</tr>");
+            header.append("</tr>\n");
 
             for (Object item : items) {
                 body.append("<tr>\n");
@@ -71,18 +85,18 @@ public class ParrotHtmlConverter {
                         } else {
                             body.append(value);
                         }
-                        body.append("</td>");
+                        body.append("</td>\n");
                     }
                 }
-                body.append("</tr>");
+                body.append("</tr>\n");
             }
 
             html.append("<table>\n");
             html.append(header.toString());
             html.append(body.toString());
-            html.append("</table>");
+            html.append("</table>\n");
 
-            IOUtils.write(format(getHtmlTemplate(), item1.getClass().getSimpleName(), html.toString()), out);
+            IOUtils.write(html.toString(), out);
         }
     }
 
@@ -106,8 +120,8 @@ public class ParrotHtmlConverter {
             }
         }
 
-        html.append("</table>");
-        IOUtils.write(format(getHtmlTemplate(), o.getClass().getSimpleName(), html.toString()), out);
+        html.append("</table>\n");
+        IOUtils.write(html.toString(), out);
     }
 
     private String getHtmlTemplate() {

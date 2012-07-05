@@ -26,9 +26,9 @@ import static org.cccs.parrot.util.Utils.readFile;
 public class ParrotHtmlConverter {
 
     private static final String HTML_OBJECT_ROW = "<tr><th>%s</th><td>%s</td></tr>";
+    private static final String HTML_ANCHOR = "<a href='/service/%s/%s' target='_blank'>%s</a>";
     private static final String HTML_TEMPLATE_FILE = "/html/template.html";
     private static String HTML_TEMPLATE = null;
-
 
     public void writeHtml(OutputStream out, Object o) throws IOException, InvocationTargetException, IllegalAccessException {
         if (Collection.class.isAssignableFrom(o.getClass())) {
@@ -63,9 +63,14 @@ public class ParrotHtmlConverter {
                     if (attribute.isColumn()) {
                         PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(item1.getClass(), attribute.getName());
                         Object result = descriptor.getReadMethod().invoke(item);
-
                         body.append("<td>");
-                        body.append(result == null ? "" : result.toString());
+
+                        String value = result == null ? "" : result.toString();
+                        if (attribute.isIdentity()) {
+                            body.append(format(HTML_ANCHOR, entity.getName(), value, value));
+                        } else {
+                            body.append(value);
+                        }
                         body.append("</td>");
                     }
                 }

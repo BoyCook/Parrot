@@ -7,7 +7,9 @@ import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,6 +32,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenericFinderITCase extends DataDrivenTestEnvironment {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     protected GenericFinder finder;
 
     @Before
@@ -50,6 +54,11 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     }
 
     @Test
+    public void findCountryByNameShouldWork() {
+        assertEngland(finder.find(Country.class, "name", "England"));
+    }
+
+    @Test
     public void findAllPeopleShouldWork() {
         assertThat(finder.all(Person.class).size(), is(greaterThan(0)));
     }
@@ -57,6 +66,11 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     @Test
     public void findPersonByIdShouldWork() {
         assertCraigWithRelations(finder.find(Person.class, 1));
+    }
+
+    @Test
+    public void findPersonByNameShouldWork() {
+        assertCraigWithRelations(finder.find(Person.class, "name", "Craig Cook"));
     }
 
     @Test
@@ -70,6 +84,11 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     }
 
     @Test
+    public void findCatByNameShouldWork() {
+        assertBagpussWithOwner(finder.find(Cat.class, "name", "Bagpuss"));
+    }
+
+    @Test
     public void findAllDogsShouldWork() {
         assertThat(finder.all(Dog.class).size(), is(greaterThan(0)));
     }
@@ -77,6 +96,81 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     @Test
     public void findDogByIdShouldWork() {
         assertFidoWithOwner(finder.find(Dog.class, 1));
+    }
+
+    @Test
+    public void findDogByNameShouldWork() {
+        assertFidoWithOwner(finder.find(Dog.class, "name", "Fido"));
+    }
+
+    @Test
+    public void findPersonByInvalidIdShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Person] with [id] as [999]");
+        finder.find(Person.class, 999);
+    }
+
+    @Test
+    public void findPersonByInvalidNameShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Person] with [name] as [Invalid]");
+        finder.find(Person.class, "name", "Invalid");
+    }
+
+    @Test
+    public void findCountryByInvalidIdShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Country] with [id] as [999]");
+        finder.find(Country.class, 999);
+    }
+
+    @Test
+    public void findCountryByInvalidNameShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Country] with [name] as [Invalid]");
+        finder.find(Country.class, "name", "Invalid");
+    }
+
+    @Test
+    public void findCatByInvalidIdShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Cat] with [id] as [999]");
+        finder.find(Cat.class, 999);
+    }
+
+    @Test
+    public void findCatByInvalidNameShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Cat] with [name] as [Invalid]");
+        finder.find(Cat.class, "name", "Invalid");
+    }
+
+    @Test
+    public void findDogByInvalidIdShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Dog] with [id] as [999]");
+        finder.find(Dog.class, 999);
+    }
+
+    @Test
+    public void findDogByInvalidNameShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [Dog] with [name] as [Invalid]");
+        finder.find(Dog.class, "name", "Invalid");
+    }
+
+    @Test
+    public void findOnInvalidEntityShouldFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [String] with [id] as [999]");
+        finder.find(String.class, 999);
+    }
+
+    @Test
+    public void findOnInvalidEntityByNameFail() {
+        thrown.expect(EntityNotFoundException.class);
+        thrown.expectMessage("Unable to find entity [String] with [name] as [Invalid]");
+        finder.find(String.class, "name", "Invalid");
     }
 
     @Ignore
@@ -120,5 +214,4 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
 //        }
         return result;
     }
-
 }

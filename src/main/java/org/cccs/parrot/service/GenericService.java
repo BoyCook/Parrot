@@ -35,7 +35,7 @@ public class GenericService {
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void create(final Object entity) {
-//        validate(entity);
+        Validation.validate(entity);
         log.debug(format(CREATE_MESSAGE, entity.getClass().getSimpleName(), entity.toString()));
         EntityManager entityManager = getEntityManager();
         EntityTransaction txn = entityManager.getTransaction();
@@ -54,7 +54,7 @@ public class GenericService {
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void update(final Object entity) {
-//        validate(entity);
+        Validation.validate(entity);
         log.debug(format(UPDATE_MESSAGE, entity.getClass().getSimpleName(), entity.toString()));
         EntityManager entityManager = getEntityManager();
         EntityTransaction txn = entityManager.getTransaction();
@@ -73,7 +73,7 @@ public class GenericService {
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void delete(final Object entity) {
-//        validate(entity);
+        Validation.validate(entity);
         log.debug(format(UPDATE_MESSAGE, entity.getClass().getSimpleName(), entity.toString()));
         EntityManager entityManager = getEntityManager();
         EntityTransaction txn = entityManager.getTransaction();

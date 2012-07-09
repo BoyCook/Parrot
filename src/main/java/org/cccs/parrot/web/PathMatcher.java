@@ -32,7 +32,7 @@ public class PathMatcher {
         for (String registeredPattern : ContextBuilder.getContext().getRequestMappings().keySet()) {
             registeredPattern = registeredPattern.toLowerCase();
             if (getPathMatcher().match(registeredPattern, urlPath)) {
-                log.debug(format("Matched [%s] with [%s]", urlPath, registeredPattern));
+                log.debug(format("Matched [%s] with [%s]", registeredPattern, urlPath));
                 matchingPatterns.add(registeredPattern);
             }
         }
@@ -41,6 +41,7 @@ public class PathMatcher {
         if (!matchingPatterns.isEmpty()) {
             Collections.sort(matchingPatterns, patternComparator);
             bestPatternMatch = matchingPatterns.get(0);
+            log.debug(format("Using match [%s] for [%s]", bestPatternMatch, urlPath));
         }
 
         if (bestPatternMatch == null) {

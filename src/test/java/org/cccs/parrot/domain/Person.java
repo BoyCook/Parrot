@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import org.cccs.parrot.Description;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -47,18 +48,21 @@ public class Person {
     }
 
     @Description("Name")
+    @NotEmpty(message = "Name must be specified")
     @Column(unique = true, name = "name")
     public String getName() {
         return name;
     }
 
     @Description("Email")
+    @NotEmpty(message = "Email must be specified")
     @Column(name = "email")
     public String getEmail() {
         return email;
     }
 
     @Description("Phone")
+    @NotEmpty(message = "Phone must be specified")
     @Column(name = "phone")
     public String getPhone() {
         return phone;

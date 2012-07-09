@@ -20,6 +20,7 @@ import static java.lang.String.format;
 public class GenericFinder {
 
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final String NOT_FOUND_MESSAGE = "Unable to find entity [%s] with [%s] as [%s]";
     private static final String ERROR_MESSAGE = "Query returns no results, input params may be invalid";
     private EntityManagerFactory entityManagerFactory;
 
@@ -55,7 +56,7 @@ public class GenericFinder {
         try {
             result = entityManager.find(c, id);
         } catch (Exception e) {
-            //TODO: work out specific exception
+            //TODO: catch specific (non generic) exception
             log.error("Error finding object", e);
         } finally {
             if (entityManager.isOpen()) {
@@ -65,7 +66,7 @@ public class GenericFinder {
         }
 
         if (result == null) {
-            throw new EntityNotFoundException(ERROR_MESSAGE);
+            throw new EntityNotFoundException(format(NOT_FOUND_MESSAGE, c.getSimpleName(), "id", id));
         }
         return result;
     }
@@ -93,7 +94,7 @@ public class GenericFinder {
         }
 
         if (result == null) {
-            throw new EntityNotFoundException(ERROR_MESSAGE);
+            throw new EntityNotFoundException(format(NOT_FOUND_MESSAGE, c.getSimpleName(), key, value));
         }
         return result;
     }

@@ -76,27 +76,17 @@ public class ParrotController {
 
     @RequestMapping(value = "/**", method = RequestMethod.GET)
     @ResponseBody
-    public Object getParrotEntity(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        String inboundPath = getInboundPath(request);
+    public Object getParrotEntity(HttpServletRequest request) {
+        final String matchedPath = PathMatcher.getMatcher().match(getInboundPath(request));
+        Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
 
-        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
-        if (matchedPath != null) {
-            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-
-            //TODO: build query from FULL path hierarchy, not just last entity
-            if (matchedPath.endsWith(getUniquePath(clazz))) {
-                String key = extractParameterFromEnd(request, 1);
-                return getFinder().find(clazz, NumberUtils.toLong(key));
-            } else {
-                return getFinder().all(clazz);
-            }
+        //TODO: build query from FULL path hierarchy, not just last entity
+        if (matchedPath.endsWith(getUniquePath(clazz))) {
+            String key = extractParameterFromEnd(request, 1);
+            return getFinder().find(clazz, NumberUtils.toLong(key));
         } else {
-            log.error("No resource match found");
-            response.setStatus(404);
+            return getFinder().all(clazz);
         }
-        return null;
     }
 
     @RequestMapping(value = "/{entityType}", method = RequestMethod.PUT)
@@ -105,28 +95,17 @@ public class ParrotController {
                                      @PathVariable("entityType") String entityType,
                                      HttpServletRequest request,
                                      HttpServletResponse response) {
-        return createParrotEntityWithId(entity, entityType, null, request, response);
+        return createParrotEntityWithId(entity, entityType, null, request);
     }
 
     @RequestMapping(value = "/{entityType}/{entityId}", method = RequestMethod.PUT)
     @ResponseBody
     public String createParrotEntityWithId(@RequestBody Object entity,
-                                     @PathVariable("entityType") String entityType,
-                                     @PathVariable("entityId") String entityId,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response) {
-        String inboundPath = getInboundPath(request);
-
-        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
-        //TODO: throw exception from path matching
-        if (matchedPath != null) {
-            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-            getService().create(entity);
-        } else {
-            log.error("No resource match found");
-            response.setStatus(404);
-        }
+                                           @PathVariable("entityType") String entityType,
+                                           @PathVariable("entityId") String entityId,
+                                           HttpServletRequest request) {
+        PathMatcher.getMatcher().match(getInboundPath(request));
+        getService().create(entity);
         return "success";
     }
 
@@ -135,19 +114,9 @@ public class ParrotController {
     public String updateParrotEntity(@RequestBody Object entity,
                                      @PathVariable("entityType") String entityType,
                                      @PathVariable("entityId") String entityId,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response) {
-        String inboundPath = getInboundPath(request);
-
-        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
-        if (matchedPath != null) {
-            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-            getService().update(entity);
-        } else {
-            log.error("No resource match found");
-            response.setStatus(404);
-        }
+                                     HttpServletRequest request) {
+        PathMatcher.getMatcher().match(getInboundPath(request));
+        getService().update(entity);
         return "success";
     }
 
@@ -156,20 +125,17 @@ public class ParrotController {
     public String deleteParrotEntity(@RequestBody Object entity,
                                      @PathVariable("entityType") String entityType,
                                      @PathVariable("entityId") String entityId,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response) {
-        String inboundPath = getInboundPath(request);
-
-        final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
-        if (matchedPath != null) {
-            Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-            log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-            getService().delete(entity);
-        } else {
-            log.error("No resource match found");
-            response.setStatus(404);
-        }
+                                     HttpServletRequest request) {
+        PathMatcher.getMatcher().match(getInboundPath(request));
+        getService().delete(entity);
         return "success";
+    }
+
+    private Class getResourceClass(HttpServletRequest request) {
+        final String matchedPath = PathMatcher.getMatcher().match(getInboundPath(request));
+        Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
+        log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
+        return clazz;
     }
 
     private String getInboundPath(HttpServletRequest request) {

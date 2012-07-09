@@ -12,6 +12,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -64,5 +65,19 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createDogShouldWork() {
         client.put(serviceBaseURL + "dog", new Dog("Fido"));
         assertFido(finder.find(Dog.class, "name", "Fido"));
+    }
+
+    @Test
+    public void createInvalidTypeShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.put(serviceBaseURL + "invalid", "invalid");
+    }
+
+    @Test
+    public void createInvalidTypeWithIdShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.put(serviceBaseURL + "invalid/invalid", "invalid");
     }
 }

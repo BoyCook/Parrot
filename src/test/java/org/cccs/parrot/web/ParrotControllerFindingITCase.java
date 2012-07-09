@@ -11,6 +11,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -123,5 +124,61 @@ public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironme
     @Test
     public void findDogViaCountryShouldWork() {
         assertFido(client.getForObject(serviceBaseURL + "country/1/dog/1", Dog.class));
+    }
+
+    @Test
+    public void findPersonWithInvalidIdShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "person/999", Person.class);
+    }
+
+    @Test
+    public void findCountryWithInvalidIdShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "country/999", Country.class);
+    }
+
+    @Test
+    public void findCatWithInvalidIdShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "cat/999", Cat.class);
+    }
+
+    @Test
+    public void findDogWithInvalidIdShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "dog/999", Dog.class);
+    }
+
+    @Test
+    public void getOnInvalidEntityShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "foo", Object.class);
+    }
+
+    @Test
+    public void getOnInvalidEntityWithIdShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "foo/bar", Object.class);
+    }
+
+    @Test
+    public void getOnInvalidEntityAttributeShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "foo/bar/foo", Object.class);
+    }
+
+    @Test
+    public void getOnInvalidUrlShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.getForObject(serviceBaseURL + "foo/bar/foo/foo", Object.class);
     }
 }

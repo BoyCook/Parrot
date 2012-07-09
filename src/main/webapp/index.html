@@ -9,17 +9,10 @@
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="js/Resources.js"></script>
     <script type="text/javascript">
-        var rootResources = undefined;
         var allResources = undefined;
 
         $(document).ready(function() {
             $('#main').tabs();
-
-            rootResources = new Resources({
-                id: '#rootResources',
-                url: '/service/resources/root'
-            });
-            rootResources.render();
 
             allResources = new Resources({
                 id: '#allResources',
@@ -37,7 +30,6 @@
         <ul>
             <li><a href="#actions">Actions</a></li>
             <li><a href="#coreResources">Core Resources</a></li>
-            <li><a href="#rootResources">Root Entity Resources</a></li>
             <li><a href="#allResources">All Entity Resources</a></li>
         </ul>
         <div id="actions">
@@ -62,14 +54,9 @@
                     <td><a target="_blank" href="/service/resources">/resources</a></td>
                 </tr>
                 <tr>
-                    <td><a target="_blank" href="/service/resources/root">/resources/root</a></td>
-                </tr>
-                <tr>
                     <td><a target="_blank" href="/service/example/{entity}">/example/{entity}</a></td>
                 </tr>
             </table>
-        </div>
-        <div id="rootResources">
         </div>
         <div id="allResources">
         </div>

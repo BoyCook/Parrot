@@ -28,7 +28,6 @@ public class PathMatcher {
 
     public String match(String urlPath) {
         urlPath = urlPath.toLowerCase();
-        // Pattern match?
         List<String> matchingPatterns = new ArrayList<String>();
         for (String registeredPattern : ContextBuilder.getContext().getRequestMappings().keySet()) {
             registeredPattern = registeredPattern.toLowerCase();
@@ -42,6 +41,10 @@ public class PathMatcher {
         if (!matchingPatterns.isEmpty()) {
             Collections.sort(matchingPatterns, patternComparator);
             bestPatternMatch = matchingPatterns.get(0);
+        }
+
+        if (bestPatternMatch == null) {
+            throw new ResourceNotFoundException(format("Cannot match path [%s]", urlPath));
         }
 
         return bestPatternMatch;

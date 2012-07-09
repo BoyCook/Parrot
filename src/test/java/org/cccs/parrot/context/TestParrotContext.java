@@ -25,7 +25,7 @@ public class TestParrotContext {
 
     public static final String PACKAGE_NAME = "org.cccs.parrot.domain";
     private Map<String, Class> expectedRequestMappings;
-    private Map<Class, Entity> expectedModel;
+    private Map<String, Entity> expectedModel;
 
     @Before
     public void before() {
@@ -54,12 +54,18 @@ public class TestParrotContext {
         expectedRequestMappings.put("/country/{countryid}/dog", Dog.class);
         expectedRequestMappings.put("/country/{countryid}/dog/{dogid}", Dog.class);
         expectedRequestMappings.put("/country/{countryid}/dog/{dogid}/{attribute}", Dog.class);
+        expectedRequestMappings.put("/cat", Cat.class);
+        expectedRequestMappings.put("/cat/{catid}", Cat.class);
+        expectedRequestMappings.put("/cat/{catid}/{attribute}", Cat.class);
+        expectedRequestMappings.put("/dog", Dog.class);
+        expectedRequestMappings.put("/dog/{dogid}", Dog.class);
+        expectedRequestMappings.put("/dog/{dogid}/{attribute}", Dog.class);
 
-        expectedModel = new HashMap<Class, Entity>();
-        expectedModel.put(Country.class, new Entity("Country", "Country", Country.class));
-        expectedModel.put(Person.class, new Entity("Person", "Person", Person.class));
-        expectedModel.put(Cat.class, new Entity("Cat", "Cat", Cat.class));
-        expectedModel.put(Dog.class, new Entity("Dog", "Dog", Dog.class));
+        expectedModel = new HashMap<String, Entity>();
+        expectedModel.put("Country", new Entity("Country", "Country", Country.class));
+        expectedModel.put("Person", new Entity("Person", "Person", Person.class));
+        expectedModel.put("Cat", new Entity("Cat", "Cat", Cat.class));
+        expectedModel.put("Dog", new Entity("Dog", "Dog", Dog.class));
     }
 
     @Test
@@ -78,8 +84,14 @@ public class TestParrotContext {
     public void contextShouldHaveCorrectModel() {
         ParrotContext context = ContextBuilder.getContext();
         assertContext(context);
-        assertThat(context.getModel().size(), is(equalTo(expectedModel.size())));
+        Map<String, Entity> model = context.getModel();
+        assertThat(model.size(), is(equalTo(expectedModel.size())));
         assertMapEquals(context.getModel(), expectedModel);
+
+        assertThat(model.get("Country").getAttributes().size(), is(equalTo(4)));
+        assertThat(model.get("Person").getAttributes().size(), is(equalTo(6)));
+        assertThat(model.get("Cat").getAttributes().size(), is(equalTo(4)));
+        assertThat(model.get("Dog").getAttributes().size(), is(equalTo(4)));
     }
 
     private void assertContext(ParrotContext context) {
@@ -90,6 +102,7 @@ public class TestParrotContext {
     private void assertMapEquals(Map actual, Map expected) {
         assertThat(actual.size(), is(equalTo(expected.size())));
         for (Object key : actual.keySet()) {
+            System.out.println("Checking key: " + key);
             assertTrue(expected.containsKey(key));
             assertThat(actual.get(key), is(equalTo(expected.get(key))));
         }

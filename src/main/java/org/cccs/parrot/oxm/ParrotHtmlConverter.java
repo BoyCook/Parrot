@@ -59,7 +59,7 @@ public class ParrotHtmlConverter {
             StringBuilder html = new StringBuilder();
             StringBuilder body = new StringBuilder();
             Object item1 = items.toArray()[0];
-            Entity entity = ContextBuilder.getContext().getModel().get(item1.getClass());
+            Entity entity = ContextBuilder.getContext().getModel().get(item1.getClass().getSimpleName());
 
             header.append("<tr>\n");
             for (Attribute attribute : entity.getAttributes()) {

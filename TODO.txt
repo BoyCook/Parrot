@@ -17,6 +17,14 @@ TODO: for RC1
   - Render exceptions in the UI
   - Allow custom freemarker UIs via entity annotation
 
+Context building/validation:
+- Ensure uniqueness of paths for all methods
+- Create/Update entities via PUT/POST on root
+- Ensure only one URL for PUT/POST of an entity
+- Update 'associations' via POST on attribute {entity}/{id}/{foreignKeyAttribute}
+- Delete 'associations' via DELETE on attribute {rootEntity}/{rootId}/{entity}/{id} ???
+- Http DELETE as root deletes entity {entity}/{id}
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 -----------------------------------------------------------

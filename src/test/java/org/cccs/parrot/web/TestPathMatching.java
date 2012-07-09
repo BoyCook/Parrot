@@ -1,10 +1,14 @@
 package org.cccs.parrot.web;
 
-import org.cccs.parrot.context.ContextBuilder;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static junit.framework.Assert.assertNull;
+import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -14,15 +18,16 @@ import static org.junit.Assert.assertThat;
  * Date: 22/06/2012
  * Time: 14:31
  */
+@ContextConfiguration(locations = "classpath:parrotContext.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestPathMatching {
 
-    private static final String PACKAGE_NAME = "org.cccs.parrot.domain";
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     private PathMatcher matcher;
 
     @Before
     public void setup() {
-        ContextBuilder.init(PACKAGE_NAME);
-        assertThat(ContextBuilder.getContext().getRequestMappings().size(), is(equalTo(24)));
         matcher = new PathMatcher();
     }
 
@@ -83,12 +88,38 @@ public class TestPathMatching {
     }
 
     @Test
-    public void matchInvalidPathShouldReturnNull() {
-        assertNull(matcher.match("/foo"));
-        assertNull(matcher.match("/foo/bar"));
-        assertNull(matcher.match("/foo/bar/foo"));
-        assertNull(matcher.match("/foo/bar/foo/bar"));
-        assertNull(matcher.match("/foo/bar/foo/bar/foo"));
-        assertNull(matcher.match("/foo/bar/foo/bar/foo/bar"));
+    public void matchInvalidPathShouldThrowException1() {
+        assertInvalidPath("/foo");
+    }
+
+    @Test
+    public void matchInvalidPathShouldThrowException2() {
+        assertInvalidPath("/foo/bar");
+    }
+
+    @Test
+    public void matchInvalidPathShouldThrowException3() {
+        assertInvalidPath("/foo/bar/foo");
+    }
+
+    @Test
+    public void matchInvalidPathShouldThrowException4() {
+        assertInvalidPath("/foo/bar/foo/bar");
+    }
+
+    @Test
+    public void matchInvalidPathShouldThrowException5() {
+        assertInvalidPath("/foo/bar/foo/bar/foo");
+    }
+
+    @Test
+    public void matchInvalidPathShouldThrowException6() {
+        assertInvalidPath("/foo/bar/foo/bar/foo/bar");
+    }
+
+    private void assertInvalidPath(String path) {
+        thrown.expect(ResourceNotFoundException.class);
+        thrown.expectMessage(format("Cannot match path [%s]", path));
+        matcher.match(path);
     }
 }

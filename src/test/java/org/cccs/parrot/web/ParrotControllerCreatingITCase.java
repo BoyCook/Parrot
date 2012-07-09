@@ -56,13 +56,13 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
 
     @Test
     public void createCatShouldWork() {
-        client.put(serviceBaseURL + "person/1/cat", new Cat("Bagpuss"));
+        client.put(serviceBaseURL + "cat", new Cat("Bagpuss"));
         assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
     }
 
     @Test
     public void createDogShouldWork() {
-        client.put(serviceBaseURL + "person/1/dog", new Dog("Fido"));
+        client.put(serviceBaseURL + "dog", new Dog("Fido"));
         assertFido(finder.find(Dog.class, "name", "Fido"));
     }
 }

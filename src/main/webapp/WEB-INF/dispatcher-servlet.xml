@@ -27,6 +27,20 @@
         </property>
     </bean>
 
+    <bean id="handlerExceptionResolver"
+          class="org.cccs.parrot.web.RenderErrorToResponseExceptionResolver">
+        <property name="statusCodeMappings">
+            <map>
+                <entry key="java.lang.IllegalArgumentException" value="400"/>
+                <entry key="javax.persistence.NoResultException" value="404"/>
+                <entry key="javax.persistence.EntityNotFoundException" value="404"/>
+                <entry key="org.hibernate.exception.ConstraintViolationException" value="422"/>
+                <entry key="javax.persistence.PersistenceException" value="500"/>
+                <entry key="org.cccs.parrot.web.ResourceNotFoundException" value="404"/>
+            </map>
+        </property>
+    </bean>
+
 	<!-- TODO: is this needed? -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"
           id="defaultHandlerMapping"

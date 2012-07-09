@@ -49,7 +49,7 @@ public class ParrotController {
 
     @RequestMapping(value = "/model", method = RequestMethod.GET)
     @ResponseBody
-    public Map<Class, Entity> getModel() {
+    public Map<String, Entity> getModel() {
         return ContextBuilder.getContext().getModel();
     }
 
@@ -59,19 +59,13 @@ public class ParrotController {
         return ContextBuilder.getContext().getRequestMappings();
     }
 
-    @RequestMapping(value = "/resources/root", method = RequestMethod.GET)
+    @RequestMapping(value = "/example/{entityType}", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Class> getRootResources() {
-        return ContextBuilder.getContext().getRootMappings();
-    }
-
-    @RequestMapping(value = "/example/{entity}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object getExampleEntity(@PathVariable("entity") String entity) {
-        log.debug(format("Looking for example entity [%s]", entity));
+    public Object getExampleEntity(@PathVariable("entityType") String entityType) {
+        log.debug(format("Looking for example entityType [%s]", entityType));
         Collection<Class> classes = ContextBuilder.getContext().getRequestMappings().values();
         for (Class clazz : classes) {
-            if (clazz.getSimpleName().equalsIgnoreCase(entity)) {
+            if (clazz.getSimpleName().equalsIgnoreCase(entityType)) {
                 Object newObject = ClassUtils.getNewObject(clazz);
                 log.debug(format("Created new example object [%s] as [%s]", newObject.getClass().getSimpleName(), newObject.toString()));
                 return newObject;
@@ -84,9 +78,7 @@ public class ParrotController {
     @ResponseBody
     public Object getParrotEntity(HttpServletRequest request,
                                   HttpServletResponse response) {
-        String inboundPath = urlPathHelper.getPathWithinApplication(request);
-        inboundPath = inboundPath.substring(SERVICE_PATH.length());
-        log.debug("Inbound URL: " + inboundPath);
+        String inboundPath = getInboundPath(request);
 
         final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
         if (matchedPath != null) {
@@ -107,28 +99,30 @@ public class ParrotController {
         return null;
     }
 
-    @RequestMapping(value = "/**", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{entityType}", method = RequestMethod.PUT)
     @ResponseBody
     public String createParrotEntity(@RequestBody Object entity,
+                                     @PathVariable("entityType") String entityType,
                                      HttpServletRequest request,
                                      HttpServletResponse response) {
-        String inboundPath = urlPathHelper.getPathWithinApplication(request);
-        inboundPath = inboundPath.substring(SERVICE_PATH.length());
-        log.debug("Inbound URL: " + inboundPath);
+        return createParrotEntityWithId(entity, entityType, null, request, response);
+    }
+
+    @RequestMapping(value = "/{entityType}/{entityId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public String createParrotEntityWithId(@RequestBody Object entity,
+                                     @PathVariable("entityType") String entityType,
+                                     @PathVariable("entityId") String entityId,
+                                     HttpServletRequest request,
+                                     HttpServletResponse response) {
+        String inboundPath = getInboundPath(request);
 
         final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
+        //TODO: throw exception from path matching
         if (matchedPath != null) {
             Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
             log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-
-            //TODO: build query from FULL path hierarchy, not just last entity
-            if (matchedPath.endsWith(getUniquePath(clazz))) {
-                //Create with ID
-                getService().create(entity);
-            } else {
-                //Create without ID
-                getService().create(entity);
-            }
+            getService().create(entity);
         } else {
             log.error("No resource match found");
             response.setStatus(404);
@@ -136,27 +130,20 @@ public class ParrotController {
         return "success";
     }
 
-    @RequestMapping(value = "/**", method = RequestMethod.POST)
+    @RequestMapping(value = "/{entityType}/{entityId}", method = RequestMethod.POST)
     @ResponseBody
     public String updateParrotEntity(@RequestBody Object entity,
+                                     @PathVariable("entityType") String entityType,
+                                     @PathVariable("entityId") String entityId,
                                      HttpServletRequest request,
                                      HttpServletResponse response) {
-        String inboundPath = urlPathHelper.getPathWithinApplication(request);
-        inboundPath = inboundPath.substring(SERVICE_PATH.length());
-        log.debug("Inbound URL: " + inboundPath);
+        String inboundPath = getInboundPath(request);
 
         final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
         if (matchedPath != null) {
             Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
             log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-
-            //TODO: build query from FULL path hierarchy, not just last entity
-            if (matchedPath.endsWith(getUniquePath(clazz))) {
-                //Update using ID
-                getService().update(entity);
-            } else {
-                //Throw exception, ID must be specified
-            }
+            getService().update(entity);
         } else {
             log.error("No resource match found");
             response.setStatus(404);
@@ -164,32 +151,32 @@ public class ParrotController {
         return "success";
     }
 
-    @RequestMapping(value = "/**", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{entityType}/{entityId}", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteParrotEntity(@RequestBody Object entity,
+                                     @PathVariable("entityType") String entityType,
+                                     @PathVariable("entityId") String entityId,
                                      HttpServletRequest request,
                                      HttpServletResponse response) {
-        String inboundPath = urlPathHelper.getPathWithinApplication(request);
-        inboundPath = inboundPath.substring(SERVICE_PATH.length());
-        log.debug("Inbound URL: " + inboundPath);
+        String inboundPath = getInboundPath(request);
 
         final String matchedPath = PathMatcher.getMatcher().match(inboundPath);
         if (matchedPath != null) {
             Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
             log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-
-            //TODO: build query from FULL path hierarchy, not just last entity
-            if (matchedPath.endsWith(getUniquePath(clazz))) {
-                //Delete using ID
-                getService().delete(entity);
-            } else {
-                //Throw exception, ID must be specified
-            }
+            getService().delete(entity);
         } else {
             log.error("No resource match found");
             response.setStatus(404);
         }
         return "success";
+    }
+
+    private String getInboundPath(HttpServletRequest request) {
+        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+        log.debug("Inbound URL: " + inboundPath);
+        return inboundPath;
     }
 
     public String extractParameter(HttpServletRequest request, int position) {

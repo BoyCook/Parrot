@@ -6,10 +6,15 @@ import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.*;
 
 import static org.cccs.parrot.finder.FinderAssertions.*;
 import static org.hamcrest.Matchers.greaterThan;
@@ -45,6 +50,16 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     }
 
     @Test
+    public void findAllPeopleShouldWork() {
+        assertThat(finder.all(Person.class).size(), is(greaterThan(0)));
+    }
+
+    @Test
+    public void findPersonByIdShouldWork() {
+        assertCraigWithRelations(finder.find(Person.class, 1));
+    }
+
+    @Test
     public void findAllCatsShouldWork() {
         assertThat(finder.all(Cat.class).size(), is(greaterThan(0)));
     }
@@ -64,13 +79,46 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
         assertFidoWithOwner(finder.find(Dog.class, 1));
     }
 
+    @Ignore
     @Test
-    public void findAllPeopleShouldWork() {
-        assertThat(finder.all(Person.class).size(), is(greaterThan(0)));
+    public void findCatViaPersonShouldWork() {
+        assertBagpussWithOwner(finder.find(Cat.class, 1));
     }
 
+    @Ignore
     @Test
-    public void findPersonByIdShouldWork() {
-        assertCraigWithRelations(finder.find(Person.class, 1));
+    public void findDogViaPersonShouldWork() {
+        assertFidoWithOwner((Dog) find());
     }
+
+    public <T> T find() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        T result = null;
+
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Dog> query = builder.createQuery(Dog.class);
+            Root<Dog> dogRoot = query.from(Dog.class);
+            query.select(dogRoot);
+            Join<Dog, Person> personJoin = dogRoot.join("owner");
+
+            Predicate dogId = builder.and(builder.equal(personJoin.get("id"), 1));
+            Predicate personId = builder.and(builder.equal(dogRoot.get("id"), 1));
+
+            query.where(builder.and(personId, dogId));
+            result = (T) entityManager.createQuery(query).getSingleResult();
+        } catch (Exception e) {
+            //TODO: work out specific exception
+//            log.error("Error finding object", e);
+        } finally {
+//            log.debug("Closing entityManager");
+            entityManager.close();
+        }
+
+//        if (result == null) {
+//            throw new EntityNotFoundException(format("No ticket found for Product [%d] Ticket Type [%s]", id, type));
+//        }
+        return result;
+    }
+
 }

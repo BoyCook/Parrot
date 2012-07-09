@@ -49,7 +49,7 @@ public class ContextBuilder {
     public ParrotContext create(final String packageName) {
         final Map<String, Class> rootMappings = new HashMap<String, Class>();
         final Map<String, Class> requestMappings = new HashMap<String, Class>();
-        final Map<Class, Entity> model = new HashMap<Class, Entity>();
+        final Map<String, Entity> model = new HashMap<String, Entity>();
 
         final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Table.class));
@@ -68,12 +68,12 @@ public class ContextBuilder {
         }
 
         for (Class clazz : requestMappings.values()) {
-            if (!model.containsKey(clazz)) {
-                model.put(clazz, buildEntity(clazz));
+            if (!model.containsKey(clazz.getSimpleName())) {
+                model.put(clazz.getSimpleName(), buildEntity(clazz));
             }
         }
 
-        return new ParrotContext(packageName, model, rootMappings, requestMappings);
+        return new ParrotContext(packageName, model, requestMappings);
     }
 
     public void buildResourcePath(final Map<String, Class> requestMappings, final Class c, String path) {
@@ -104,18 +104,28 @@ public class ContextBuilder {
     }
 
     public void addResource(final Map<String, Class> requestMappings, final Class c, String path) {
-        String resourcePath = path + getResourcePath(c);
-        String uniquePath = path + getResourcePath(c) + getUniquePath(c);
-        String uniqueAttribute = path + getResourcePath(c) + getUniquePath(c) + "/{attribute}";
+        String resourcePath = getResourcePath(c);
+        String uniquePath = resourcePath + getUniquePath(c);
+        String uniqueAttribute = resourcePath + getUniquePath(c) + "/{attribute}";
+        String fullResourcePath = path + resourcePath;
+        String fullUniquePath = path + uniquePath;
+        String fullUniqueAttribute = path + uniqueAttribute;
 
-        log.debug(format("Adding mapping [%s] [%s]", resourcePath, c));
-        requestMappings.put(resourcePath, c);
+        //Adding root path for non-root entities
+        if (!requestMappings.containsKey(resourcePath)) {
+            addMapping(requestMappings, c, resourcePath);
+            addMapping(requestMappings, c, uniquePath);
+            addMapping(requestMappings, c, uniqueAttribute);
+        }
 
-        log.debug(format("Adding mapping [%s] [%s]", uniquePath, c));
-        requestMappings.put(uniquePath, c);
+        addMapping(requestMappings, c, fullResourcePath);
+        addMapping(requestMappings, c, fullUniquePath);
+        addMapping(requestMappings, c, fullUniqueAttribute);
+    }
 
-        log.debug(format("Adding mapping [%s] [%s]", uniqueAttribute, c));
-        requestMappings.put(uniqueAttribute, c);
+    private void addMapping(final Map<String, Class> requestMappings, final Class c, String path) {
+        log.debug(format("Adding mapping [%s] [%s]", path, c));
+        requestMappings.put(path, c);
     }
 
     public Entity buildEntity(final Class c) {

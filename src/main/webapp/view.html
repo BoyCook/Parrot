@@ -16,21 +16,20 @@
         var resourceDD = undefined;
 
         $(document).ready(function () {
-            model = new Model();
-            model.load();
+            resourceDD = new ResourceDD({
+                id:'#selResource',
+                changeCallBack:function (val) {
+                    entities.loadEntities(model.get(val));
+                }
+            });
             entities = new Entities({
                 id:'#entities',
                 url:'/service'
             });
-            resourceDD = new ResourceDD({
-                id:'#selResource',
-                url:'/service/resources/root',
-                changeCallBack:function (val) {
-                    var type = val.substring(1);
-                    entities.loadEntities(model.get(type));
-                }
+            model = new Model();
+            model.load(function (data) {
+                resourceDD.setup(data);
             });
-            resourceDD.setup();
         });
     </script>
 </head>

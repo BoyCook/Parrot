@@ -1,12 +1,11 @@
 
 function ResourceDD(params) {
-    this.url = params.url;
+    this.model = params.model;
     this.id = params.id;
     this.changeCallBack = params.changeCallBack;
-    this.data = undefined;
 }
 
-ResourceDD.prototype.setup = function () {
+ResourceDD.prototype.setup = function (data) {
     var context = this;
     $(context.id).change(function(){
         var val = $(this).val();
@@ -14,18 +13,8 @@ ResourceDD.prototype.setup = function () {
             context.changeCallBack(val);
         }
     });
-    context.getData(function (data) {
-        context.renderDD(data);
-    });
-};
-
-ResourceDD.prototype.getData = function (callBack) {
-    var context = this;
-    $.getJSON(context.url, function (data) {
-        if (callBack) {
-            callBack(data);
-        }
-    });
+    context.model = data;
+    context.renderDD(data);
 };
 
 ResourceDD.prototype.renderDD = function (data) {

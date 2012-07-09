@@ -15,9 +15,12 @@ Model.prototype.get = function(name) {
     return model;
 };
 
-Model.prototype.load = function() {
+Model.prototype.load = function(callBack) {
     var context = this;
     $.getJSON(context.url, function(data){
         context.data = data;
+        if (callBack) {
+            callBack(data);
+        }
     });
 };

@@ -1,3 +1,4 @@
+
 function NewEntity(params) {
     this.button = params.button;
     this.id = params.id;
@@ -44,7 +45,7 @@ NewEntity.prototype.readInputForm = function () {
 };
 
 NewEntity.prototype.submit = function (entity) {
-    var url = '/service' + $('#selResource').val();
+    var url = '/service/' + $('#selResource').val();
     $.ajax({
         type: 'PUT',
         url: url,

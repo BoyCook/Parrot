@@ -15,24 +15,24 @@
         var newEntityApp = undefined;
 
         $(document).ready(function() {
-            model = new Model();
-            model.load();
             resourceDD = new ResourceDD({
                 id:'#selResource',
-                url:'/service/resources/root',
                 changeCallBack:function (val) {
-                    var type = val.substring(1);
-                    newEntityApp.renderInputForm(model.get(type));
-                    newEntityApp.loadExample(type);
+                    newEntityApp.renderInputForm(model.get(val));
+                    newEntityApp.loadExample(val);
                 }
             });
-            resourceDD.setup();
 
             newEntityApp = new NewEntity({
                 id: '#newEntity',
                 button: '#subNew'
             });
             newEntityApp.setup();
+
+            model = new Model();
+            model.load(function(data){
+                resourceDD.setup(data);
+            });
         });
     </script>
 </head>

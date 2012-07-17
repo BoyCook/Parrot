@@ -1,6 +1,8 @@
 package org.cccs.parrot.web;
 
 import org.cccs.parrot.DataDrivenTestEnvironment;
+import org.cccs.parrot.oxm.ParrotJSONHttpMessageConverter;
+import org.cccs.parrot.oxm.ReplaceHibernateModifier;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -9,8 +11,8 @@ import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.client.ResponsePathReader;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
@@ -18,12 +20,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
-import java.util.List;
-
-import static junit.framework.Assert.assertNotNull;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * User: Craig Cook
@@ -35,7 +31,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
     protected static final Logger log = LoggerFactory.getLogger(JettyIntegrationTestEnvironment.class);
     protected static XStreamMarshaller marshaller;
     protected static MarshallingHttpMessageConverter xmlConverter;
-    protected static MappingJacksonHttpMessageConverter jsonConverter;
+    protected static ParrotJSONHttpMessageConverter jsonConverter;
     protected static URL baseUrl;
     protected static String webXML = "src/test/resources/web.xml";
     protected static boolean overrideWebXML = true;
@@ -47,7 +43,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
     public static void runOnce() {
         marshaller = new XStreamMarshaller();
         xmlConverter = new MarshallingHttpMessageConverter(marshaller);
-        jsonConverter = new MappingJacksonHttpMessageConverter();
+        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
         startWebService();
     }
 
@@ -98,15 +94,5 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
             log.debug("Error starting web service: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    protected void assertIntItem(List<Integer> results, int value) {
-        assertNotNull(results);
-        assertThat(results.get(0), is(equalTo(value)));
-    }
-
-    protected void assertStringItem(List<String> results, String value) {
-        assertNotNull(results);
-        assertThat(results.get(0), is(equalTo(value)));
     }
 }

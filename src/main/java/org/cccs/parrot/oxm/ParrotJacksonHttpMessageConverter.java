@@ -17,7 +17,7 @@ import static java.lang.String.format;
  * Date: 25/06/2012
  * Time: 10:07
  */
-public class ParrotJSONConverter extends MappingJacksonHttpMessageConverter {
+public class ParrotJacksonHttpMessageConverter extends MappingJacksonHttpMessageConverter {
 
     @Override
     protected Object readInternal(Class<?> clazz, HttpInputMessage inputMessage)

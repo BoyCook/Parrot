@@ -1,9 +1,12 @@
-package org.cccs.parrot.finder;
+package org.cccs.parrot;
 
 import org.cccs.parrot.domain.Cat;
 import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
+import org.hamcrest.CoreMatchers;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -13,10 +16,10 @@ import static org.junit.Assert.assertThat;
 
 /**
  * User: boycook
- * Date: 24/06/2012
- * Time: 20:44
+ * Date: 17/07/2012
+ * Time: 13:47
  */
-public final class FinderAssertions {
+public final class Assert {
 
     public static void assertEngland(final Country country) {
         assertNotNull(country);
@@ -54,9 +57,27 @@ public final class FinderAssertions {
         assertThat(person.getPhone(), is(equalTo("07345123456")));
     }
 
+    public static void assertDave(final Person person) {
+        assertNotNull(person);
+        assertThat(person.getId(), is(greaterThanOrEqualTo(1l)));
+        assertThat(person.getName(), is(equalTo("Dave Jones")));
+        assertThat(person.getEmail(), is(equalTo("dave@jones.com")));
+        assertThat(person.getPhone(), is(equalTo("07345123456")));
+    }
+
     public static void assertCraigWithRelations(final Person person) {
         assertCraig(person);
         assertThat(person.getCats().size(), is(equalTo(2)));
         assertThat(person.getDogs().size(), is(equalTo(2)));
+    }
+
+    protected void assertIntItem(List<Integer> results, int value) {
+        junit.framework.Assert.assertNotNull(results);
+        assertThat(results.get(0), CoreMatchers.is(CoreMatchers.equalTo(value)));
+    }
+
+    protected void assertStringItem(List<String> results, String value) {
+        junit.framework.Assert.assertNotNull(results);
+        assertThat(results.get(0), CoreMatchers.is(CoreMatchers.equalTo(value)));
     }
 }

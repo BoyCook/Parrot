@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import org.cccs.parrot.Description;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,7 +13,11 @@ import java.util.Set;
  * Time: 15:53
  */
 @javax.persistence.Entity
-@Table(name = "country")
+@Table(name = "country",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UC_COUNTRY_NAME", columnNames = {"name"})
+        }
+)
 public class Country {
 
     private Long id;
@@ -39,7 +44,8 @@ public class Country {
     }
 
     @Description("Name")
-    @Column(name = "name", nullable = false, unique = true)
+    @NotEmpty(message = "Name must be specified")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -70,5 +76,12 @@ public class Country {
 
     public void setDogs(Set<Dog> dogs) {
         this.dogs = dogs;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

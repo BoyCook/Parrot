@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 
-import static org.cccs.parrot.util.TestUtils.getCraig;
-import static org.cccs.parrot.util.TestUtils.getPeople;
+import static org.cccs.parrot.ParrotTestUtils.getCraig;
+import static org.cccs.parrot.ParrotTestUtils.getPeople;
 import static org.cccs.parrot.util.Utils.readFile;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;

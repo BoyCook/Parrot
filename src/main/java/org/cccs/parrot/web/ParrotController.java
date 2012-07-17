@@ -24,6 +24,7 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static org.cccs.parrot.context.ContextBuilder.getUniquePath;
+import static org.cccs.parrot.web.PathMatcher.getInboundPath;
 
 /**
  * User: boycook
@@ -34,9 +35,8 @@ import static org.cccs.parrot.context.ContextBuilder.getUniquePath;
 @Scope("session")
 public class ParrotController {
 
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    protected final Logger log = LoggerFactory.getLogger(ParrotController.class);
     protected final UrlPathHelper urlPathHelper = new UrlPathHelper();
-    protected static final String SERVICE_PATH = "/service";
 
     @Autowired
     protected EntityManagerFactory entityManagerFactory;
@@ -129,20 +129,6 @@ public class ParrotController {
         PathMatcher.getMatcher().match(getInboundPath(request));
         getService().delete(entity);
         return "success";
-    }
-
-    private Class getResourceClass(HttpServletRequest request) {
-        final String matchedPath = PathMatcher.getMatcher().match(getInboundPath(request));
-        Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-        log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
-        return clazz;
-    }
-
-    private String getInboundPath(HttpServletRequest request) {
-        String inboundPath = urlPathHelper.getPathWithinApplication(request);
-        inboundPath = inboundPath.substring(SERVICE_PATH.length());
-        log.debug("Inbound URL: " + inboundPath);
-        return inboundPath;
     }
 
     public String extractParameter(HttpServletRequest request, int position) {

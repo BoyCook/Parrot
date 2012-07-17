@@ -2,8 +2,10 @@ package org.cccs.parrot.domain;
 
 import org.cccs.parrot.Description;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.ForeignKey;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +51,8 @@ public class Cat {
         return name;
     }
 
-    @JsonIgnore
+    @NotNull(message = "Owner must be specified")
+    @ForeignKey(name = "FK_CAT_OWNER")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     public Person getOwner() {
@@ -82,7 +85,6 @@ public class Cat {
     public String toString() {
         return "Cat{" +
                 "name='" + name + '\'' +
-                ", id=" + id +
                 '}';
     }
 }

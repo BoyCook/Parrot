@@ -70,9 +70,10 @@ public class DBUnitDataInstaller {
      * @throws java.io.IOException
      */
     public void installClean() throws SQLException, DatabaseUnitException, IOException {
-        IDatabaseConnection conn = new HsqldbConnection(getDataSource().getConnection(), "PUBLIC");
+        Connection connection = getDataSource().getConnection();
+        IDatabaseConnection conn = new HsqldbConnection(connection, "PUBLIC");
         conn.getConfig().setProperty(DatabaseConfig.FEATURE_BATCHED_STATEMENTS, true);
-        conn.getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 100);
+        conn.getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 1000);
 //        conn.getConfig().setProperty(DatabaseConfig.FEATURE_QUALIFIED_TABLE_NAMES, false);
 //        conn.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, false);
 //        DatabaseOperation.DELETE_ALL.execute(conn, getDataSet(new String[]{
@@ -84,6 +85,7 @@ public class DBUnitDataInstaller {
         deleteAll();
         DatabaseOperation.CLEAN_INSERT.execute(conn, getDataSet(getDataFileNames()));
         conn.close();
+        connection.close();
     }
 
     public void deleteAll() throws SQLException {

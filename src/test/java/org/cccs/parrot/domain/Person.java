@@ -13,7 +13,11 @@ import java.util.Set;
  * Time: 17:08
  */
 @javax.persistence.Entity
-@Table(name = "Person")
+@Table(name = "Person",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "UC_PERSON_NAME", columnNames = {"name", "email", "phone"})
+    }
+)
 public class Person {
 
     private Long id;
@@ -49,7 +53,7 @@ public class Person {
 
     @Description("Name")
     @NotEmpty(message = "Name must be specified")
-    @Column(unique = true, name = "name")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -120,10 +124,9 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "phone='" + phone + '\'' +
+                "name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", id=" + id +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }

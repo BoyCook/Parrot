@@ -1,7 +1,12 @@
 package org.cccs.parrot.service;
 
+import org.cccs.parrot.web.ResourceConflictException;
+import org.cccs.parrot.web.ResourceNotFoundException;
+import org.hibernate.TransientPropertyValueException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,8 +14,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import java.beans.PropertyDescriptor;
 
 import static java.lang.String.format;
+import static org.cccs.parrot.service.Validation.findNestedException;
 
 /**
  * User: boycook
@@ -22,8 +29,9 @@ public class GenericService {
     //TODO: get the Transactional stuff to work automatically
 
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final String CONSTRAINT_ERROR_MESSAGE = "integrity constraint violation: unique constraint or index violation;";
     private static final String UNIQUE_MESSAGE = "[%s] [%s] already exists";
-    private static final String NOT_FOUND_MESSAGE = "Cannot find related entity to persist [%s] as [%s]";
+    private static final String NOT_FOUND_MESSAGE = "Cannot find related entity [%s] [%s] to persist [%s] as [%s]";
     private static final String CREATE_MESSAGE = "Creating [%s] as [%s]";
     private static final String UPDATE_MESSAGE = "Updating [%s] as [%s]";
     private static final String ERROR_MESSAGE = "Error persisting [%s] as [%s]";
@@ -44,6 +52,8 @@ public class GenericService {
             entityManager.persist(entity);
             txn.commit();
         } catch (PersistenceException e) {
+            handleException(entity, e);
+        } catch (IllegalStateException e) {
             handleException(entity, e);
         } finally {
             if (txn.isActive()) {
@@ -94,29 +104,27 @@ public class GenericService {
         return entityManagerFactory.createEntityManager();
     }
 
+    //TODO: move to ExceptionUtils
     private void handleException(final Object entity, final RuntimeException e) {
         logError(entity, e);
-//        Throwable exception = findNestedException(e, SQLIntegrityConstraintViolationException.class);
-//        if (exception != null) {
-//            Table table = entity.getClass().getAnnotation(Table.class);
-//            if (table != null) {
-//                for (UniqueConstraint constraint : table.uniqueConstraints()) {
-//                    if (isNotEmpty(constraint.name()) && exception.getMessage().contains(constraint.name())) {
-//                        final String msg = format(UNIQUE_MESSAGE, entity.getClass().getSimpleName(), entity.toString());
-//                        log.error(msg, e);
-//                        throw new ResourceConflictException(msg, exception);
-//                    }
-//                }
-//            }
-//            for (Method method : entity.getClass().getMethods()) {
-//                ForeignKey foreignKey = method.getAnnotation(ForeignKey.class);
-//                if (foreignKey != null && isNotEmpty(foreignKey.name()) && exception.getMessage().contains(foreignKey.name())) {
-//                    final String msg = format(NOT_FOUND_MESSAGE, entity.getClass().getSimpleName(), entity.toString());
-//                    log.error(msg, e);
-//                    throw new EntityNotFoundException(msg);
-//                }
-//            }
-//        }
+        ConstraintViolationException constrainException = findNestedException(e, ConstraintViolationException.class);
+        TransientPropertyValueException transientException = findNestedException(e, TransientPropertyValueException.class);
+
+        if (constrainException != null && constrainException.getMessage().contains(CONSTRAINT_ERROR_MESSAGE)) {
+            final String msg = format(UNIQUE_MESSAGE, entity.getClass().getSimpleName(), entity.toString());
+            log.error(msg, e);
+            throw new ResourceConflictException(msg, constrainException);
+        } else if (transientException != null) {
+            PropertyDescriptor missing = BeanUtils.getPropertyDescriptor(entity.getClass(), transientException.getPropertyName());
+            final String msg = format(NOT_FOUND_MESSAGE,
+                    transientException.getPropertyName(),
+                    missing.getPropertyType().getName(),
+                    entity.getClass().getName(),
+                    entity.toString());
+            log.error(msg, e);
+            throw new ResourceNotFoundException(msg, transientException);
+        }
+
         throw e;
     }
 

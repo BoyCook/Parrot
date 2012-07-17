@@ -12,6 +12,7 @@ TODO: for RC1
 - Map PUT Controller to service
 - Map POST Controller to service
 - Map DELETE Controller to service
+- Jasmine tests for UI
 - UI to CRUD
   - Generate UI forms from model
   - Render exceptions in the UI

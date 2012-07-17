@@ -1,11 +1,12 @@
 package org.cccs.parrot.web;
 
 import org.cccs.parrot.context.ContextBuilder;
-import org.cccs.parrot.context.ParrotContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.util.UrlPathHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,7 +21,9 @@ import static java.lang.String.format;
  */
 public class PathMatcher {
 
-    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(PathMatcher.class);
+    private static final UrlPathHelper urlPathHelper = new UrlPathHelper();
+    public static final String SERVICE_PATH = "/service";
 
     public static PathMatcher getMatcher() {
         return new PathMatcher();
@@ -49,6 +52,24 @@ public class PathMatcher {
         }
 
         return bestPatternMatch;
+    }
+
+    public static String getInboundPath(HttpServletRequest request) {
+        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+        log.debug("Inbound URL: " + inboundPath);
+        return inboundPath;
+    }
+
+    public static Class getResourceClass(HttpServletRequest request) {
+        return getResourceClass(PathMatcher.getMatcher().match(getInboundPath(request)));
+    }
+
+    public static Class getResourceClass(String path) {
+        final String matchedPath = PathMatcher.getMatcher().match(path);
+        Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
+        log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
+        return clazz;
     }
 
     private org.springframework.util.PathMatcher getPathMatcher() {

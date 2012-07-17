@@ -14,12 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.List;
-
-import static org.cccs.parrot.finder.FinderAssertions.*;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.cccs.parrot.Assert.*;
 
 /**
  * User: boycook
@@ -37,6 +32,8 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     @Before
     public void beforeEach() throws Exception {
         finder = new GenericFinder(entityManagerFactory);
+        setDataFileNames(new String[]{"/db/people.xml"});
+        setTearDown(true);
         super.beforeEach();
     }
 
@@ -48,22 +45,54 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
 
     @Test
     public void createPersonShouldWork() {
-        Person craig = new Person("Craig Cook");
-        craig.setEmail("craig@craigcook.co.uk");
-        craig.setPhone("07345123456");
-        client.put(serviceBaseURL + "person", craig);
-        assertCraig(finder.find(Person.class, "name", "Craig Cook"));
+        Person person = new Person("Dave Jones");
+        person.setEmail("dave@jones.com");
+        person.setPhone("07345123456");
+        client.put(serviceBaseURL + "person", person);
+        assertDave(finder.find(Person.class, "name", "Dave Jones"));
     }
 
     @Test
     public void createCatShouldWork() {
+        client.put(serviceBaseURL + "cat", new Cat("Bagpuss", getCraig()));
+        assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
+    }
+
+    @Test
+    public void createCatWithNoPersonShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("422 Unprocessable Entity");
         client.put(serviceBaseURL + "cat", new Cat("Bagpuss"));
         assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
     }
 
     @Test
+    public void createCatWithInvalidPersonShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.put(serviceBaseURL + "cat", new Cat("Bagpuss", getPerson()));
+        assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
+    }
+
+    @Test
     public void createDogShouldWork() {
+        client.put(serviceBaseURL + "dog", new Dog("Fido", getCraig()));
+        assertFido(finder.find(Dog.class, "name", "Fido"));
+    }
+
+    @Test
+    public void createDogWithNoPersonShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("422 Unprocessable Entity");
         client.put(serviceBaseURL + "dog", new Dog("Fido"));
+        assertFido(finder.find(Dog.class, "name", "Fido"));
+    }
+
+    @Test
+    public void createDogWithInvalidPersonShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("404 Not Found");
+        client.put(serviceBaseURL + "dog", new Dog("Fido", getPerson()));
         assertFido(finder.find(Dog.class, "name", "Fido"));
     }
 
@@ -79,5 +108,13 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
         client.put(serviceBaseURL + "invalid/invalid", "invalid");
+    }
+
+    private Person getPerson() {
+        return new Person("Dave Jones", "dave@jones.com", "07345123456");
+    }
+
+    private Person getCraig() {
+        return finder.find(Person.class, "name", "Craig Cook");
     }
 }

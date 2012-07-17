@@ -2,6 +2,8 @@ package org.cccs.parrot.service;
 
 
 import org.apache.commons.lang.Validate;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,10 +57,10 @@ public final class Validation {
         return new ValidationException(buffer.toString());
     }
 
-    public static Throwable findNestedException(final Throwable e, final Class<? extends Throwable> c) {
+    public static <T extends Throwable> T findNestedException(final Throwable e, final Class<T> c) {
         if (e.getCause() != null) {
             if (e.getCause().getClass().equals(c)) {
-                return e.getCause();
+                return (T) e.getCause();
             } else {
                 return findNestedException(e.getCause(), c);
             }

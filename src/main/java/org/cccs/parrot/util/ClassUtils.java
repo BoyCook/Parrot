@@ -1,11 +1,14 @@
 package org.cccs.parrot.util;
 
+import org.hibernate.annotations.ForeignKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.*;
 
+import static java.lang.String.format;
 import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 /**
@@ -102,6 +105,30 @@ public final class ClassUtils {
         return name;
     }
 
+    private UniqueConstraint getUniqueConstraint(Class c, String constraintName) {
+        Table table = (Table) c.getAnnotation(Table.class);
+        UniqueConstraint found = null;
+        if (table != null) {
+            for (UniqueConstraint constraint : table.uniqueConstraints()) {
+                if (isNotEmpty(constraint.name()) && constraint.name().equalsIgnoreCase(constraintName)) {
+                    found = constraint;
+                }
+            }
+        }
+        return found;
+    }
+
+    private ForeignKey getForeignKey(Class c, String constraintName) {
+        ForeignKey found = null;
+        for (Method method : c.getMethods()) {
+            ForeignKey foreignKey = method.getAnnotation(ForeignKey.class);
+            if (foreignKey != null && isNotEmpty(foreignKey.name()) && foreignKey.name().equalsIgnoreCase(constraintName)) {
+                found = foreignKey;
+            }
+        }
+        return found;
+    }
+
     public static String lowerFirst(String word) {
         return word.substring(0, 1).toLowerCase() + word.substring(1);
     }
@@ -113,15 +140,56 @@ public final class ClassUtils {
             try {
                 o = c.getConstructor().newInstance();
             } catch (InvocationTargetException e) {
-                log.error("Error getting new object", e);
+                log.error(format("Error creating new object [%s]", c.getName()), e);
             } catch (NoSuchMethodException e) {
-                log.error("Error getting new object", e);
+                log.error(format("Error creating new object [%s]", c.getName()), e);
             } catch (InstantiationException e) {
-                log.error("Error getting new object", e);
+                log.error(format("Error creating new object [%s]", c.getName()), e);
             } catch (IllegalAccessException e) {
-                log.error("Error getting new object", e);
+                log.error(format("Error creating new object [%s]", c.getName()), e);
             }
         }
         return o;
+    }
+
+    public static Object getNewObject(Class c, Class constructor, Object value) {
+        Object o = null;
+        //Not for primitives
+        if (!c.equals(Integer.TYPE) && !c.equals(Long.TYPE)) {
+            try {
+                o = c.getConstructor(constructor).newInstance(value);
+            } catch (InvocationTargetException e) {
+                log.error(format("Error creating new object [%s]", c.getName()), e);
+            } catch (NoSuchMethodException e) {
+                log.error(format("Error creating new object [%s]", c.getName()), e);
+            } catch (InstantiationException e) {
+                log.error(format("Error creating new object [%s]", c.getName()), e);
+            } catch (IllegalAccessException e) {
+                log.error(format("Error creating new object [%s]", c.getName()), e);
+            }
+        }
+        return o;
+    }
+
+    public static Object invokeReadMethod(Object o, PropertyDescriptor descriptor) {
+        Object value = null;
+        try {
+            value = descriptor.getReadMethod().invoke(o);
+        } catch (IllegalAccessException e) {
+            log.error(format("Failed to get property [%s] value of [%s]", descriptor.getName(), o.getClass().getName()), e);
+        } catch (InvocationTargetException e) {
+            log.error(format("Failed to get property [%s] value of [%s]", descriptor.getName(), o.getClass().getName()), e);
+        }
+        return value;
+    }
+
+    public static void invokeWriteMethod(Object o, Object value, PropertyDescriptor descriptor) {
+        try {
+            descriptor.getWriteMethod().invoke(o, value);
+        } catch (IllegalAccessException e) {
+            log.error(format("Failed to write property [%s] value for [%s]", descriptor.getName(), o.getClass().getName()), e);
+        } catch (InvocationTargetException e) {
+            log.error(format("Failed to write property [%s] value for [%s]", descriptor.getName(), o.getClass().getName()), e);
+        }
     }
 }

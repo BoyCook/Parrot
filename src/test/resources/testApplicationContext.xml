@@ -16,6 +16,7 @@
         <property name="url" value="${test.database.url}"/>
         <property name="username" value="${test.database.username}"/>
         <property name="password" value="${test.database.password}"/>
+        <property name="maxActive" value="100"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

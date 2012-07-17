@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import static org.cccs.parrot.util.TestUtils.getCraig;
+import static org.cccs.parrot.ParrotTestUtils.getCraig;
 
 /**
  * User: boycook

@@ -1,10 +1,6 @@
 package org.cccs.parrot.util;
 
-import org.cccs.parrot.domain.Person;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.cccs.parrot.util.Utils.extractParameter;
 import static org.cccs.parrot.util.Utils.extractParameterFromEnd;
@@ -30,32 +26,6 @@ public class TestUtils {
         assertThat(extractParameterFromEnd(PATH, 2), is(equalTo("boycook")));
         assertThat(extractParameterFromEnd(PATH, 3), is(equalTo("cccs")));
         assertThat(extractParameterFromEnd(PATH, 4), is(equalTo("org")));
-    }
-
-    public static Person getCraig() {
-        Person person = new Person("Craig Cook", "craig@cook.com", "012341234");
-        person.setId(1l);
-        return person;
-    }
-
-    public static Person getBob() {
-        Person person = new Person("Bob Smith", "bob@smith.com", "012341234");
-        person.setId(2l);
-        return person;
-    }
-
-    public static Person getJonn() {
-        Person person = new Person("Jonn Jonzz", "jonn@jonzz.com", "012341234");
-        person.setId(3l);
-        return person;
-    }
-
-    public static List<Person> getPeople() {
-        List<Person> people = new ArrayList<Person>();
-        people.add(getCraig());
-        people.add(getBob());
-        people.add(getJonn());
-        return people;
     }
 }
 

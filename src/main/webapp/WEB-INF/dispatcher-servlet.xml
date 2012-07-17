@@ -19,7 +19,7 @@
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <util:list id="beanList">
-                <ref bean="jacksonMessageConverter"/>
+                <ref bean="jsonMessageConverter"/>
                 <ref bean="marshallingHttpMessageConverter"/>
                 <ref bean="htmlHttpMessageConverter"/>
                 <ref bean="stringHttpMessageConverter"/>
@@ -31,12 +31,14 @@
           class="org.cccs.parrot.web.RenderErrorToResponseExceptionResolver">
         <property name="statusCodeMappings">
             <map>
-                <entry key="java.lang.IllegalArgumentException" value="400"/>
                 <entry key="javax.persistence.NoResultException" value="404"/>
                 <entry key="javax.persistence.EntityNotFoundException" value="404"/>
-                <entry key="org.hibernate.exception.ConstraintViolationException" value="422"/>
-                <entry key="javax.persistence.PersistenceException" value="500"/>
                 <entry key="org.cccs.parrot.web.ResourceNotFoundException" value="404"/>
+                <entry key="org.cccs.parrot.web.ResourceConflictException" value="409"/>
+                <entry key="org.hibernate.exception.ConstraintViolationException" value="422"/>
+                <entry key="java.lang.IllegalArgumentException" value="422"/>
+                <entry key="javax.validation.ValidationException" value="422"/>
+                <entry key="javax.persistence.PersistenceException" value="500"/>
             </map>
         </property>
     </bean>
@@ -60,7 +62,12 @@
         <property name="unmarshaller" ref="marshaller"/>
     </bean>
 
-    <bean id="jacksonMessageConverter" class="org.cccs.parrot.oxm.ParrotJSONConverter"/>
+    <bean id="jsonMessageConverter" class="org.cccs.parrot.oxm.ParrotJSONHttpMessageConverter">
+        <constructor-arg index="0" ref="requestPathReader"/>
+        <constructor-arg index="1" ref="replaceHibernateModifier"/>
+    </bean>
+    <bean id="requestPathReader" class="org.cccs.parrot.oxm.RequestPathReader"/>
+    <bean id="replaceHibernateModifier" class="org.cccs.parrot.oxm.ReplaceHibernateModifier"/>
     <bean id="htmlHttpMessageConverter" class="org.cccs.parrot.oxm.ParrotHtmlHttpMessageConverter"/>
 
     <!-- XStream marshaller for OXM -->

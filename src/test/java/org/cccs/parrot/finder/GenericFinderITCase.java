@@ -18,7 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.*;
 
-import static org.cccs.parrot.finder.FinderAssertions.*;
+import static org.cccs.parrot.Assert.*;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

@@ -7,6 +7,7 @@
     <link type="text/css" href="css/default.css" rel="Stylesheet"/>
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/jsonUtil.js"></script>
     <script type="text/javascript" src="js/Model.js"></script>
     <script type="text/javascript" src="js/ResourceDD.js"></script>
     <script type="text/javascript" src="js/Entities.js"></script>
@@ -28,7 +29,7 @@
             });
             model = new Model();
             model.load(function (data) {
-                resourceDD.setup(data);
+                resourceDD.setup(model.all());
             });
         });
     </script>

@@ -24,7 +24,7 @@ NewEntity.prototype.loadExample = function (type) {
 NewEntity.prototype.renderInputForm = function (model) {
     var context = this;
     var html = "<table>";
-    $.each(model.attributes, function (index, value) {
+    $.each(model.attributes['@items'], function (index, value) {
         if (value.column == true && !value.systemManaged) {
             html += "<tr><td>" + value.description + "</td><td><input type='text' id='" + context.idPrefix + value.name + "'/></td></tr>";
         }

@@ -21,7 +21,7 @@ ResourceDD.prototype.renderDD = function (data) {
     var context = this;
     var html = "<option value='-1'>-- Select --</option>";
     $.each(data, function (key, value) {
-        html += "<option value='" + key + "'>" + key + "</option>";
+        html += "<option value='" + value.name + "'>" + value.name + "</option>";
     });
     $(context.id).append(html);
 };

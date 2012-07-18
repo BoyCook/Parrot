@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.cccs.parrot.Assert.assertJonn;
 import static org.cccs.parrot.ParrotTestUtils.getJonn;
 import static org.cccs.parrot.util.Utils.readFile;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -58,7 +59,7 @@ public class TestJSONConverting extends DataDrivenTestEnvironment {
     public void createPersonObjectWithJacksonShouldWork() throws IOException {
         JsonNode jsonNode = getMapper().readTree(readFile(JACKSON_PERSON_FILE));
         Person converted = getMapper().readValue(jsonNode, Person.class);
-        assertThat(getJonn(), is(equalTo(converted)));
+        assertJonn(converted);
     }
 
     @Test
@@ -66,7 +67,7 @@ public class TestJSONConverting extends DataDrivenTestEnvironment {
         String jsonStr = getMapper().writeValueAsString(getJonn());
         JsonNode jsonNode = getMapper().readTree(jsonStr);
         Person converted = getMapper().readValue(jsonNode, Person.class);
-        assertThat(getJonn(), is(equalTo(converted)));
+        assertJonn(converted);
     }
 
     @Ignore

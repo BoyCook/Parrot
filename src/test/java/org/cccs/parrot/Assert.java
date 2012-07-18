@@ -65,6 +65,14 @@ public final class Assert {
         assertThat(person.getPhone(), is(equalTo("07345123456")));
     }
 
+    public static void assertJonn(final Person person) {
+        assertNotNull(person);
+        assertThat(person.getId(), is(greaterThanOrEqualTo(1l)));
+        assertThat(person.getName(), is(equalTo("Jonn Jonzz")));
+        assertThat(person.getEmail(), is(equalTo("jonn@jonzz.com")));
+        assertThat(person.getPhone(), is(equalTo("012341234")));
+    }
+
     public static void assertCraigWithRelations(final Person person) {
         assertCraig(person);
         assertThat(person.getCats().size(), is(equalTo(2)));

@@ -31,7 +31,7 @@
 
             model = new Model();
             model.load(function(data){
-                resourceDD.setup(data);
+                resourceDD.setup(model.all());
             });
         });
     </script>

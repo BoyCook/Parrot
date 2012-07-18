@@ -7,6 +7,7 @@ function Entities(params) {
 Entities.prototype.loadEntities = function (model) {
     var context = this;
     $.getJSON(context.entityUrl + '/' + model.name, function(data){
+        resolveRefs(data);
         context.renderEntities(model, data);
     });
 };
@@ -15,7 +16,7 @@ Entities.prototype.renderEntities = function(model, data) {
     var context = this;
     var html = "<table>";
     html += "<tr>";
-    $.each(model.attributes, function(index, value){
+    $.each(model.attributes['@items'], function(index, value){
         if (value.column == true) {
             html += "<th>" + value.description + "</th>";
         }
@@ -23,9 +24,9 @@ Entities.prototype.renderEntities = function(model, data) {
     html += "</tr>";
 
     //TODO: only render columns in the model
-    $.each(data, function (index, entity) {
+    $.each(data['@items'], function (index, entity) {
         html += "<tr>";
-        $.each(model.attributes, function(index, value){
+        $.each(model.attributes['@items'], function(index, value){
             if (value.column == true) {
                 var val = entity[value.name];
                 if (value.identity == true) {

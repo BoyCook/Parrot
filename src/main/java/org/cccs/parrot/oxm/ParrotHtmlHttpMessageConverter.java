@@ -37,7 +37,7 @@ public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter
     @Override
     protected void writeInternal(Object o, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         try {
-            getConverter().writeHtml(outputMessage.getBody(), o);
+            getGenerator().writeHtml(outputMessage.getBody(), o);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -46,7 +46,7 @@ public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter
 //        HttpMessageNotWritableException
     }
 
-    private ParrotHtmlConverter getConverter() {
-        return new ParrotHtmlConverter();
+    private ParrotHtmlGenerator getGenerator() {
+        return new ParrotHtmlGenerator();
     }
 }

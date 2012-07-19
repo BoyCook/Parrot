@@ -30,12 +30,12 @@ public class TestParrotHtmlConverter {
     private static final String PERSON_FILE = "/html/person.html";
     private static final String PEOPLE_FILE = "/html/people.html";
 
-    private ParrotHtmlConverter converter;
+    private ParrotHtmlGenerator converter;
     private OutputStream out;
 
     @Before
     public void setup() {
-        converter = new ParrotHtmlConverter();
+        converter = new ParrotHtmlGenerator();
         out = new ByteArrayOutputStream();
     }
 

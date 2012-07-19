@@ -81,6 +81,7 @@ public class ObjectReplacement {
     }
 
     private boolean isInDomain(Class c) {
+        //TODO use ContextUtils.isInDomain
         return c.getPackage().getName().equalsIgnoreCase(packageName);
     }
 }

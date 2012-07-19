@@ -1,30 +1,41 @@
 TODO: for RC1
-- Resolve JSON circular dependencies issue
-- Throw appropriate exceptions from ContextBuilder
-- Automatically call ContextBuilder
+- UI to CRUD
+  + Generate UI forms from model
+  - Validation in UI from entity annotations
+  - Create entities with foreign key
+    - Via simple textbox
+    - Via search feature
+  - Delete UI
+  - Update UI
+  - Search UI
+    - Retain search results
+    - Client filtering
+  - Render exceptions in the UI
+  - Allow custom ?freemarker? UIs via entity annotation
 - Find for GET using all entities in path hierarchy (currently just last entity)
 - Complex querying
 - Finder exceptions
 - Service validation
 - Service exceptions
-- REST exceptions
 - Custom entity controller (via annotation)
-- Map PUT Controller to service
-- Map POST Controller to service
-- Map DELETE Controller to service
 - Jasmine tests for UI
-- UI to CRUD
-  - Generate UI forms from model
-  - Render exceptions in the UI
-  - Allow custom freemarker UIs via entity annotation
+- Throw appropriate exceptions from ContextBuilder
++ Remove hibernate collections from finder results before marshaling
++ Resolve JSON circular dependencies issue
++ Automatically call ContextBuilder
++ REST exceptions - map exceptions to HTTP status codes
++ Map GET Controller to service
++ Map PUT Controller to service
++ Map POST Controller to service
++ Map DELETE Controller to service
 
 Context building/validation:
 - Ensure uniqueness of paths for all methods
-- Create/Update entities via PUT/POST on root
 - Ensure only one URL for PUT/POST of an entity
 - Update 'associations' via POST on attribute {entity}/{id}/{foreignKeyAttribute}
 - Delete 'associations' via DELETE on attribute {rootEntity}/{rootId}/{entity}/{id} ???
 - Http DELETE as root deletes entity {entity}/{id}
++ Create/Update entities via PUT/POST on root
 
 -----------------------------------------------------------
 -----------------------------------------------------------

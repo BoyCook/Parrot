@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import static java.lang.String.format;
-import static org.cccs.parrot.context.ContextBuilder.getUniquePath;
+import static org.cccs.parrot.util.ContextUtils.getUniquePath;
 import static org.cccs.parrot.web.PathMatcher.getInboundPath;
 
 /**

@@ -1,6 +1,5 @@
 package org.cccs.parrot.context;
 
-import org.cccs.parrot.Description;
 import org.cccs.parrot.domain.Attribute;
 import org.cccs.parrot.domain.Entity;
 import org.cccs.parrot.util.ClassUtils;
@@ -19,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.String.format;
+import static org.cccs.parrot.util.ContextUtils.*;
 
 /**
  * User: boycook
@@ -157,33 +157,6 @@ public class ContextBuilder {
             }
         }
         return entity;
-    }
-
-    public static String getDescription(Class c) {
-        String description = c.getSimpleName();
-        if (c.isAnnotationPresent(Description.class)) {
-            Description desc = (Description) c.getAnnotation(Description.class);
-            description = desc.value();
-        }
-        return description;
-    }
-
-    public static String getDescription(PropertyDescriptor descriptor) {
-        String description = descriptor.getName();
-        Method method = descriptor.getReadMethod();
-        if (method.isAnnotationPresent(Description.class)) {
-            Description desc = method.getAnnotation(Description.class);
-            description = desc.value();
-        }
-        return description;
-    }
-
-    public static String getResourcePath(final Class c) {
-        return ("/" + c.getSimpleName()).toLowerCase();
-    }
-
-    public static String getUniquePath(final Class c) {
-        return ("/{" + c.getSimpleName() + "Id" + "}").toLowerCase();
     }
 
     public static ParrotContext getContext() {

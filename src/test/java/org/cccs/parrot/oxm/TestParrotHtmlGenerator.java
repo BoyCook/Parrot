@@ -25,7 +25,7 @@ import static org.junit.Assert.assertThat;
  */
 @ContextConfiguration(locations = "classpath:parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TestParrotHtmlConverter {
+public class TestParrotHtmlGenerator {
 
     private static final String PERSON_FILE = "/html/person.html";
     private static final String PEOPLE_FILE = "/html/people.html";

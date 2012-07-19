@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
  * Date: 04/07/2012
  * Time: 22:05
  */
-@ContextConfiguration(locations = "classpath:parrotContext.xml")
+@ContextConfiguration(locations = "classpath:context/parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestParrotHtmlGenerator {
 

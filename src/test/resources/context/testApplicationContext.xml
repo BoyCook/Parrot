@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-    <context:property-placeholder location="classpath:*.properties"/>
+    <context:property-placeholder location="classpath:log4j.properties"/>
     <context:component-scan base-package="org.cccs.parrot"/>
 
     <!-- TODO: add JNDI DS -->
@@ -16,6 +16,7 @@
         <property name="url" value="${test.database.url}"/>
         <property name="username" value="${test.database.username}"/>
         <property name="password" value="${test.database.password}"/>
+        <property name="maxActive" value="100"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -27,11 +28,5 @@
                 <property name="databasePlatform" value="${test.database.dialect}"/>
             </bean>
         </property>
-    </bean>
-
-    <bean id="dataInstaller" init-method="installClean"
-          class="org.cccs.parrot.DBUnitDataInstaller">
-        <constructor-arg index="0" ref="dataSource"/>
-        <constructor-arg index="1" value="${data.filenames}"/>
     </bean>
 </beans>

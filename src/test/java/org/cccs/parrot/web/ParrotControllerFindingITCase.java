@@ -25,7 +25,7 @@ import static org.junit.Assert.assertThat;
  * Date: 18/06/2012
  * Time: 12:05
  */
-@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
+@ContextConfiguration(locations = "classpath:context/testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironment {
 

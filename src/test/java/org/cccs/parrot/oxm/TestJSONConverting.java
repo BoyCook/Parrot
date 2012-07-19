@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
  * Date: 28/06/2012
  * Time: 12:58
  */
-@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
+@ContextConfiguration(locations = "classpath:context/testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestJSONConverting extends DataDrivenTestEnvironment {
 

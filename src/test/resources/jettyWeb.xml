@@ -9,8 +9,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:jettyApplicationContext.xml
-            classpath:parrotContext.xml
+            classpath:context/jettyApplicationContext.xml
+            classpath:context/parrotContext.xml
         </param-value>
     </context-param>
 

@@ -20,7 +20,7 @@ import java.util.Map;
  * Date: 13/07/2012
  * Time: 12:30
  */
-@ContextConfiguration(locations = {"classpath:testApplicationContext.xml", "classpath:parrotContext.xml"})
+@ContextConfiguration(locations = {"classpath:context/testApplicationContext.xml", "classpath:context/parrotContext.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestObjectReplacement extends DataDrivenTestEnvironment {
 

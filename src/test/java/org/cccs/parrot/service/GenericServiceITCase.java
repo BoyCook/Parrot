@@ -24,7 +24,7 @@ import static org.cccs.parrot.ParrotTestUtils.*;
  * Date: 24/06/2012
  * Time: 18:18
  */
-@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
+@ContextConfiguration(locations = "classpath:context/testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenericServiceITCase extends DataDrivenTestEnvironment {
 

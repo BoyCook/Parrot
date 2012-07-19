@@ -1,12 +1,18 @@
 package org.cccs.parrot.util;
 
 import org.cccs.parrot.Description;
+import org.cccs.parrot.domain.Person;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
+
+import java.beans.PropertyDescriptor;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.cccs.parrot.ParrotTestUtils.getCraig;
 import static org.cccs.parrot.util.ClassUtils.getNewObject;
+import static org.cccs.parrot.util.ClassUtils.invokeReadMethod;
 
 /**
  * User: boycook
@@ -40,5 +46,25 @@ public class TestClassUtils {
     @Test
     public void getNewObjectShouldReturnNullForInstantiationException(){
         assertNull(getNewObject(SomeAbstractClass.class));
+    }
+
+    @Test
+    public void invokeReadMethodShouldWork() {
+        Person person = getCraig();
+        PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(Person.class, "id");
+        assertNotNull(invokeReadMethod(person, descriptor));
+    }
+
+    @Ignore
+    @Test
+    public void invokeReadMethodShouldReturnNullForIllegalAccessException() {
+        PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(Person.class, "id");
+        assertNull(invokeReadMethod(new Object(), descriptor));
+    }
+
+    @Test
+    public void invokeReadMethodShouldReturnNullForInvocationTargetException() {
+        PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(SomeObject.class, "name");
+        assertNull(invokeReadMethod(new SomeObject(), descriptor));
     }
 }

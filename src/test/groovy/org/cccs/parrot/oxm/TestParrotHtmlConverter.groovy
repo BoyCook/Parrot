@@ -1,21 +1,22 @@
 package org.cccs.parrot.oxm
 
+import org.custommonkey.xmlunit.XMLTestCase
+import org.custommonkey.xmlunit.XMLUnit
 import org.junit.Test
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.junit.runner.RunWith
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.oxm.xstream.XStreamMarshaller
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.oxm.xstream.XStreamMarshaller
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
-import org.custommonkey.xmlunit.XMLTestCase;
-import org.custommonkey.xmlunit.XMLUnit;
-
-import javax.xml.transform.Result;
+import javax.xml.transform.Result
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
+
+import static org.cccs.parrot.ParrotTestUtils.getCraig
 import org.junit.Ignore
 
-@ContextConfiguration(locations = ["classpath:parrotContext.xml", "classpath:marshallingContext.xml"])
+@ContextConfiguration(locations = ["classpath:context/parrotContext.xml", "classpath:context/marshallingContext.xml"])
 @RunWith(SpringJUnit4ClassRunner.class)
 class TestParrotHtmlConverter extends XMLTestCase {
 
@@ -27,28 +28,33 @@ class TestParrotHtmlConverter extends XMLTestCase {
     @Autowired
     private XStreamMarshaller marshaller;
 
-    String expectedAll = """
-        <resources>
-            <principal id="2">
-                <id>2</id>
-                <shortName>CraigCook</shortName>
-                <password>password</password>
-                <foreName>Craig</foreName>
-                <surName>Cook</surName>
-                <phoneNumber>07918880501</phoneNumber>
-                <email>craig.cook@bt.com</email>
-                <friends/>
-                <friendRequests/>
-            </principal>
-        </resources>
+    String expected = """
+        <table>
+            <tr>
+                <th>Email</th>
+                <td>craig@craigcook.co.uk</td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>Craig Cook</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>07345123456</td>
+            </tr>
+        </table>
     """
 
-    @Ignore
+    @Ignore("Need to stop having root node for entity type")
     @Test
-    public void marshallingListShouldWork() throws IOException {
-        String marshalled = marshal(null);
+    public void marshallingPersonShouldWork() throws IOException {
+        String marshalled = marshal(getCraig());
         println marshalled;
-        assertXMLEqual("Comparing marshalled xml to expected xml", expectedAll, marshalled);
+        assertXMLEqual("Comparing marshalled xml to expected xml", expected, marshalled);
     }
 
     public static String strip(String xml) {

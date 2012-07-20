@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
-import static java.lang.String.format;
 import static org.cccs.parrot.util.ClassUtils.invokeReadMethod;
 import static org.cccs.parrot.util.ContextUtils.getDescription;
 import static org.cccs.parrot.util.ContextUtils.isInDomain;

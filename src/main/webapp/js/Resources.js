@@ -5,17 +5,21 @@ function Resources(params) {
     this.resources = undefined;
 }
 
-Resources.prototype.render = function () {
+Resources.prototype.load = function () {
     var context = this;
     $.getJSON(context.url, function (data) {
         context.resources = data;
-        var html = "<table>";
-        $.each(data, function (key, value) {
-            html += "<tr><td>";
-            html += "<a href='/service" + key + "' target='_blank'>" + key + "</a>"
-            html += "</td></tr>";
-        });
-        html += "</table>";
-        $(context.id).append(html);
+        context.render();
     });
+};
+
+Resources.prototype.render = function () {
+    var html = "<table>";
+    $.each(this.resources['@keys'], function (index, value) {
+        html += "<tr><td>";
+        html += "<a href='/service" + value + "' target='_blank'>" + value + "</a>"
+        html += "</td></tr>";
+    });
+    html += "</table>";
+    $(this.id).append(html);
 };

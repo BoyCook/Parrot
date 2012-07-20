@@ -28,4 +28,20 @@ public class TestGeneration {
 
         assertThat(table.toString(), is(equalTo("<table><tr><th>ID</th><td>123</td></tr></table>")));
     }
+
+    @Test
+    public void generateListShouldWork() {
+        Ul list = new Ul();
+        Li item1 = new Li();
+        item1.append(new A("FooBar", "#foo"));
+        list.append(item1);
+
+        Li item2 = new Li();
+        item2.append(new A("BarFoo", "#bar"));
+        list.append(item2);
+
+        String expected = "<ul><li><a href=\"#foo\">FooBar</a></li><li><a href=\"#bar\">BarFoo</a></li></ul>";
+
+        assertThat(list.toString(), is(equalTo(expected)));
+    }
 }

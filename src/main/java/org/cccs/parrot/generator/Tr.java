@@ -8,6 +8,6 @@ package org.cccs.parrot.generator;
 public class Tr extends DOMElement {
 
     public Tr() {
-        super("Tr", "tr");
+        super("Table Row", "tr");
     }
 }

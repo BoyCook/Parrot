@@ -7,25 +7,19 @@
     <link type="text/css" href="css/default.css" rel="Stylesheet"/>
     <script type="text/javascript" src="js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/Utils.js"></script>
     <script type="text/javascript" src="js/Model.js"></script>
     <script type="text/javascript" src="js/ResourceDD.js"></script>
     <script type="text/javascript" src="js/Entities.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#main').tabs();
-            $('#main input:text').attr('disabled', 'disabled');
-            $('.ui-image-button').button();
-//            $('#home input:text').removeAttr('disabled');
-            imageButton('.ui-image-button');
-        });
+    <script type="text/javascript" src="js/Entity.js"></script>
 
-        function imageButton(elements) {
-            $(elements).button();
-            $(elements).each(function() {
-                var label = $('#' + this.id + ' label').remove();
-                $('#' + this.id).append(label);
-            });
-        }
+    <script type="text/javascript">
+        var entityApp = undefined;
+
+        $(document).ready(function () {
+            entityApp = new Entity();
+            entityApp.setup();
+        });
     </script>
 </head>
 
@@ -102,19 +96,25 @@
     </div>
     <div id="footer" class="ui-widget-content ui-corner-all">
         <div id="butEdit"
-             class="ui-image-button"
+             class="ui-image-button ui-mode-item ui-mode-default"
              title="Edit">
             <img src="images/edit.png" alt="Edit"/>
             <label class="button-text">Edit</label>
         </div>
         <div id="butCancelEdit"
-             class="ui-image-button"
+             class="ui-image-button ui-mode-item ui-mode-edit"
              title="Cancel">
             <img src="images/sign_stop.png" alt="Cancel"/>
             <label class="button-text">Cancel</label>
         </div>
+        <div id="butSave"
+             class="ui-image-button ui-mode-item ui-mode-edit"
+             title="Save">
+            <img src="images/save_as.png" alt="Save"/>
+            <label class="button-text">Save</label>
+        </div>
         <div id="butDelete"
-             class="ui-image-button"
+             class="ui-image-button ui-mode-item ui-mode-default"
              title="Delete">
             <img src="images/delete.png" alt="Delete"/>
             <label class="button-text">Delete</label>

@@ -53,6 +53,30 @@ public class ParrotHtmlGenerator {
         }
     }
 
+    private void writeObject(OutputStream out, Object o) throws IOException, InvocationTargetException, IllegalAccessException {
+        StringBuilder html = new StringBuilder();
+        PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(o.getClass());
+        html.append("<table>\n");
+
+        for (PropertyDescriptor descriptor : descriptors) {
+            Method method = descriptor.getReadMethod();
+//            if (method.isAnnotationPresent(OneToOne.class) ||
+//                    method.isAnnotationPresent(ManyToOne.class) ||
+//                    method.isAnnotationPresent(OneToMany.class) ||
+//                    method.isAnnotationPresent(ManyToMany.class)) {
+//
+//            } else
+            if (method.isAnnotationPresent(Column.class)) {
+                String desc = getDescription(descriptor);
+                Object result = descriptor.getReadMethod().invoke(o);
+                html.append(format(HTML_OBJECT_ROW, desc, result == null ? "" : result.toString()));
+            }
+        }
+
+        html.append("</table>\n");
+        IOUtils.write(html.toString(), out);
+    }
+
     private void writeObjects(OutputStream out, Collection items) throws IOException, InvocationTargetException, IllegalAccessException {
         if (items != null && items.size() > 0) {
             StringBuilder header = new StringBuilder();
@@ -98,29 +122,5 @@ public class ParrotHtmlGenerator {
 
             IOUtils.write(html.toString(), out);
         }
-    }
-
-    private void writeObject(OutputStream out, Object o) throws IOException, InvocationTargetException, IllegalAccessException {
-        StringBuilder html = new StringBuilder();
-        PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(o.getClass());
-        html.append("<table>\n");
-
-        for (PropertyDescriptor descriptor : descriptors) {
-            Method method = descriptor.getReadMethod();
-//            if (method.isAnnotationPresent(OneToOne.class) ||
-//                    method.isAnnotationPresent(ManyToOne.class) ||
-//                    method.isAnnotationPresent(OneToMany.class) ||
-//                    method.isAnnotationPresent(ManyToMany.class)) {
-//
-//            } else
-            if (method.isAnnotationPresent(Column.class)) {
-                String desc = getDescription(descriptor);
-                Object result = descriptor.getReadMethod().invoke(o);
-                html.append(format(HTML_OBJECT_ROW, desc, result == null ? "" : result.toString()));
-            }
-        }
-
-        html.append("</table>\n");
-        IOUtils.write(html.toString(), out);
     }
 }

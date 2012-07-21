@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Parrot - entity</title>
+    <link type="text/css" href="/css/jquery-ui-1.8.21.custom.css" rel="Stylesheet"/>
+    <link type="text/css" href="/css/default.css" rel="Stylesheet"/>
+    <script type="text/javascript" src="/js/lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/js/lib/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="/js/Utils.js"></script>
+    <script type="text/javascript" src="/js/Model.js"></script>
+    <script type="text/javascript" src="/js/ResourceDD.js"></script>
+    <script type="text/javascript" src="/js/Entities.js"></script>
+    <script type="text/javascript" src="/js/Entity.js"></script>
+
+    <script type="text/javascript">
+        var entityApp = undefined;
+
+        $(document).ready(function () {
+            entityApp = new Entity();
+            entityApp.setup();
+        });
+    </script>
+</head>
+
+<body>
+<div id="home">
+    %s
+    <div id="footer" class="ui-widget-content ui-corner-all">
+        <div id="butEdit"
+             class="ui-image-button ui-mode-item ui-mode-default"
+             title="Edit">
+            <img src="/images/edit.png" alt="Edit"/>
+            <label class="button-text">Edit</label>
+        </div>
+        <div id="butCancelEdit"
+             class="ui-image-button ui-mode-item ui-mode-edit"
+             title="Cancel">
+            <img src="/images/sign_stop.png" alt="Cancel"/>
+            <label class="button-text">Cancel</label>
+        </div>
+        <div id="butSave"
+             class="ui-image-button ui-mode-item ui-mode-edit"
+             title="Save">
+            <img src="/images/save_as.png" alt="Save"/>
+            <label class="button-text">Save</label>
+        </div>
+        <div id="butDelete"
+             class="ui-image-button ui-mode-item ui-mode-default"
+             title="Delete">
+            <img src="/images/delete.png" alt="Delete"/>
+            <label class="button-text">Delete</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

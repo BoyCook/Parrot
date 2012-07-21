@@ -1,5 +1,7 @@
 package org.cccs.parrot.oxm;
 
+import org.apache.commons.io.IOUtils;
+import org.cccs.parrot.generator.DOMElement;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -10,6 +12,10 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
+import java.util.Collection;
+
+import static java.lang.String.format;
+import static org.cccs.parrot.util.Utils.readFile;
 
 /**
  * User: boycook
@@ -19,6 +25,10 @@ import java.nio.charset.Charset;
 public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+    private static final String ENTITY_TEMPLATE_FILE = "/html/entity.html";
+    private static final String ENTITIES_TEMPLATE_FILE = "/html/entities.html";
+    private static String ENTITY_TEMPLATE;
+    private static String ENTITIES_TEMPLATE;
 
     public ParrotHtmlHttpMessageConverter() {
         super(new MediaType("text", "html", DEFAULT_CHARSET));
@@ -35,18 +45,31 @@ public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter
     }
 
     @Override
-    protected void writeInternal(Object o, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        try {
-            getGenerator().writeHtml(outputMessage.getBody(), o);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+    protected void writeInternal(Object o, HttpOutputMessage out) throws IOException, HttpMessageNotWritableException {
+        DOMElement dom = getGenerator().convert(o);
+
+        if (Collection.class.isAssignableFrom(o.getClass())) {
+            IOUtils.write(format(getEntitiesTemplate(), dom.toString()), out.getBody());
+        } else {
+            IOUtils.write(format(getEntityTemplate(), dom.toString()), out.getBody());
         }
-//        HttpMessageNotWritableException
     }
 
     private ParrotHtmlGenerator getGenerator() {
         return new ParrotHtmlGenerator();
+    }
+
+    private String getEntityTemplate() {
+        if (ENTITY_TEMPLATE == null) {
+            ENTITY_TEMPLATE = readFile(ENTITY_TEMPLATE_FILE);
+        }
+        return ENTITY_TEMPLATE;
+    }
+
+    private String getEntitiesTemplate() {
+        if (ENTITIES_TEMPLATE == null) {
+            ENTITIES_TEMPLATE = readFile(ENTITIES_TEMPLATE_FILE);
+        }
+        return ENTITIES_TEMPLATE;
     }
 }

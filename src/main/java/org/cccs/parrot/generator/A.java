@@ -10,15 +10,16 @@ import static java.lang.String.format;
 public class A extends DOMElement {
 
     private final String href;
-
-    public A() {
-        super("Anchor", "a");
-        this.href = null;
-    }
+    private final String target;
 
     public A(String value, String href) {
+        this(value, href, null);
+    }
+
+    public A(String value, String href, String target) {
         super("Anchor", "a");
         this.href = href;
+        this.target = target;
         setValue(value);
     }
 
@@ -26,17 +27,16 @@ public class A extends DOMElement {
         return href;
     }
 
-    @Override
-    public String getStartTag() {
-        return format("<%s href=\"%s\">", getTagName(), getHref());
+    public String getTarget() {
+        return target;
     }
 
     @Override
-    public String toString() {
-        StringBuilder value = new StringBuilder();
-        value.append(getStartTag());
-        value.append(getValue());
-        value.append(getEndTag());
-        return value.toString();
+    public String getStartTag() {
+        if (getTarget() != null) {
+            return format("<%s href=\"%s\" target=\"%s\">", getTagName(), getHref(), getTarget());
+        } else {
+            return format("<%s href=\"%s\">", getTagName(), getHref());
+        }
     }
 }

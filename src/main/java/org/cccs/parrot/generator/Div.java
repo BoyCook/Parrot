@@ -8,11 +8,16 @@ package org.cccs.parrot.generator;
 public class Div extends DOMElement {
 
     public Div() {
-        super("Div", "div");
+        this(null);
     }
 
     public Div(String value) {
+        this(value, null);
+    }
+
+    public Div(String value, String id) {
         super("Div", "div");
         setValue(value);
+        setId(id);
     }
 }

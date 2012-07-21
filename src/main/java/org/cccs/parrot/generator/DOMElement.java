@@ -14,6 +14,7 @@ public abstract class DOMElement {
 
     private final String name;
     private final String tagName;
+    private String id;
     private String value;
 
     private final List<DOMElement> children;
@@ -32,20 +33,32 @@ public abstract class DOMElement {
         return tagName;
     }
 
-    public String getStartTag() {
-        return getStartTag(getTagName());
-    }
-
-    public String getEndTag() {
-        return getEndTag(getTagName());
-    }
-
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStartTag() {
+        if (getId() != null) {
+            return getStartTag(getTagName(), getId());
+        } else {
+            return getStartTag(getTagName());
+        }
+    }
+
+    public String getEndTag() {
+        return getEndTag(getTagName());
     }
 
     public DOMElement append(DOMElement element) {
@@ -76,6 +89,10 @@ public abstract class DOMElement {
 
     public static String getStartTag(String tag) {
         return format("<%s>", tag);
+    }
+
+    public static String getStartTag(String tag, String id) {
+        return format("<%s id=\"%s\">", tag, id);
     }
 
     public static String getEndTag(String tag) {

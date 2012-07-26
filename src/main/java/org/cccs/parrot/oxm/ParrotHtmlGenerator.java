@@ -59,7 +59,7 @@ public class ParrotHtmlGenerator {
             } else if (method.isAnnotationPresent(OneToMany.class) ||
                     method.isAnnotationPresent(ManyToMany.class)) {
                 Collection value = (Collection) invokeReadMethod(o, descriptor);
-                list.append(new Li().append(new A(descriptor.getName(), "#" + descriptor.getName())));
+                list.append(new Li().append(new A(getDescription(descriptor), "#" + descriptor.getName())));
                 Div div = new Div();
                 div.setId(descriptor.getName());
                 main.append(div);

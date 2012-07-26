@@ -72,12 +72,14 @@ public class Person {
         return phone;
     }
 
+    @Description("Dogs")
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     public Set<Dog> getDogs() {
         return dogs;
     }
 
+    @Description("Cats")
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     public Set<Cat> getCats() {

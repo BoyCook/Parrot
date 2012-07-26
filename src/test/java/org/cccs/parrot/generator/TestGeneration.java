@@ -44,4 +44,11 @@ public class TestGeneration {
 
         assertThat(list.toString(), is(equalTo(expected)));
     }
+
+    @Test
+    public void generateTextShouldWork() {
+        Text text = new Text("1");
+        String expected = "<input type=\"text\" id=\"1\"/>";
+        assertThat(text.toString(), is(equalTo(expected)));
+    }
 }

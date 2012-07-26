@@ -16,7 +16,6 @@ public abstract class DOMElement {
     private final String tagName;
     private String id;
     private String value;
-
     private final List<DOMElement> children;
 
     public DOMElement(String name, String tagName) {

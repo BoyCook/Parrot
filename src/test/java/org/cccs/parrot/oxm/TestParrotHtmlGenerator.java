@@ -1,9 +1,9 @@
 package org.cccs.parrot.oxm;
 
-import org.cccs.parrot.generator.DOMElement;
 import org.custommonkey.xmlunit.XMLTestCase;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,6 +23,7 @@ import static org.cccs.parrot.util.Utils.readFile;
  */
 @ContextConfiguration(locations = "classpath:context/parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@Ignore
 public class TestParrotHtmlGenerator extends XMLTestCase {
 
     private static final String EXPECTED_MESSAGE = "Comparing marshalled xml to expected xml";

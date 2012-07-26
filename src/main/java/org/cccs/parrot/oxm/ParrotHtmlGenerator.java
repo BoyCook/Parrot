@@ -26,6 +26,7 @@ public class ParrotHtmlGenerator {
 
     public DOMElement convert(Object o) {
         PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(o.getClass());
+        Entity entity = ContextBuilder.getContext().getModel().get(o.getClass().getSimpleName());
 
         Div main = new Div();
         main.setId("main");
@@ -43,10 +44,18 @@ public class ParrotHtmlGenerator {
             Method method = descriptor.getReadMethod();
             if (method.isAnnotationPresent(Column.class)) {
                 Object result = invokeReadMethod(o, descriptor);
+                String value = result == null ? "" : result.toString();
                 Tr row = new Tr();
                 table.append(row);
                 row.append(new Th(getDescription(descriptor)));
-                row.append(new Td(result == null ? "" : result.toString()));
+                Attribute attribute = entity.getAttribute(descriptor.getName());
+                if (attribute.isEditable() || attribute.isSystemManaged()) {
+                    row.append(new Td(value));
+                } else {
+                    Td td = new Td();
+                    Text text = new Text("txt" + descriptor.getName(), value);
+                    row.append(td.append(text));
+                }
             } else if (method.isAnnotationPresent(OneToMany.class) ||
                     method.isAnnotationPresent(ManyToMany.class)) {
                 Collection value = (Collection) invokeReadMethod(o, descriptor);
@@ -67,6 +76,7 @@ public class ParrotHtmlGenerator {
         Table table = new Table();
 
         if (items != null && items.size() > 0) {
+            //TODO: this isn't very eloquent
             Object item1 = items.toArray()[0];
             Entity entity = ContextBuilder.getContext().getModel().get(item1.getClass().getSimpleName());
 

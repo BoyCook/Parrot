@@ -19,6 +19,7 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static org.cccs.parrot.util.ContextUtils.*;
+import static org.cccs.parrot.util.ContextUtils.getDescription;
 
 /**
  * User: boycook
@@ -139,24 +140,31 @@ public class ContextBuilder {
         PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(c);
 
         for (PropertyDescriptor descriptor : descriptors) {
-            Method method = descriptor.getReadMethod();
-            if (method.isAnnotationPresent(OneToOne.class) ||
-                method.isAnnotationPresent(ManyToOne.class) ||
-                method.isAnnotationPresent(OneToMany.class) ||
-                method.isAnnotationPresent(ManyToMany.class)) {
-                Attribute attribute = new Attribute(descriptor.getName(), getDescription(descriptor), method.getReturnType());
-                entity.addAttribute(attribute);
-            } else if (method.isAnnotationPresent(Column.class)) {
-                Attribute attribute = new Attribute(descriptor.getName(), getDescription(descriptor), method.getReturnType());
-                attribute.setColumn(true);
-                if (method.isAnnotationPresent(Id.class)) {
-                    attribute.setSystemManaged(true);
-                    attribute.setIdentity(true);
-                }
+            Attribute attribute = buildAttribute(descriptor);
+            if (attribute != null) {
                 entity.addAttribute(attribute);
             }
         }
         return entity;
+    }
+
+    public Attribute buildAttribute(PropertyDescriptor descriptor) {
+        Attribute attribute = null;
+        Method method = descriptor.getReadMethod();
+        if (method.isAnnotationPresent(OneToOne.class) ||
+                method.isAnnotationPresent(ManyToOne.class) ||
+                method.isAnnotationPresent(OneToMany.class) ||
+                method.isAnnotationPresent(ManyToMany.class)) {
+            attribute = new Attribute(descriptor.getName(), getDescription(descriptor), method.getReturnType());
+        } else if (method.isAnnotationPresent(Column.class)) {
+            attribute = new Attribute(descriptor.getName(), getDescription(descriptor), method.getReturnType());
+            attribute.setColumn(true);
+            if (method.isAnnotationPresent(Id.class)) {
+                attribute.setSystemManaged(true);
+                attribute.setIdentity(true);
+            }
+        }
+        return attribute;
     }
 
     public static ParrotContext getContext() {

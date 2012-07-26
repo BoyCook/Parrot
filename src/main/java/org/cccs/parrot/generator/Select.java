@@ -8,6 +8,11 @@ package org.cccs.parrot.generator;
 public class Select extends DOMElement {
 
     public Select() {
+        this(null);
+    }
+
+    public Select(String id) {
         super("Select", "select");
+        setId(id);
     }
 }

@@ -8,7 +8,11 @@ package org.cccs.parrot.generator;
 public class Text extends Input {
 
     public Text(String id) {
-        super("text");
+        this(id, null);
+    }
+
+    public Text(String id, String value) {
+        super("text", value);
         setId(id);
     }
 }

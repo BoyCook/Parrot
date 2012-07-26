@@ -51,4 +51,12 @@ public class TestGeneration {
         String expected = "<input type=\"text\" id=\"1\"/>";
         assertThat(text.toString(), is(equalTo(expected)));
     }
+
+    @Test
+    public void generateSelectShouldWork() {
+        Select select = new Select("1");
+        select.append(new Option("Value 1", "value1"));
+        String expected = "<select id=\"1\"><option value=\"value1\">Value 1</option></select>";
+        assertThat(select.toString(), is(equalTo(expected)));
+    }
 }

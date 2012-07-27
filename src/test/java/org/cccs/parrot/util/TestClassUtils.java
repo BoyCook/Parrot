@@ -11,8 +11,13 @@ import java.beans.PropertyDescriptor;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.cccs.parrot.ParrotTestUtils.getCraig;
+import static org.cccs.parrot.util.ClassUtils.getIdValue;
 import static org.cccs.parrot.util.ClassUtils.getNewObject;
 import static org.cccs.parrot.util.ClassUtils.invokeReadMethod;
+import static org.cccs.parrot.util.Utils.extractParameterFromEnd;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * User: boycook
@@ -66,5 +71,10 @@ public class TestClassUtils {
     public void invokeReadMethodShouldReturnNullForInvocationTargetException() {
         PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(SomeObject.class, "name");
         assertNull(invokeReadMethod(new SomeObject(), descriptor));
+    }
+
+    @Test
+    public void getIdValueShouldWork() {
+        assertThat(getIdValue(getCraig()).toString(), is(equalTo("1")));
     }
 }

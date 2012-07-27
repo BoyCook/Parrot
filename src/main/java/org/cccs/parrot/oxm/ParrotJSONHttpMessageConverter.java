@@ -61,8 +61,11 @@ public class ParrotJSONHttpMessageConverter extends AbstractHttpMessageConverter
     }
 
     private <T> T readFromStream(Class<T> type, InputStream inputStream) throws IOException {
-        JsonReader jr = new JsonReader(inputStream);
-        return (T) jr.readObject();
+        if (inputStream != null) {
+            JsonReader jr = new JsonReader(inputStream);
+            return (T) jr.readObject();
+        }
+        return null;
     }
 
     public PathReader getReader() {

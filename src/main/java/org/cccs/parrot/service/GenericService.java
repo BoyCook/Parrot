@@ -83,7 +83,7 @@ public class GenericService {
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void delete(final Object entity) {
-        Validation.validate(entity);
+        //TODO: delete validation - there must be a jpaId
         log.debug(format(UPDATE_MESSAGE, entity.getClass().getSimpleName(), entity.toString()));
         EntityManager entityManager = getEntityManager();
         EntityTransaction txn = entityManager.getTransaction();

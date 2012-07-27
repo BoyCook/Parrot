@@ -59,6 +59,7 @@ public class Dog {
         return owner;
     }
 
+    @Description("Countries")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "dog_countries", joinColumns = {@JoinColumn(name = "dog_id")}, inverseJoinColumns = @JoinColumn(name = "cntId"))
     public Set<Country> getCountries() {

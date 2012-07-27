@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 
 import static java.lang.String.format;
+import static org.cccs.parrot.util.ClassUtils.getIdValue;
 import static org.cccs.parrot.util.Utils.readFile;
 
 /**
@@ -51,7 +52,10 @@ public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter
         if (Collection.class.isAssignableFrom(o.getClass())) {
             IOUtils.write(format(getEntitiesTemplate(), dom.toString()), out.getBody());
         } else {
-            IOUtils.write(format(getEntityTemplate(), dom.toString()), out.getBody());
+            IOUtils.write(format(getEntityTemplate(),
+                    o.getClass().getSimpleName(),
+                    getIdValue(o),
+                    dom.toString()), out.getBody());
         }
     }
 

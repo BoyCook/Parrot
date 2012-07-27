@@ -7,6 +7,7 @@ import org.cccs.parrot.domain.Entity;
 import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.service.GenericService;
 import org.cccs.parrot.util.ClassUtils;
+import org.cccs.parrot.util.EntityFactory;
 import org.cccs.parrot.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,11 +123,11 @@ public class ParrotController {
 
     @RequestMapping(value = "/{entityType}/{entityId}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String deleteParrotEntity(@RequestBody Object entity,
-                                     @PathVariable("entityType") String entityType,
+    public String deleteParrotEntity(@PathVariable("entityType") String entityType,
                                      @PathVariable("entityId") String entityId,
                                      HttpServletRequest request) {
         PathMatcher.getMatcher().match(getInboundPath(request));
+        Object entity = EntityFactory.get(entityType, Long.valueOf(entityId));
         getService().delete(entity);
         return "success";
     }

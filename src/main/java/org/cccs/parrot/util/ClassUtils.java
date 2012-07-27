@@ -2,7 +2,9 @@ package org.cccs.parrot.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
+import javax.persistence.Id;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,8 +27,8 @@ public final class ClassUtils {
         return (Class<?>) stringListType.getActualTypeArguments()[0];
     }
 
-    public static Object getNewObject(Class c) {
-        Object o = null;
+    public static <T> T getNewObject(Class<T> c) {
+        T o = null;
         //Not for primitives
         if (!c.equals(Integer.TYPE) && !c.equals(Long.TYPE)) {
             try {
@@ -66,13 +68,17 @@ public final class ClassUtils {
     }
 
     public static Object invokeReadMethod(Object o, PropertyDescriptor descriptor) {
+        return invokeReadMethod(o, descriptor.getReadMethod());
+    }
+
+    public static Object invokeReadMethod(Object o, Method method) {
         Object value = null;
         try {
-            value = descriptor.getReadMethod().invoke(o);
+            value = method.invoke(o);
         } catch (IllegalAccessException e) {
-            log.error(format("Failed to get property [%s] value of [%s]", descriptor.getName(), o.getClass().getName()), e);
+            log.error(format("Failed to get property [%s] value of [%s]", method.getName(), o.getClass().getName()), e);
         } catch (InvocationTargetException e) {
-            log.error(format("Failed to get property [%s] value of [%s]", descriptor.getName(), o.getClass().getName()), e);
+            log.error(format("Failed to get property [%s] value of [%s]", method.getName(), o.getClass().getName()), e);
         }
         return value;
     }
@@ -85,5 +91,26 @@ public final class ClassUtils {
         } catch (InvocationTargetException e) {
             log.error(format("Failed to write property [%s] value for [%s]", descriptor.getName(), o.getClass().getName()), e);
         }
+    }
+
+    public static Object getIdValue(Object o) {
+        Object value = null;
+        for (Method method : o.getClass().getMethods()) {
+            if (method.isAnnotationPresent(Id.class)) {
+                value = invokeReadMethod(o, method);
+            }
+        }
+        return value;
+    }
+
+    public static PropertyDescriptor getIdProperty(Class c) {
+        PropertyDescriptor match = null;
+        PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(c);
+        for (PropertyDescriptor descriptor : descriptors) {
+            if (descriptor.getReadMethod().isAnnotationPresent(Id.class)) {
+                match = descriptor;
+            }
+        }
+        return match;
     }
 }

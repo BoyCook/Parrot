@@ -33,6 +33,7 @@ Entity.prototype.setup = function () {
     $('#butDelete').click(function () {
         context.delete(function () {
             context.setMode('.ui-mode-default');
+            document.location = '/';
         });
     });
 };

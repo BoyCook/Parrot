@@ -41,6 +41,14 @@
                 <entry key="javax.persistence.PersistenceException" value="500"/>
             </map>
         </property>
+        <property name="messageConverters">
+            <util:list id="beanList">
+                <ref bean="jsonMessageConverter"/>
+                <ref bean="marshallingHttpMessageConverter"/>
+                <ref bean="htmlHttpMessageConverter"/>
+                <ref bean="stringHttpMessageConverter"/>
+            </util:list>
+        </property>
     </bean>
 
 	<!-- TODO: is this needed? -->

@@ -1,5 +1,6 @@
 package org.cccs.parrot.service;
 
+import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.web.ResourceConflictException;
 import org.cccs.parrot.web.ResourceNotFoundException;
 import org.hibernate.TransientPropertyValueException;
@@ -18,6 +19,7 @@ import java.beans.PropertyDescriptor;
 
 import static java.lang.String.format;
 import static org.cccs.parrot.service.Validation.findNestedException;
+import static org.cccs.parrot.util.ClassUtils.getIdValue;
 
 /**
  * User: boycook
@@ -36,9 +38,11 @@ public class GenericService {
     private static final String UPDATE_MESSAGE = "Updating [%s] as [%s]";
     private static final String ERROR_MESSAGE = "Error persisting [%s] as [%s]";
     private EntityManagerFactory entityManagerFactory;
+    private GenericFinder finder;
 
     public GenericService(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
+        this.finder = new GenericFinder(entityManagerFactory);
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -89,7 +93,12 @@ public class GenericService {
         EntityTransaction txn = entityManager.getTransaction();
         try {
             txn.begin();
-            entityManager.remove(entity);
+            if (!entityManager.contains(entity)) {
+                Object persisted = getFinder().find(entity.getClass(), Long.valueOf(getIdValue(entity).toString()));
+                entityManager.remove(entityManager.merge(persisted));
+            } else {
+                entityManager.remove(entity);
+            }
             txn.commit();
         } catch (PersistenceException e) {
             handleException(entity, e);
@@ -132,5 +141,9 @@ public class GenericService {
         final String msg = format(ERROR_MESSAGE, entity.getClass().getSimpleName(), entity.toString());
         log.error(msg, e);
         log.error(e.getMessage());
+    }
+
+    public GenericFinder getFinder() {
+        return finder;
     }
 }

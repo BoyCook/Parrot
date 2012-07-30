@@ -14,9 +14,9 @@ import static org.cccs.parrot.util.ClassUtils.*;
  */
 public final class EntityFactory {
 
-    public static Object get(String type, long id) {
+    public static <T> T get(String type, long id) {
         Entity entity = ContextBuilder.getContext().getModel().get(type);
-        Object newObject = getNewObject(entity.getClazz());
+        T newObject = (T) getNewObject(entity.getClazz());
         PropertyDescriptor idProperty = getIdProperty(newObject.getClass());
         if (idProperty != null) {
             invokeWriteMethod(newObject, id, idProperty);

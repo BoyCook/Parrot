@@ -21,7 +21,7 @@ public class TestEntityFactory {
 
     @Test
     public void getEntityShouldWork() {
-        Person person = (Person) EntityFactory.get("Person", 1);
+        Person person = EntityFactory.get("Person", 1);
         assertThat(person.getId(), is(equalTo(1l)));
     }
 }

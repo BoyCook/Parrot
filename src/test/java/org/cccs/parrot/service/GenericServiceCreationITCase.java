@@ -6,6 +6,7 @@ import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
+import org.cccs.parrot.util.EntityFactory;
 import org.cccs.parrot.web.ResourceConflictException;
 import org.cccs.parrot.web.ResourceNotFoundException;
 import org.junit.Before;
@@ -26,7 +27,7 @@ import static org.cccs.parrot.ParrotTestUtils.*;
  */
 @ContextConfiguration(locations = "classpath:context/testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class GenericServiceITCase extends DataDrivenTestEnvironment {
+public class GenericServiceCreationITCase extends DataDrivenTestEnvironment {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

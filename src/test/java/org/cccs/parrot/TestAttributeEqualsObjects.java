@@ -41,6 +41,21 @@ public class TestAttributeEqualsObjects {
     }
 
     @Test
+    public void attributeEqualsShouldBeFalseForNullClassInReverse() {
+        assertFalse(new Attribute("att1", "Att 1", null).equals(attribute));
+    }
+
+    @Test
+    public void attributeEqualsShouldBeFalseForNullDescriptionInReverse() {
+        assertFalse(new Attribute("att1", null, Object.class).equals(attribute));
+    }
+
+    @Test
+    public void attributeEqualsShouldBeFalseForNullNameInReverse() {
+        assertFalse(new Attribute(null, "Att 1", Object.class).equals(attribute));
+    }
+
+    @Test
     public void attributeEqualsShouldBeFalseForDifferentClass() {
         assertFalse(attribute.equals(new Attribute("att1", "Att 1", String.class)));
     }
@@ -53,5 +68,20 @@ public class TestAttributeEqualsObjects {
     @Test
     public void attributeEqualsShouldBeFalseForDifferentName() {
         assertFalse(attribute.equals(new Attribute("DIFFERENT", "Att 1", Object.class)));
+    }
+
+    @Test
+    public void attributeEqualsShouldBeFalseForDifferentClassInReverse() {
+        assertFalse(new Attribute("att1", "Att 1", String.class).equals(attribute));
+    }
+
+    @Test
+    public void attributeEqualsShouldBeFalseForDifferentDescriptionInReverse() {
+        assertFalse(new Attribute("att1", "DIFFERENT", Object.class).equals(attribute));
+    }
+
+    @Test
+    public void attributeEqualsShouldBeFalseForDifferentNameInReverse() {
+        assertFalse(new Attribute("DIFFERENT", "Att 1", Object.class).equals(attribute));
     }
 }

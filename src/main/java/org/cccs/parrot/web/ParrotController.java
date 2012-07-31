@@ -132,10 +132,6 @@ public class ParrotController {
         return "success";
     }
 
-    public String extractParameter(HttpServletRequest request, int position) {
-        return Utils.extractParameter(urlPathHelper.getPathWithinApplication(request), position);
-    }
-
     public String extractParameterFromEnd(HttpServletRequest request, int position) {
         return Utils.extractParameterFromEnd(urlPathHelper.getPathWithinApplication(request), position);
     }

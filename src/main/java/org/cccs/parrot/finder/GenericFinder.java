@@ -99,55 +99,6 @@ public class GenericFinder {
         return result;
     }
 
-    public <T> List<T> query(final Class<T> c, String key, Object value) {
-        EntityManager entityManager = getEntityManager();
-        List<T> results = null;
-
-        try {
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<T> query = builder.createQuery(c);
-            Root<T> root = query.from(c);
-            query.select(root);
-            query.where(builder.equal(root.get(key), value));
-            results = entityManager.createQuery(query).getResultList();
-        } catch (Exception e) {
-            //TODO: work out specific exception
-            log.error("Error finding object", e);
-        } finally {
-            if (entityManager.isOpen()) {
-                log.debug("Closing entityManager");
-                entityManager.close();
-            }
-        }
-
-        return results;
-    }
-
-    public <T> T executeNative(final String sql, final Map<String, Object> params) {
-        EntityManager entityManager = getEntityManager();
-        Query query = entityManager.createNativeQuery(sql);
-
-        for (String key : params.keySet()) {
-            query.setParameter(key, params.get(key));
-        }
-
-        T result;
-
-        try {
-            result = (T) query.getSingleResult();
-        } catch (NoResultException e) {
-            log.error(ERROR_MESSAGE, e);
-            throw e;
-        } finally {
-            if (entityManager.isOpen()) {
-                log.debug("Closing entityManager");
-                entityManager.close();
-            }
-        }
-
-        return result;
-    }
-
     protected EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }

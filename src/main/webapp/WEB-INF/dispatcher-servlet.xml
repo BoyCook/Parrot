@@ -74,6 +74,7 @@
         <constructor-arg index="0" ref="requestPathReader"/>
         <constructor-arg index="1" ref="replaceHibernateModifier"/>
     </bean>
+
     <bean id="requestPathReader" class="org.cccs.parrot.oxm.RequestPathReader"/>
     <bean id="replaceHibernateModifier" class="org.cccs.parrot.oxm.ReplaceHibernateModifier"/>
     <bean id="htmlHttpMessageConverter" class="org.cccs.parrot.oxm.ParrotHtmlHttpMessageConverter"/>

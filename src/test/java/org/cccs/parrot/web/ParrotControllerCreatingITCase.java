@@ -100,14 +100,14 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createInvalidTypeShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.put(serviceBaseURL + "invalid", "invalid");
+        client.put(serviceBaseURL + "invalid", new Object());
     }
 
     @Test
     public void createInvalidTypeWithIdShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.put(serviceBaseURL + "invalid/invalid", "invalid");
+        client.put(serviceBaseURL + "invalid/invalid", new Object());
     }
 
     private Person getPerson() {

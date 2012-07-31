@@ -2,6 +2,7 @@ package org.cccs.parrot.oxm;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
+import org.cccs.parrot.web.ResourceNotFoundException;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -45,6 +46,8 @@ public class ParrotJSONHttpMessageConverter extends AbstractHttpMessageConverter
             final String inboundPath = getReader().getPath(inputMessage);
             Class convertClazz = getResourceClass(inboundPath);
             return readFromStream(convertClazz, inputMessage.getBody());
+        } catch (ResourceNotFoundException e) {
+            return readFromStream(clazz, inputMessage.getBody());
         } catch (IOException e) {
             throw new HttpMessageNotReadableException("Unable to read JSON");
         }

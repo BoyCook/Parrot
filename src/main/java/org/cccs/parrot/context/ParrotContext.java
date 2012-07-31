@@ -27,10 +27,10 @@ public class ParrotContext {
     }
 
     public Map<String, Class> getRequestMappings() {
-        return Collections.unmodifiableMap(requestMappings);
+        return requestMappings;
     }
 
     public Map<String, Entity> getModel() {
-        return Collections.unmodifiableMap(model);
+        return model;
     }
 }

@@ -44,8 +44,8 @@
         <property name="messageConverters">
             <util:list id="beanList">
                 <ref bean="jsonMessageConverter"/>
+                <ref bean="htmlExceptionConverter"/>
                 <ref bean="marshallingHttpMessageConverter"/>
-                <ref bean="htmlHttpMessageConverter"/>
                 <ref bean="stringHttpMessageConverter"/>
             </util:list>
         </property>
@@ -77,6 +77,7 @@
     <bean id="requestPathReader" class="org.cccs.parrot.oxm.RequestPathReader"/>
     <bean id="replaceHibernateModifier" class="org.cccs.parrot.oxm.ReplaceHibernateModifier"/>
     <bean id="htmlHttpMessageConverter" class="org.cccs.parrot.oxm.ParrotHtmlHttpMessageConverter"/>
+    <bean id="htmlExceptionConverter" class="org.cccs.parrot.oxm.ParrotHtmlExceptionConverter"/>
 
     <!-- XStream marshaller for OXM -->
     <bean id="marshaller"

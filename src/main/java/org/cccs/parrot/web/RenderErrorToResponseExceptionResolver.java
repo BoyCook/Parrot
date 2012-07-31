@@ -2,7 +2,6 @@ package org.cccs.parrot.web;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.cccs.parrot.domain.ParrotHttpOutputMessage;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -26,7 +25,6 @@ import static java.lang.String.format;
  * Date: 09/07/2012
  * Time: 10:11
  */
-
 public class RenderErrorToResponseExceptionResolver implements HandlerExceptionResolver {
 
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -60,11 +58,12 @@ public class RenderErrorToResponseExceptionResolver implements HandlerExceptionR
     }
 
     private void doWrite(List<MediaType> accepted, final Throwable ex, OutputStream stream) {
-        for (MediaType acceptedMediaType : accepted) {
+        for (MediaType type : accepted) {
             for (HttpMessageConverter converter : getMessageConverters()) {
-                if (converter.getSupportedMediaTypes().contains(acceptedMediaType)) {
+                if (contains(converter.getSupportedMediaTypes(), type)) {
                     try {
-                        converter.write(ex, acceptedMediaType, new ParrotHttpOutputMessage(stream));
+                        converter.write(ex, type, new ParrotHttpOutputMessage(stream));
+                        return;
                     } catch (IOException e) {
                         log.error("There was an error writing exception to response body stream - continuing with response");
                     }
@@ -72,6 +71,18 @@ public class RenderErrorToResponseExceptionResolver implements HandlerExceptionR
             }
         }
     }
+
+    private boolean contains(List<MediaType> types, MediaType match) {
+        boolean foundMatch = false;
+        for (MediaType type : types) {
+            if (type.getType().equals(match.getType()) &&
+                    type.getSubtype().equals(match.getSubtype())) {
+                foundMatch = true;
+            }
+        }
+        return foundMatch;
+    }
+
 
     private int getMappedStatusCode(final HttpServletResponse response, final Throwable ex) {
         log.info(format("Resolving exception [%s] to http status code", ex.getClass().getName()));

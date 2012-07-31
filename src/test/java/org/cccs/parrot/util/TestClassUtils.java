@@ -5,8 +5,11 @@ import org.cccs.parrot.domain.Person;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.MediaType;
 
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -18,6 +21,7 @@ import static org.cccs.parrot.util.Utils.extractParameterFromEnd;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: boycook
@@ -77,4 +81,15 @@ public class TestClassUtils {
     public void getIdValueShouldWork() {
         assertThat(getIdValue(getCraig()).toString(), is(equalTo("1")));
     }
+
+    @Test
+    public void mediaTypeListContainsShouldWork() {
+        List<MediaType> types = new ArrayList<MediaType>();
+        types.add(MediaType.APPLICATION_XML);
+        types.add(MediaType.APPLICATION_JSON);
+        types.add(MediaType.TEXT_HTML);
+
+        assertTrue(types.contains(MediaType.TEXT_HTML));
+    }
+
 }

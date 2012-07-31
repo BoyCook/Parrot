@@ -7,10 +7,6 @@ package org.cccs.parrot.web;
  */
 public class ResourceConflictException extends RuntimeException {
 
-    public ResourceConflictException(String s) {
-        super(s);
-    }
-
     public ResourceConflictException(String s, Throwable throwable) {
         super(s, throwable);
     }

@@ -61,10 +61,6 @@ public class PathMatcher {
         return inboundPath;
     }
 
-    public static Class getResourceClass(HttpServletRequest request) {
-        return getResourceClass(PathMatcher.getMatcher().match(getInboundPath(request)));
-    }
-
     public static Class getResourceClass(String path) {
         final String matchedPath = PathMatcher.getMatcher().match(path);
         Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);

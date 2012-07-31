@@ -27,7 +27,7 @@ import static org.cccs.parrot.ParrotTestUtils.*;
  */
 @ContextConfiguration(locations = "classpath:context/testApplicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class GenericServiceCreationITCase extends DataDrivenTestEnvironment {
+public class GenericServiceCreatingITCase extends DataDrivenTestEnvironment {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

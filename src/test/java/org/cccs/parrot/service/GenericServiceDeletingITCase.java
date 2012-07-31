@@ -27,7 +27,7 @@ import static org.cccs.parrot.Assert.*;
  */
 @ContextConfiguration(locations = {"classpath:context/testApplicationContext.xml", "classpath:context/parrotContext.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class GenericServiceDeletionITCase extends DataDrivenTestEnvironment {
+public class GenericServiceDeletingITCase extends DataDrivenTestEnvironment {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

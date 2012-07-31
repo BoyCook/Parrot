@@ -23,7 +23,6 @@ import static org.cccs.parrot.util.Utils.readFile;
  */
 @ContextConfiguration(locations = "classpath:context/parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@Ignore
 public class TestParrotHtmlGenerator extends XMLTestCase {
 
     private static final String EXPECTED_MESSAGE = "Comparing marshalled xml to expected xml";

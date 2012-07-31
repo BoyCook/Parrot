@@ -15,14 +15,16 @@ public class ParrotHttpOutputMessage implements HttpOutputMessage {
 
     private OutputStream outputStream;
     private HttpHeaders headers;
+    private int code;
 
     public ParrotHttpOutputMessage(OutputStream outputStream) {
-        this(outputStream, new HttpHeaders());
+        this(outputStream, new HttpHeaders(), 200);
     }
 
-    public ParrotHttpOutputMessage(OutputStream outputStream, HttpHeaders headers) {
+    public ParrotHttpOutputMessage(OutputStream outputStream, HttpHeaders headers, int code) {
         this.outputStream = outputStream;
         this.headers = headers;
+        this.code = code;
     }
 
     @Override
@@ -33,5 +35,9 @@ public class ParrotHttpOutputMessage implements HttpOutputMessage {
     @Override
     public HttpHeaders getHeaders() {
         return headers;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

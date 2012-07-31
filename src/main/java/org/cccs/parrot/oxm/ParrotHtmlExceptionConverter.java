@@ -1,6 +1,7 @@
 package org.cccs.parrot.oxm;
 
 import org.apache.commons.io.IOUtils;
+import org.cccs.parrot.domain.ParrotHttpOutputMessage;
 import org.cccs.parrot.generator.DOMElement;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -37,7 +38,7 @@ public class ParrotHtmlExceptionConverter extends AbstractHttpMessageConverter<O
 
     @Override
     protected void writeInternal(Object o, HttpOutputMessage out) throws IOException, HttpMessageNotWritableException {
-        DOMElement dom = getGenerator().convert((Exception) o);
+        DOMElement dom = getGenerator().convert((Exception) o, ((ParrotHttpOutputMessage) out).getCode());
         IOUtils.write(dom.toString(), out.getBody());
     }
 

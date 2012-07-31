@@ -59,4 +59,11 @@ public class TestGeneration {
         String expected = "<select id=\"1\"><option value=\"value1\">Value 1</option></select>";
         assertThat(select.toString(), is(equalTo(expected)));
     }
+
+    @Test
+    public void generateHeaderShouldWork() {
+        H header = new H("5", "A Header");
+        String expected = "<h5>A Header</h5>";
+        assertThat(header.toString(), is(equalTo(expected)));
+    }
 }

@@ -35,7 +35,7 @@ public class ContextBuilder {
     }
 
     public ContextBuilder(final String packageName) {
-        setContext(build(packageName));
+        init(packageName);
     }
 
     public static void init(final String packageName) {

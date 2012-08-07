@@ -6,7 +6,6 @@ import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
-import org.cccs.parrot.util.EntityFactory;
 import org.cccs.parrot.web.ResourceConflictException;
 import org.cccs.parrot.web.ResourceNotFoundException;
 import org.junit.Before;
@@ -18,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.cccs.parrot.Assert.*;
-import static org.cccs.parrot.ParrotTestUtils.*;
+import static org.cccs.parrot.ParrotTestUtils.getCraig;
 
 /**
  * User: boycook

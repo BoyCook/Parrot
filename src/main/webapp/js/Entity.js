@@ -69,7 +69,10 @@ Entity.prototype.delete = function (success) {
     $.ajax({
         type:'DELETE',
         url:url,
-        success:success
+        contentType:'application/json',
+        dataType:'json',
+        success:success,
+        error: httpError
     });
 };
 

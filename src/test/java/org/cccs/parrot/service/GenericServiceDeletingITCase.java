@@ -7,8 +7,8 @@ import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.util.EntityFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -92,11 +92,10 @@ public class GenericServiceDeletingITCase extends DataDrivenTestEnvironment {
         service.delete(entity);
     }
 
-    @Ignore
     @Test
     public void deleteMandatoryForeignKeyForPersonShouldFail() {
-//        thrown.expect(EntityNotFoundException.class);
-//        thrown.expectMessage("Unable to find entity [Person] with [id] as [1]");
+        thrown.expect(ConstraintViolationException.class);
+        thrown.expectMessage("integrity constraint violation: NOT NULL check constraint;");
         Person entity = EntityFactory.get("Person", 1);
         service.delete(entity);
     }

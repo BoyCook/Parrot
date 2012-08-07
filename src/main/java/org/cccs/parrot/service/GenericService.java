@@ -31,7 +31,8 @@ public class GenericService {
     //TODO: get the Transactional stuff to work automatically
 
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
-    private static final String CONSTRAINT_ERROR_MESSAGE = "integrity constraint violation: unique constraint or index violation;";
+    private static final String UNIQUE_CONSTRAINT_ERROR_MESSAGE = "integrity constraint violation: unique constraint or index violation;";
+    private static final String NOT_NULL_CONSTRAINT_ERROR_MESSAGE = "integrity constraint violation: NOT NULL check constraint;";
     private static final String UNIQUE_MESSAGE = "[%s] [%s] already exists";
     private static final String NOT_FOUND_MESSAGE = "Cannot find related entity [%s] [%s] to persist [%s] as [%s]";
     private static final String CREATE_MESSAGE = "Creating [%s] as [%s]";
@@ -119,7 +120,7 @@ public class GenericService {
         ConstraintViolationException constrainException = findNestedException(e, ConstraintViolationException.class);
         TransientPropertyValueException transientException = findNestedException(e, TransientPropertyValueException.class);
 
-        if (constrainException != null && constrainException.getMessage().contains(CONSTRAINT_ERROR_MESSAGE)) {
+        if (constrainException != null && constrainException.getMessage().contains(UNIQUE_CONSTRAINT_ERROR_MESSAGE)) {
             final String msg = format(UNIQUE_MESSAGE, entity.getClass().getSimpleName(), entity.toString());
             log.error(msg, e);
             throw new ResourceConflictException(msg, constrainException);
@@ -132,8 +133,9 @@ public class GenericService {
                     entity.toString());
             log.error(msg, e);
             throw new ResourceNotFoundException(msg, transientException);
+        } else if (constrainException != null) {
+            throw constrainException;
         }
-
         throw e;
     }
 

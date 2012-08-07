@@ -5,12 +5,12 @@ TODO: for RC1
   - Create entities with foreign key
     - Via simple textbox
     - Via search feature
-  - Delete UI
+  + Delete UI
   - Update UI
   - Search UI
     - Retain search results
     - Client filtering
-  - Render exceptions in the UI
+  - Handle exceptions in the UI
   - Allow custom ?freemarker? UIs via entity annotation
 - Find for GET using all entities in path hierarchy (currently just last entity)
 - Complex querying

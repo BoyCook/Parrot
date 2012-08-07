@@ -9,3 +9,8 @@ function imageButton(elements) {
         $('#' + this.id).append(label);
     });
 }
+
+function httpError(xhr, statusText, errorThrown) {
+    var error = JSON.parse(xhr.responseText);
+}
+

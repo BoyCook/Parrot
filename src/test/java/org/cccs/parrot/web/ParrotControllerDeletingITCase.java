@@ -3,7 +3,10 @@ package org.cccs.parrot.web;
 import org.cccs.parrot.domain.Cat;
 import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
+import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
+import org.cccs.parrot.util.EntityFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -80,5 +83,12 @@ public class ParrotControllerDeletingITCase extends JettyIntegrationTestEnvironm
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
         client.delete(serviceBaseURL + "Person/123");
+    }
+
+    @Test
+    public void deleteMandatoryForeignKeyForPersonShouldFail() {
+        thrown.expect(HttpClientErrorException.class);
+        thrown.expectMessage("422 Unprocessable Entity");
+        client.delete(serviceBaseURL + "Person/1");
     }
 }

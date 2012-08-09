@@ -12,5 +12,12 @@ function imageButton(elements) {
 
 function httpError(xhr, statusText, errorThrown) {
     var error = JSON.parse(xhr.responseText);
+    resolveRefs(error);
+    var msg = 'Error (' + xhr.status +'): ' + error.detailMessage;
+    $.noticeAdd({
+        text: msg,
+        type: 'error-notice',
+        stay: true
+    })
 }
 

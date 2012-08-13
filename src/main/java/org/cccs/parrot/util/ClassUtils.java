@@ -20,6 +20,9 @@ import static java.lang.String.format;
 public final class ClassUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ClassUtils.class);
+    private static final String NEW_OBJECT_ERROR_MSG_TEXT = "Error creating new object [%s]";
+    private static final String READ_ERROR_MSG_TEXT = "Failed to get property [%s] value of [%s]";
+    private static final String WRITE_ERROR_MSG_TEXT = "Failed to write property [%s] value for [%s]";
 
     private ClassUtils() {}
 
@@ -36,15 +39,15 @@ public final class ClassUtils {
             try {
                 o = c.getConstructor().newInstance();
             } catch (InvocationTargetException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (NoSuchMethodException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (InstantiationException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (IllegalAccessException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (IllegalArgumentException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             }
         }
         return o;
@@ -57,13 +60,13 @@ public final class ClassUtils {
             try {
                 o = c.getConstructor(constructor).newInstance(value);
             } catch (InvocationTargetException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (NoSuchMethodException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (InstantiationException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             } catch (IllegalAccessException e) {
-                log.error(format("Error creating new object [%s]", c.getName()), e);
+                log.error(format(NEW_OBJECT_ERROR_MSG_TEXT, c.getName()), e);
             }
         }
         return o;
@@ -78,9 +81,9 @@ public final class ClassUtils {
         try {
             value = method.invoke(o);
         } catch (IllegalAccessException e) {
-            log.error(format("Failed to get property [%s] value of [%s]", method.getName(), o.getClass().getName()), e);
+            log.error(format(READ_ERROR_MSG_TEXT, method.getName(), o.getClass().getName()), e);
         } catch (InvocationTargetException e) {
-            log.error(format("Failed to get property [%s] value of [%s]", method.getName(), o.getClass().getName()), e);
+            log.error(format(READ_ERROR_MSG_TEXT, method.getName(), o.getClass().getName()), e);
         }
         return value;
     }
@@ -89,9 +92,9 @@ public final class ClassUtils {
         try {
             descriptor.getWriteMethod().invoke(o, value);
         } catch (IllegalAccessException e) {
-            log.error(format("Failed to write property [%s] value for [%s]", descriptor.getName(), o.getClass().getName()), e);
+            log.error(format(WRITE_ERROR_MSG_TEXT, descriptor.getName(), o.getClass().getName()), e);
         } catch (InvocationTargetException e) {
-            log.error(format("Failed to write property [%s] value for [%s]", descriptor.getName(), o.getClass().getName()), e);
+            log.error(format(WRITE_ERROR_MSG_TEXT, descriptor.getName(), o.getClass().getName()), e);
         }
     }
 

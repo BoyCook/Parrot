@@ -19,7 +19,7 @@ import static java.lang.String.format;
  */
 public class GenericFinder {
 
-    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String NOT_FOUND_MESSAGE = "Unable to find entity [%s] with [%s] as [%s]";
     private static final String ERROR_MESSAGE = "Query returns no results, input params may be invalid";
     private EntityManagerFactory entityManagerFactory;
@@ -99,7 +99,7 @@ public class GenericFinder {
         return result;
     }
 
-    protected EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 }

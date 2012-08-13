@@ -28,7 +28,7 @@ import static org.cccs.parrot.util.ContextUtils.getDescription;
  */
 public class ContextBuilder {
 
-    protected static final Logger log = LoggerFactory.getLogger(ContextBuilder.class);
+    private static final Logger log = LoggerFactory.getLogger(ContextBuilder.class);
     private static ParrotContext context;
 
     public ContextBuilder() {

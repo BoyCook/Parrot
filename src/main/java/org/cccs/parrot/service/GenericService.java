@@ -30,7 +30,7 @@ import static org.cccs.parrot.util.ClassUtils.getIdValue;
 public class GenericService {
     //TODO: get the Transactional stuff to work automatically
 
-    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String UNIQUE_CONSTRAINT_ERROR_MESSAGE = "integrity constraint violation: unique constraint or index violation;";
     private static final String NOT_NULL_CONSTRAINT_ERROR_MESSAGE = "integrity constraint violation: NOT NULL check constraint;";
     private static final String UNIQUE_MESSAGE = "[%s] [%s] already exists";
@@ -110,7 +110,7 @@ public class GenericService {
         }
     }
 
-    protected EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 

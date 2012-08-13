@@ -79,12 +79,12 @@ public final class Assert {
         assertThat(person.getDogs().size(), is(equalTo(2)));
     }
 
-    protected void assertIntItem(List<Integer> results, int value) {
+    public void assertIntItem(List<Integer> results, int value) {
         junit.framework.Assert.assertNotNull(results);
         assertThat(results.get(0), CoreMatchers.is(CoreMatchers.equalTo(value)));
     }
 
-    protected void assertStringItem(List<String> results, String value) {
+    public void assertStringItem(List<String> results, String value) {
         junit.framework.Assert.assertNotNull(results);
         assertThat(results.get(0), CoreMatchers.is(CoreMatchers.equalTo(value)));
     }

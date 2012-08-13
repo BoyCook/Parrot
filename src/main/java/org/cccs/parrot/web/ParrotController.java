@@ -36,11 +36,11 @@ import static org.cccs.parrot.web.PathMatcher.getInboundPath;
 @Scope("session")
 public class ParrotController {
 
-    protected final Logger log = LoggerFactory.getLogger(ParrotController.class);
-    protected final UrlPathHelper urlPathHelper = new UrlPathHelper();
+    private final Logger log = LoggerFactory.getLogger(ParrotController.class);
+    private final UrlPathHelper urlPathHelper = new UrlPathHelper();
 
     @Autowired
-    protected EntityManagerFactory entityManagerFactory;
+    public EntityManagerFactory entityManagerFactory;
 
     @RequestMapping(value = "/context", method = RequestMethod.GET)
     @ResponseBody

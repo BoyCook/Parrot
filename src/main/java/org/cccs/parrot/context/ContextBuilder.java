@@ -79,27 +79,27 @@ public class ContextBuilder {
 
     public void buildResourcePath(final Map<String, Class> requestMappings, final Class c, String path) {
         addResource(requestMappings, c, path);
-        path += getResourcePath(c) + getUniquePath(c);
+        String newPath = path + getResourcePath(c) + getUniquePath(c);
 
         for (Method method : c.getMethods()) {
             if (method.isAnnotationPresent(OneToOne.class)) {
-                if (path.contains(getResourcePath(method.getReturnType()))) {
-                    addResource(requestMappings, method.getReturnType(), path);
+                if (newPath.contains(getResourcePath(method.getReturnType()))) {
+                    addResource(requestMappings, method.getReturnType(), newPath);
                 } else {
                     LOG.debug(format("Looking down into resource [%s]", method.getReturnType().getSimpleName()));
-                    buildResourcePath(requestMappings, method.getReturnType(), path);
+                    buildResourcePath(requestMappings, method.getReturnType(), newPath);
                 }
             } else if (method.isAnnotationPresent(OneToMany.class)) {
                 Class type = ClassUtils.getGenericType(method);
-                if (path.contains(getResourcePath(type))) {
-                    addResource(requestMappings, type, path);
+                if (newPath.contains(getResourcePath(type))) {
+                    addResource(requestMappings, type, newPath);
                 } else {
                     LOG.debug(format("Looking down into resource [%s]", type.getSimpleName()));
-                    buildResourcePath(requestMappings, ClassUtils.getGenericType(method), path);
+                    buildResourcePath(requestMappings, ClassUtils.getGenericType(method), newPath);
                 }
             } else if (method.isAnnotationPresent(ManyToMany.class)) {
                 Class type = ClassUtils.getGenericType(method);
-                addResource(requestMappings, type, path);
+                addResource(requestMappings, type, newPath);
             }
         }
     }

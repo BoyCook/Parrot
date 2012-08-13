@@ -30,25 +30,25 @@ public class PathMatcher {
     }
 
     public String match(String urlPath) {
-        urlPath = urlPath.toLowerCase();
+        String matchPath = urlPath.toLowerCase();
         List<String> matchingPatterns = new ArrayList<String>();
         for (String registeredPattern : ContextBuilder.getContext().getRequestMappings().keySet()) {
             registeredPattern = registeredPattern.toLowerCase();
-            if (getPathMatcher().match(registeredPattern, urlPath)) {
-                LOG.debug(format("Matched [%s] with [%s]", registeredPattern, urlPath));
+            if (getPathMatcher().match(registeredPattern, matchPath)) {
+                LOG.debug(format("Matched [%s] with [%s]", registeredPattern, matchPath));
                 matchingPatterns.add(registeredPattern);
             }
         }
         String bestPatternMatch = null;
-        Comparator<String> patternComparator = getPathMatcher().getPatternComparator(urlPath);
+        Comparator<String> patternComparator = getPathMatcher().getPatternComparator(matchPath);
         if (!matchingPatterns.isEmpty()) {
             Collections.sort(matchingPatterns, patternComparator);
             bestPatternMatch = matchingPatterns.get(0);
-            LOG.debug(format("Using match [%s] for [%s]", bestPatternMatch, urlPath));
+            LOG.debug(format("Using match [%s] for [%s]", bestPatternMatch, matchPath));
         }
 
         if (bestPatternMatch == null) {
-            throw new ResourceNotFoundException(format("Cannot match path [%s]", urlPath));
+            throw new ResourceNotFoundException(format("Cannot match path [%s]", matchPath));
         }
 
         return bestPatternMatch;

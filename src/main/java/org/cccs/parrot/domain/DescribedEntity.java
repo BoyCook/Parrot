@@ -33,14 +33,24 @@ public abstract class DescribedEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         DescribedEntity that = (DescribedEntity) o;
 
-        if (clazz != null ? !clazz.equals(that.clazz) : that.clazz != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (clazz != null ? !clazz.equals(that.clazz) : that.clazz != null){
+            return false;
+        }
+        if (description != null ? !description.equals(that.description) : that.description != null) {
+            return false;
+        }
+        if (name != null ? !name.equals(that.name) : that.name != null){
+            return false;
+        }
 
         return true;
     }

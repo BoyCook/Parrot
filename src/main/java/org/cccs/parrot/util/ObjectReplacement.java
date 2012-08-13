@@ -53,10 +53,10 @@ public class ObjectReplacement {
             for (PropertyDescriptor descriptor : descriptors) {
                 Class<?> type = descriptor.getReadMethod().getReturnType();
                 Object value = invokeReadMethod(o, descriptor);
-                if (Map.class.isAssignableFrom(type)) {
-                    //TODO: handle HashMap
-                } else if (Collection.class.isAssignableFrom(type) && mappings.containsKey(value.getClass())) {
+                if (Collection.class.isAssignableFrom(type) && mappings.containsKey(value.getClass())) {
                     replaceCollection(o, descriptor);
+//                } else if (Map.class.isAssignableFrom(type)) {
+//                    //TODO: handle HashMap
                 } else if (isInDomain(type) &&
                         value != null &&
                         !stack.contains(value)) {

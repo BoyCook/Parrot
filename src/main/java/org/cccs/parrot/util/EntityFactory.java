@@ -14,6 +14,8 @@ import static org.cccs.parrot.util.ClassUtils.*;
  */
 public final class EntityFactory {
 
+    private EntityFactory() {}
+
     public static <T> T get(String type, long id) {
         Entity entity = ContextBuilder.getContext().getModel().get(type);
         T newObject = (T) getNewObject(entity.getClazz());

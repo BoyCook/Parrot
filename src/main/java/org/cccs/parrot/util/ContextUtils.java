@@ -16,6 +16,8 @@ import java.lang.reflect.Method;
  */
 public final class ContextUtils {
 
+    private ContextUtils() {}
+
     public static Class getClassByName(final String name) {
         try {
             return Class.forName(name);

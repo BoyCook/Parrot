@@ -21,6 +21,8 @@ public final class ClassUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ClassUtils.class);
 
+    private ClassUtils() {}
+
     //TODO handle exceptions
     public static Class getGenericType(Method method) {
         ParameterizedType stringListType = (ParameterizedType) method.getGenericReturnType();

@@ -24,6 +24,8 @@ public final class Validation {
     private static final ValidatorFactory validatorFactory = javax.validation.Validation.buildDefaultValidatorFactory();
     private static final int INITIAL_SIZE = 1024;
 
+    private Validation() {}
+
     public static void validate(int value) {
         validate(value, "You must specify a valid integer value");
     }

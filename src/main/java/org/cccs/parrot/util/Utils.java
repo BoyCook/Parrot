@@ -20,6 +20,8 @@ public final class Utils {
 
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
 
+    private Utils() {}
+
     public static String extractParameter(String path, int position) {
         List<String> stringList = asList(path.split("/"));
         return stringList.get(position);

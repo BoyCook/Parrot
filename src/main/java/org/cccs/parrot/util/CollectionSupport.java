@@ -5,6 +5,8 @@ import java.util.List;
 
 public final class CollectionSupport {
 
+    private CollectionSupport() {}
+
     public static <T> List<T> asList(T... items) {
         List<T> results = new ArrayList<T>();
         for (T item : items) {

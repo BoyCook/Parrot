@@ -21,8 +21,8 @@ import static java.lang.String.format;
  */
 public class PathMatcher {
 
-    private static final Logger log = LoggerFactory.getLogger(PathMatcher.class);
-    private static final UrlPathHelper urlPathHelper = new UrlPathHelper();
+    private static final Logger LOG = LoggerFactory.getLogger(PathMatcher.class);
+    private static final UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
     public static final String SERVICE_PATH = "/service";
 
     public static PathMatcher getMatcher() {
@@ -35,7 +35,7 @@ public class PathMatcher {
         for (String registeredPattern : ContextBuilder.getContext().getRequestMappings().keySet()) {
             registeredPattern = registeredPattern.toLowerCase();
             if (getPathMatcher().match(registeredPattern, urlPath)) {
-                log.debug(format("Matched [%s] with [%s]", registeredPattern, urlPath));
+                LOG.debug(format("Matched [%s] with [%s]", registeredPattern, urlPath));
                 matchingPatterns.add(registeredPattern);
             }
         }
@@ -44,7 +44,7 @@ public class PathMatcher {
         if (!matchingPatterns.isEmpty()) {
             Collections.sort(matchingPatterns, patternComparator);
             bestPatternMatch = matchingPatterns.get(0);
-            log.debug(format("Using match [%s] for [%s]", bestPatternMatch, urlPath));
+            LOG.debug(format("Using match [%s] for [%s]", bestPatternMatch, urlPath));
         }
 
         if (bestPatternMatch == null) {
@@ -55,16 +55,16 @@ public class PathMatcher {
     }
 
     public static String getInboundPath(HttpServletRequest request) {
-        String inboundPath = urlPathHelper.getPathWithinApplication(request);
+        String inboundPath = URL_PATH_HELPER.getPathWithinApplication(request);
         inboundPath = inboundPath.substring(SERVICE_PATH.length());
-        log.debug("Inbound URL: " + inboundPath);
+        LOG.debug("Inbound URL: " + inboundPath);
         return inboundPath;
     }
 
     public static Class getResourceClass(String path) {
         final String matchedPath = PathMatcher.getMatcher().match(path);
         Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-        log.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
+        LOG.debug(format("Found resource match [%s] as [%s]", matchedPath, clazz.getSimpleName()));
         return clazz;
     }
 

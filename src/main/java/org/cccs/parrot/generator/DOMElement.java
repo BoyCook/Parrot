@@ -71,19 +71,19 @@ public abstract class DOMElement {
 
     @Override
     public String toString() {
-        StringBuilder value = new StringBuilder();
-        value.append(getStartTag());
+        StringBuilder builder = new StringBuilder();
+        builder.append(getStartTag());
 
         if (getValue() != null) {
-            value.append(getValue());
+            builder.append(getValue());
         } else {
             for (DOMElement child : getChildren()) {
-                value.append(child.toString());
+                builder.append(child.toString());
             }
         }
 
-        value.append(getEndTag());
-        return value.toString();
+        builder.append(getEndTag());
+        return builder.toString();
     }
 
     public static String getStartTag(String tag) {

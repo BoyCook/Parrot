@@ -13,6 +13,6 @@ public interface PathReader {
      * Gets the path from a URL
      * @return
      */
-    public String getPath(HttpInputMessage message);
+    String getPath(HttpInputMessage message);
 
 }

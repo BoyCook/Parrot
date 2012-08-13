@@ -18,7 +18,7 @@ import static org.cccs.parrot.util.CollectionSupport.asList;
  */
 public final class Utils {
 
-    private static final Logger log = LoggerFactory.getLogger(Utils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
     private Utils() {}
 
@@ -38,7 +38,7 @@ public final class Utils {
         try {
             file = Utils.readFileToString(fileName);
         } catch (IOException e) {
-            log.error("There was an error reading in file: " + fileName, e);
+            LOG.error("There was an error reading in file: " + fileName, e);
         }
         return file;
     }

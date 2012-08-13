@@ -9,8 +9,9 @@ public interface ObjectModifier {
 
     /**
      * Performs any custom modifications to the object before marshalling
+     *
      * @param o
      */
-    public void modify(Object o);
+    void modify(Object o);
 
 }

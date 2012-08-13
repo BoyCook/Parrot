@@ -28,7 +28,7 @@ import static org.cccs.parrot.util.ContextUtils.getDescription;
  */
 public class ContextBuilder {
 
-    private static final Logger log = LoggerFactory.getLogger(ContextBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ContextBuilder.class);
     private static ParrotContext context;
 
     public ContextBuilder() {
@@ -62,9 +62,9 @@ public class ContextBuilder {
             }
         }
 
-        log.debug(format("Found [%d] top level resources", rootMappings.size()));
+        LOG.debug(format("Found [%d] top level resources", rootMappings.size()));
         for (Class top : rootMappings.values()) {
-            log.debug(format("Building resource path for [%s]", top.getName()));
+            LOG.debug(format("Building resource path for [%s]", top.getName()));
             buildResourcePath(requestMappings, top, "");
         }
 
@@ -86,7 +86,7 @@ public class ContextBuilder {
                 if (path.contains(getResourcePath(method.getReturnType()))) {
                     addResource(requestMappings, method.getReturnType(), path);
                 } else {
-                    log.debug(format("Looking down into resource [%s]", method.getReturnType().getSimpleName()));
+                    LOG.debug(format("Looking down into resource [%s]", method.getReturnType().getSimpleName()));
                     buildResourcePath(requestMappings, method.getReturnType(), path);
                 }
             } else if (method.isAnnotationPresent(OneToMany.class)) {
@@ -94,7 +94,7 @@ public class ContextBuilder {
                 if (path.contains(getResourcePath(type))) {
                     addResource(requestMappings, type, path);
                 } else {
-                    log.debug(format("Looking down into resource [%s]", type.getSimpleName()));
+                    LOG.debug(format("Looking down into resource [%s]", type.getSimpleName()));
                     buildResourcePath(requestMappings, ClassUtils.getGenericType(method), path);
                 }
             } else if (method.isAnnotationPresent(ManyToMany.class)) {
@@ -125,7 +125,7 @@ public class ContextBuilder {
     }
 
     private void addMapping(final Map<String, Class> requestMappings, final Class c, String path) {
-        log.debug(format("Adding mapping [%s] [%s]", path, c));
+        LOG.debug(format("Adding mapping [%s] [%s]", path, c));
         requestMappings.put(path, c);
     }
 

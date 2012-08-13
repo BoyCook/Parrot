@@ -49,7 +49,7 @@ public class ParrotJSONHttpMessageConverter extends AbstractHttpMessageConverter
         } catch (ResourceNotFoundException e) {
             return readFromStream(clazz, inputMessage.getBody());
         } catch (IOException e) {
-            throw new HttpMessageNotReadableException("Unable to read JSON");
+            throw new HttpMessageNotReadableException("Unable to read JSON", e);
         }
     }
 

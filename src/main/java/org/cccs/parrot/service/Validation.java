@@ -20,7 +20,6 @@ import java.util.Set;
  */
 public final class Validation {
 
-    private static final Logger log = LoggerFactory.getLogger(Validation.class);
     private static final ValidatorFactory validatorFactory = javax.validation.Validation.buildDefaultValidatorFactory();
     private static final int INITIAL_SIZE = 1024;
 

@@ -38,8 +38,7 @@ public final class Utils {
         try {
             file = Utils.readFileToString(fileName);
         } catch (IOException e) {
-            log.error("There was an error reading in file: " + fileName);
-            e.printStackTrace();
+            log.error("There was an error reading in file: " + fileName, e);
         }
         return file;
     }

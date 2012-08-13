@@ -27,8 +27,8 @@ public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
     private static final String ENTITY_TEMPLATE_FILE = "/html/entity.html";
     private static final String ENTITIES_TEMPLATE_FILE = "/html/entities.html";
-    private static String ENTITY_TEMPLATE;
-    private static String ENTITIES_TEMPLATE;
+    private static String entityTemplate;
+    private static String entitiesTemplate;
 
     public ParrotHtmlHttpMessageConverter() {
         super(new MediaType("text", "html", DEFAULT_CHARSET));
@@ -63,16 +63,16 @@ public class ParrotHtmlHttpMessageConverter extends AbstractHttpMessageConverter
     }
 
     private String getEntityTemplate() {
-        if (ENTITY_TEMPLATE == null) {
-            ENTITY_TEMPLATE = readFile(ENTITY_TEMPLATE_FILE);
+        if (entityTemplate == null) {
+            entityTemplate = readFile(ENTITY_TEMPLATE_FILE);
         }
-        return ENTITY_TEMPLATE;
+        return entityTemplate;
     }
 
     private String getEntitiesTemplate() {
-        if (ENTITIES_TEMPLATE == null) {
-            ENTITIES_TEMPLATE = readFile(ENTITIES_TEMPLATE_FILE);
+        if (entitiesTemplate == null) {
+            entitiesTemplate = readFile(ENTITIES_TEMPLATE_FILE);
         }
-        return ENTITIES_TEMPLATE;
+        return entitiesTemplate;
     }
 }

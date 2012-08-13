@@ -2,7 +2,6 @@ package org.cccs.parrot.context;
 
 import org.cccs.parrot.domain.Entity;
 
-import java.util.Collections;
 import java.util.Map;
 
 /**

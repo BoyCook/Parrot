@@ -1,17 +1,11 @@
 package org.cccs.parrot.service;
 
-
 import org.apache.commons.lang.Validate;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
-
 
 /**
  * User: boycook

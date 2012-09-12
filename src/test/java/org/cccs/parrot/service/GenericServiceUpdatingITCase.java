@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
  * Date: 31/07/2012
  * Time: 15:13
  */
-@ContextConfiguration(locations = {"classpath:context/testApplicationContext.xml", "classpath:context/parrotContext.xml"})
+@ContextConfiguration(locations = {"classpath:context/testApplicationContext.xml", "classpath:parrotContext.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GenericServiceUpdatingITCase extends DataDrivenTestEnvironment {
 

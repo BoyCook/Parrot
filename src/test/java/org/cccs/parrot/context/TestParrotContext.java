@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  * Date: 22/06/2012
  * Time: 10:00
  */
-@ContextConfiguration(locations = "classpath:context/parrotContext.xml")
+@ContextConfiguration(locations = "classpath:parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestParrotContext {
 

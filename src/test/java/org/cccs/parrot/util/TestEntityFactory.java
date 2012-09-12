@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
  * Date: 27/07/2012
  * Time: 13:01
  */
-@ContextConfiguration(locations = "classpath:context/parrotContext.xml")
+@ContextConfiguration(locations = "classpath:parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestEntityFactory {
 

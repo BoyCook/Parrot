@@ -220,7 +220,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>parrot</finalName>
         <filters>
             <filter>${filter.dir}/${filter}.properties</filter>
         </filters>
@@ -293,7 +292,6 @@
                                         <include>db/*.xml</include>
                                         <include>META-INF/persistence.xml</include>
                                         <include>context/jettyApplicationContext.xml</include>
-                                        <include>context/parrotContext.xml</include>
                                     </includes>
                                 </resource>
                             </resources>

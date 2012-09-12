@@ -3,7 +3,6 @@ package org.cccs.parrot.oxm;
 import org.custommonkey.xmlunit.XMLTestCase;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,7 +20,7 @@ import static org.cccs.parrot.util.Utils.readFile;
  * Date: 04/07/2012
  * Time: 22:05
  */
-@ContextConfiguration(locations = "classpath:context/parrotContext.xml")
+@ContextConfiguration(locations = "classpath:parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestParrotHtmlGenerator extends XMLTestCase {
 

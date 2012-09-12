@@ -27,6 +27,8 @@ TODO: for RC1
 + Map GET Controller to service
 + Map PUT Controller to service
 + Map POST Controller to service
+  - Allow post for individual property
+  - Allow post for individual association
 + Map DELETE Controller to service
 
 Context building/validation:

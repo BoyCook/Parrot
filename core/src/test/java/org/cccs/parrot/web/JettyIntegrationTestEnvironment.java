@@ -78,7 +78,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
             server.addConnector(connector);
             WebAppContext webapp = new WebAppContext();
             webapp.setContextPath("/");
-            webapp.setWar("src/main/webapp");
+            webapp.setWar("src/test/webapp");
 
             if (overrideWebXML) {
                 webapp.setDescriptor(webXML);

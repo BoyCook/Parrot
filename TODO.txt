@@ -30,6 +30,7 @@ TODO: for RC1
   - Allow post for individual property
   - Allow post for individual association
 + Map DELETE Controller to service
+- Resolve test persistence.xml issue (domain classes are test only)
 
 Context building/validation:
 - Ensure uniqueness of paths for all methods

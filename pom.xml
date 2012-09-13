@@ -32,6 +32,7 @@
         <junit.version>4.10</junit.version>
     </properties>
     <modules>
+        <module>test-common</module>
         <module>core</module>
         <module>webapp</module>
     </modules>

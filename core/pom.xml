@@ -6,8 +6,8 @@
     <artifactId>parrot-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Parrot - Object Rest Model</name>
-    <description>ORM with DB and REST</description>
+    <name>Parrot - Core</name>
+    <description>Core Parrot</description>
     <parent>
 	    <groupId>org.cccs</groupId>
 	    <artifactId>parrot-parent</artifactId>

@@ -83,7 +83,7 @@ public class GenericServiceCreatingITCase extends DataDrivenTestEnvironment {
     @Test
     public void createCatWithInvalidPersonShouldFail() {
         thrown.expect(ResourceNotFoundException.class);
-        thrown.expectMessage("Cannot find related entity [owner] [org.cccs.parrot.domain.Person] to persist [org.cccs.parrot.domain.Cat] as [Cat{name='Bagpuss'}]");
+        thrown.expectMessage("Cannot find related entity [owner] [Person] to persist [Cat] as [Cat{name='Bagpuss'}]");
         service.create(new Cat("Bagpuss", getPerson()));
         assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
     }
@@ -97,7 +97,7 @@ public class GenericServiceCreatingITCase extends DataDrivenTestEnvironment {
     @Test
     public void createDogWithInvalidPersonShouldFail() {
         thrown.expect(ResourceNotFoundException.class);
-        thrown.expectMessage("Cannot find related entity [owner] [org.cccs.parrot.domain.Person] to persist [org.cccs.parrot.domain.Dog] as [Dog{name='Fido'}]");
+        thrown.expectMessage("Cannot find related entity [owner] [Person] to persist [Dog] as [Dog{name='Fido'}]");
         service.create(new Dog("Fido", getPerson()));
         assertFido(finder.find(Dog.class, "name", "Fido"));
     }

@@ -128,8 +128,8 @@ public class GenericService {
             PropertyDescriptor missing = BeanUtils.getPropertyDescriptor(entity.getClass(), transientException.getPropertyName());
             final String msg = format(NOT_FOUND_MESSAGE,
                     transientException.getPropertyName(),
-                    missing.getPropertyType().getName(),
-                    entity.getClass().getName(),
+                    missing.getPropertyType().getSimpleName(),
+                    entity.getClass().getSimpleName(),
                     entity.toString());
             log.error(msg, e);
             throw new ResourceNotFoundException(msg, transientException);

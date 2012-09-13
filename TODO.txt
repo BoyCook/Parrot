@@ -69,4 +69,4 @@ Parent = OneToOne || One2Many ||  ManyToMany
 Child = ManyToOne
 
 #mvn versions:display-dependency-updates
-org.hibernate.InstantiationException: No default constructor for entity: org.cccs.parrot.domain.Country
+org.hibernate.InstantiationException: No default constructor for entity: Country

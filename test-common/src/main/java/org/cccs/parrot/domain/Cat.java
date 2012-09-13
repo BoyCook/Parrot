@@ -1,7 +1,6 @@
 package org.cccs.parrot.domain;
 
 import org.cccs.parrot.Description;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.ForeignKey;
 
 import javax.persistence.*;
@@ -16,22 +15,22 @@ import java.util.Set;
  */
 @javax.persistence.Entity
 @Table
-public class Dog {
+public class Cat {
 
     private Long id;
     private String name;
     private Person owner;
     private Set<Country> countries;
 
-    public Dog() {
+    public Cat() {
         this(null, null);
     }
 
-    public Dog(String name) {
+    public Cat(String name) {
         this(name, null);
     }
 
-    public Dog(String name, Person owner) {
+    public Cat(final String name, final Person owner) {
         this.name = name;
         this.owner = owner;
         this.countries = new HashSet<Country>();
@@ -46,13 +45,13 @@ public class Dog {
     }
 
     @Description("Name")
-    @Column(unique = true, name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     public String getName() {
         return name;
     }
 
     @NotNull(message = "Owner must be specified")
-    @ForeignKey(name = "FK_DOG_OWNER")
+    @ForeignKey(name = "FK_CAT_OWNER")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     public Person getOwner() {
@@ -61,30 +60,30 @@ public class Dog {
 
     @Description("Countries")
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "dog_countries", joinColumns = {@JoinColumn(name = "dog_id")}, inverseJoinColumns = @JoinColumn(name = "cntId"))
+    @JoinTable(name = "cat_countries", joinColumns = {@JoinColumn(name = "cat_id")}, inverseJoinColumns = @JoinColumn(name = "cntId"))
     public Set<Country> getCountries() {
         return countries;
-    }
-
-    public void setCountries(Set<Country> countries) {
-        this.countries = countries;
-    }
-
-    public void setOwner(Person owner) {
-        this.owner = owner;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setOwner(final Person owner) {
+        this.owner = owner;
+    }
+
+    public void setCountries(final Set<Country> countries) {
+        this.countries = countries;
+    }
+
     @Override
     public String toString() {
-        return "Dog{" +
+        return "Cat{" +
                 "name='" + name + '\'' +
                 '}';
     }

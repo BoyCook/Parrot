@@ -14,6 +14,18 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <dependencies>
+        <!-- Parrot -->
+        <dependency>
+            <groupId>org.cccs</groupId>
+            <artifactId>parrot-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.cccs</groupId>
+            <artifactId>parrot-test-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -180,12 +192,6 @@
             </exclusions>
         </dependency>
         <!-- Test -->
-        <dependency>
-            <groupId>org.cccs</groupId>
-            <artifactId>parrot-test-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

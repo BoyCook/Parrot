@@ -17,7 +17,6 @@ import static org.cccs.parrot.ParrotTestUtils.getCraig;
 import static org.cccs.parrot.util.ClassUtils.getIdValue;
 import static org.cccs.parrot.util.ClassUtils.getNewObject;
 import static org.cccs.parrot.util.ClassUtils.invokeReadMethod;
-import static org.cccs.parrot.util.Utils.extractParameterFromEnd;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

@@ -14,19 +14,6 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <dependencies>
-        <dependency>
-		    <groupId>org.cccs</groupId>
-		    <artifactId>parrot-core</artifactId>
-		    <version>1.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Other -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <scope>provided</scope>
-            <version>2.5</version>
-        </dependency>
         <!-- Test Harness -->
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
@@ -52,28 +39,32 @@
                         <artifactId>dbunit</artifactId>
                         <version>2.4.8</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.cccs</groupId>
+                        <artifactId>parrot-test-common</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.cccs</groupId>
+                        <artifactId>parrot-core</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                        <version>${slf4j.version}</version>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <scanIntervalSeconds>-1</scanIntervalSeconds>
                     <stopPort>9901</stopPort>
                     <contextPath>/</contextPath>
-                    <webXml>src/test/resources/jettyWeb.xml</webXml>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>9001</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>org.apache.commons.logging.Log</name>
-                            <value>org.apache.commons.logging.impl.Log4JLogger</value>
-                        </systemProperty>
-                        <systemProperty>
-                            <name>slf4j</name>
-                            <value>false</value>
-                        </systemProperty>
-                    </systemProperties>
                 </configuration>
             </plugin>
         </plugins>

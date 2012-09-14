@@ -1,6 +1,7 @@
 package org.cccs.parrot.util;
 
 import org.cccs.parrot.Description;
+import org.cccs.parrot.Root;
 import org.cccs.parrot.context.ContextBuilder;
 
 import javax.persistence.Entity;
@@ -29,6 +30,9 @@ public final class ContextUtils {
     public static boolean isTop(final Class c) {
         if (!c.isAnnotationPresent(Table.class)) {
             return false;
+        }
+        if (c.isAnnotationPresent(Root.class)) {
+            return true;
         }
         for (Method method : c.getMethods()) {
             if (method.isAnnotationPresent(ManyToOne.class)) {

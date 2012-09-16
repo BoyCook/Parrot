@@ -5,11 +5,14 @@ import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
+import org.cccs.parrot.oxm.ReplaceHibernateModifier;
+import org.cccs.parrot.web.converter.ParrotJSONHttpMessageConverter;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.springframework.http.client.ResponsePathReader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,7 +24,7 @@ import static org.cccs.parrot.Assert.*;
  * Date: 18/06/2012
  * Time: 12:05
  */
-@ContextConfiguration(locations = "classpath:context/testApplicationContext.xml")
+@ContextConfiguration(locations = {"classpath:context/testApplicationContext.xml", "classpath:parrotContext.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironment {
 
@@ -31,6 +34,7 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
 
     @Before
     public void beforeEach() throws Exception {
+        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
         finder = new GenericFinder(entityManagerFactory);
         setDataFileNames(new String[]{"/db/people.xml"});
         setTearDown(true);

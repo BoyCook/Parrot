@@ -1,5 +1,6 @@
 package org.cccs.parrot.web;
 
+import org.cccs.parrot.ParrotConstants;
 import org.cccs.parrot.context.ContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,6 @@ public class PathMatcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(PathMatcher.class);
     private static final UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
-    public static final String SERVICE_PATH = "/service";
 
     public static PathMatcher getMatcher() {
         return new PathMatcher();
@@ -56,7 +56,7 @@ public class PathMatcher {
 
     public static String getInboundPath(HttpServletRequest request) {
         String inboundPath = URL_PATH_HELPER.getPathWithinApplication(request);
-        inboundPath = inboundPath.substring(SERVICE_PATH.length());
+        inboundPath = inboundPath.substring(ParrotConstants.SERVICE_PATH.length());
         LOG.debug("Inbound URL: " + inboundPath);
         return inboundPath;
     }

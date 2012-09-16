@@ -30,9 +30,14 @@
         <hsqldb.version>2.2.8</hsqldb.version>
         <hamcrest.version>1.1</hamcrest.version>
         <junit.version>4.10</junit.version>
+        <xstream.version>1.4.2</xstream.version>
     </properties>
     <modules>
+        <module>annotations</module>
         <module>common</module>
+        <module>oxm</module>
+        <module>spring-http</module>
+        <module>test-domain</module>
         <module>test-common</module>
         <module>core</module>
         <module>webapp</module>

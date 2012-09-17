@@ -70,15 +70,15 @@
         <property name="unmarshaller" ref="marshaller"/>
     </bean>
 
-    <bean id="jsonMessageConverter" class="ParrotJSONHttpMessageConverter">
+    <bean id="jsonMessageConverter" class="org.cccs.parrot.web.converter.ParrotJSONHttpMessageConverter">
         <constructor-arg index="0" ref="requestPathReader"/>
         <constructor-arg index="1" ref="replaceHibernateModifier"/>
     </bean>
 
-    <bean id="requestPathReader" class="RequestPathReader"/>
-    <bean id="replaceHibernateModifier" class="ReplaceHibernateModifier"/>
-    <bean id="htmlHttpMessageConverter" class="ParrotHtmlHttpMessageConverter"/>
-    <bean id="htmlExceptionConverter" class="ParrotHtmlExceptionConverter"/>
+    <bean id="requestPathReader" class="org.cccs.parrot.http.RequestPathReader"/>
+    <bean id="replaceHibernateModifier" class="org.cccs.parrot.oxm.ReplaceHibernateModifier"/>
+    <bean id="htmlHttpMessageConverter" class="org.cccs.parrot.web.converter.ParrotHtmlHttpMessageConverter"/>
+    <bean id="htmlExceptionConverter" class="org.cccs.parrot.web.converter.ParrotHtmlExceptionConverter"/>
 
     <!-- XStream marshaller for OXM -->
     <bean id="marshaller"

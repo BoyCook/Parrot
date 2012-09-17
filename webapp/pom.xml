@@ -3,7 +3,7 @@
          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://maven.apache.org/POM/4.0.0'>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.cccs</groupId>
-    <artifactId>parrot-webap</artifactId>
+    <artifactId>parrot-webapp</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Parrot - Webapp</name>

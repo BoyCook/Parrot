@@ -55,6 +55,7 @@ public class ContextBuilder {
         final ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Table.class));
 
+        //For each Table find root Entity
         for (BeanDefinition bd : scanner.findCandidateComponents(packageName)) {
             Class clazz = ContextUtils.getClassByName(bd.getBeanClassName());
             if (ContextUtils.isTop(clazz)) {
@@ -63,11 +64,13 @@ public class ContextBuilder {
         }
 
         LOG.debug(format("Found [%d] top level resources", rootMappings.size()));
+        //For each root Entity build path
         for (Class top : rootMappings.values()) {
             LOG.debug(format("Building resource path for [%s]", top.getName()));
             buildResourcePath(requestMappings, top, "");
         }
 
+        //Add each unique Entity Class to model
         for (Class clazz : requestMappings.values()) {
             if (!model.containsKey(clazz.getSimpleName())) {
                 model.put(clazz.getSimpleName(), buildEntity(clazz));
@@ -81,6 +84,8 @@ public class ContextBuilder {
         addResource(requestMappings, c, path);
         String newPath = path + getResourcePath(c) + getUniquePath(c);
 
+        //TODO: check fields also - BeanUtils.getPropertyDescriptors(c); ??
+        //Check each method for child Entity
         for (Method method : c.getMethods()) {
             if (method.isAnnotationPresent(OneToOne.class)) {
                 if (newPath.contains(getResourcePath(method.getReturnType()))) {
@@ -100,6 +105,10 @@ public class ContextBuilder {
             } else if (method.isAnnotationPresent(ManyToMany.class)) {
                 Class type = ClassUtils.getGenericType(method);
                 addResource(requestMappings, type, newPath);
+            } else if (method.isAnnotationPresent(ManyToOne.class)) {
+                if (!newPath.contains(getResourcePath(method.getReturnType()))) {
+                    addResource(requestMappings, method.getReturnType(), newPath);
+                }
             }
         }
     }

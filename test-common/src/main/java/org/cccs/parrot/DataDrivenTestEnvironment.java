@@ -19,6 +19,7 @@ public class DataDrivenTestEnvironment  {
     @Autowired
     protected EntityManagerFactory entityManagerFactory;
     private String[] dataFileNames = new String[]{};
+    //TODO: move defaults out of here
     protected static final String[] DEFAULT_TABLES = new String[] {
             "/db/countries.xml",
             "/db/people.xml",
@@ -64,7 +65,7 @@ public class DataDrivenTestEnvironment  {
     }
 
     public boolean isInstall() {
-        return isTearDown() || !dataInstalled;
+        return (isTearDown() || !dataInstalled) && getDataFileNames().length > 0;
     }
 
     public boolean isTearDown() {

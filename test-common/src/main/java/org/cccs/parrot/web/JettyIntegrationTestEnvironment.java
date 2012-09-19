@@ -48,6 +48,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
     @SuppressWarnings("unchecked")
     @Before
     public void beforeEach() throws Exception {
+        //TODO make it easier not to install data
         super.beforeEach();
         client = new RestTemplate();
         client.setMessageConverters(CollectionUtils.arrayToList(

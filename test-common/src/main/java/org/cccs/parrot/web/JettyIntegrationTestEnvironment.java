@@ -76,6 +76,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
             connector.setLowResourcesConnections(5000);
             server.addConnector(connector);
             WebAppContext webapp = new WebAppContext();
+            log.debug("Using war: " + warDir);
             webapp.setContextPath("/");
             webapp.setWar(warDir);
 

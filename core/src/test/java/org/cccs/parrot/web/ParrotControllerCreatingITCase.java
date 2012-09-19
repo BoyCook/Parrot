@@ -24,7 +24,7 @@ import static org.cccs.parrot.Assert.*;
  * Date: 18/06/2012
  * Time: 12:05
  */
-@ContextConfiguration(locations = {"classpath:context/testApplicationContext.xml", "classpath:parrotContext.xml"})
+@ContextConfiguration(locations = "classpath:parrotContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironment {
 

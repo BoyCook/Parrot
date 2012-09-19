@@ -32,6 +32,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
     protected static AbstractHttpMessageConverter jsonConverter;
     protected static URL baseUrl;
     protected static String webXML = "src/test/resources/web.xml";
+    protected static String warDir = "src/test/webapp";
     protected static boolean overrideWebXML = true;
     protected String serviceBaseURL;
     protected RestTemplate client;
@@ -75,7 +76,7 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
             server.addConnector(connector);
             WebAppContext webapp = new WebAppContext();
             webapp.setContextPath("/");
-            webapp.setWar("src/test/webapp");
+            webapp.setWar(warDir);
 
             if (overrideWebXML) {
                 webapp.setDescriptor(webXML);

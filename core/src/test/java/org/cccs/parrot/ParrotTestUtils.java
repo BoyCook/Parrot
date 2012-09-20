@@ -12,6 +12,20 @@ import java.util.List;
  */
 public final class ParrotTestUtils {
 
+    public static final String[] DEFAULT_TABLES = new String[]{
+            "/db/countries.xml",
+            "/db/people.xml",
+            "/db/cats.xml",
+            "/db/dogs.xml"
+
+    };
+    public static final String[] DELETE_TABLES = new String[]{
+            "country",
+            "cat",
+            "dog",
+            "person"
+    };
+
     public static Person getCraig() {
         Person person = new Person("Craig Cook", "craig@craigcook.co.uk", "07345123456");
         person.setId(1l);

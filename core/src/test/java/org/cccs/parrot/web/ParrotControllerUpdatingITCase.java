@@ -1,5 +1,6 @@
 package org.cccs.parrot.web;
 
+import org.cccs.parrot.ParrotTestUtils;
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.oxm.ReplaceHibernateModifier;
@@ -42,7 +43,8 @@ public class ParrotControllerUpdatingITCase extends JettyIntegrationTestEnvironm
     @Before
     public void beforeEach() throws Exception {
         finder = new GenericFinder(entityManagerFactory);
-        setDataFileNames(DEFAULT_TABLES);
+        setDataFileNames(ParrotTestUtils.DEFAULT_TABLES);
+        setDeleteTables(ParrotTestUtils.DELETE_TABLES);
         setTearDown(true);
         super.beforeEach();
     }

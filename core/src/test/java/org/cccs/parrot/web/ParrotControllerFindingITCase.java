@@ -1,5 +1,6 @@
 package org.cccs.parrot.web;
 
+import org.cccs.parrot.ParrotTestUtils;
 import org.cccs.parrot.domain.Cat;
 import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
@@ -44,7 +45,8 @@ public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironme
 
     @Before
     public void beforeEach() throws Exception {
-        setDataFileNames(DEFAULT_TABLES);
+        setDataFileNames(ParrotTestUtils.DEFAULT_TABLES);
+        setDeleteTables(ParrotTestUtils.DELETE_TABLES);
         super.beforeEach();
     }
 

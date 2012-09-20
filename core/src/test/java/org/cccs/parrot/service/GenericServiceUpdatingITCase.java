@@ -1,6 +1,7 @@
 package org.cccs.parrot.service;
 
 import org.cccs.parrot.DataDrivenTestEnvironment;
+import org.cccs.parrot.ParrotTestUtils;
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
 import org.junit.Before;
@@ -35,7 +36,8 @@ public class GenericServiceUpdatingITCase extends DataDrivenTestEnvironment {
     public void beforeEach() throws Exception {
         service = new GenericService(entityManagerFactory);
         finder = new GenericFinder(entityManagerFactory);
-        setDataFileNames(DEFAULT_TABLES);
+        setDataFileNames(ParrotTestUtils.DEFAULT_TABLES);
+        setDeleteTables(ParrotTestUtils.DELETE_TABLES);
         setTearDown(true);
         super.beforeEach();
     }

@@ -1,6 +1,7 @@
 package org.cccs.parrot.finder;
 
 import org.cccs.parrot.DataDrivenTestEnvironment;
+import org.cccs.parrot.ParrotTestUtils;
 import org.cccs.parrot.domain.Cat;
 import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
@@ -39,7 +40,8 @@ public class GenericFinderITCase extends DataDrivenTestEnvironment {
     @Before
     public void beforeEach() throws Exception {
         finder = new GenericFinder(entityManagerFactory);
-        setDataFileNames(DEFAULT_TABLES);
+        setDataFileNames(ParrotTestUtils.DEFAULT_TABLES);
+        setDeleteTables(ParrotTestUtils.DELETE_TABLES);
         super.beforeEach();
     }
 

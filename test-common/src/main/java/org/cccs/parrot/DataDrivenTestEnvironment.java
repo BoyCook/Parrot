@@ -19,20 +19,8 @@ public class DataDrivenTestEnvironment  {
     @Autowired
     protected EntityManagerFactory entityManagerFactory;
     private String[] dataFileNames = new String[]{};
+    private String[] deleteTables = new String[]{};
     //TODO: move defaults out of here
-    protected static final String[] DEFAULT_TABLES = new String[] {
-            "/db/countries.xml",
-            "/db/people.xml",
-            "/db/cats.xml",
-            "/db/dogs.xml"
-
-    };
-    private static final String[] DELETE_TABLES = new String[] {
-            "country",
-            "cat",
-            "dog",
-            "person"
-    };
     private boolean tearDown = false;
     private static boolean dataInstalled = false;
     protected DBUnitDataInstaller installer;
@@ -41,7 +29,7 @@ public class DataDrivenTestEnvironment  {
     public void beforeEach() throws Exception {
         //The data is installed either for each test or for the entire test run
         if (isInstall()) {
-            installer = new DBUnitDataInstaller(dataSource, getDataFileNames(), DELETE_TABLES);
+            installer = new DBUnitDataInstaller(dataSource, getDataFileNames(), getDeleteTables());
             installer.installClean();
             dataInstalled = true;
         }
@@ -62,6 +50,14 @@ public class DataDrivenTestEnvironment  {
 
     public void setDataFileNames(String[] dataFileNames) {
         this.dataFileNames = dataFileNames;
+    }
+
+    public String[] getDeleteTables() {
+        return deleteTables;
+    }
+
+    public void setDeleteTables(String[] deleteTables) {
+        this.deleteTables = deleteTables;
     }
 
     public boolean isInstall() {

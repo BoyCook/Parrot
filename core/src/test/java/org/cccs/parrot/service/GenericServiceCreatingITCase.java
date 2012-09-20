@@ -1,6 +1,7 @@
 package org.cccs.parrot.service;
 
 import org.cccs.parrot.DataDrivenTestEnvironment;
+import org.cccs.parrot.ParrotTestUtils;
 import org.cccs.parrot.domain.Cat;
 import org.cccs.parrot.domain.Country;
 import org.cccs.parrot.domain.Dog;
@@ -42,6 +43,7 @@ public class GenericServiceCreatingITCase extends DataDrivenTestEnvironment {
         craig.setEmail("craig@craigcook.co.uk");
         craig.setPhone("07345123456");
         setDataFileNames(new String[]{"/db/people.xml"});
+        setDeleteTables(ParrotTestUtils.DELETE_TABLES);
         setTearDown(true);
         super.beforeEach();
     }

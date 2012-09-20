@@ -86,8 +86,10 @@
                     <instrumentation>
                         <ignores>
                             <ignore>org.cccs.parrot.web</ignore>
+                            <ignore>org.cccs.parrot</ignore>
                         </ignores>
                         <excludes>
+                            <exclude>org/cccs/parrot/**/*.class</exclude>
                             <exclude>org/cccs/parrot/web/**/*.class</exclude>
                         </excludes>
                     </instrumentation>

@@ -61,7 +61,7 @@ public class DataDrivenTestEnvironment  {
     }
 
     public boolean isInstall() {
-        return (isTearDown() || !dataInstalled) && getDataFileNames().length > 0;
+        return isTearDown() || !dataInstalled;
     }
 
     public boolean isTearDown() {

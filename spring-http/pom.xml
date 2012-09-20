@@ -51,10 +51,10 @@
                 <configuration>
                     <instrumentation>
                         <ignores>
-                            <ignore>org.cccs.parrot.domain</ignore>
+                            <ignore>org.springframework.http.client</ignore>
                         </ignores>
                         <excludes>
-                            <exclude>org/cccs/parrot/domain/**/*.class</exclude>
+                            <exclude>org/springframework/http/client/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>

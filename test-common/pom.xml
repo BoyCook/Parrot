@@ -85,10 +85,10 @@
                 <configuration>
                     <instrumentation>
                         <ignores>
-                            <ignore>org.cccs.parrot.domain</ignore>
+                            <ignore>org.cccs.parrot.web</ignore>
                         </ignores>
                         <excludes>
-                            <exclude>org/cccs/parrot/domain/**/*.class</exclude>
+                            <exclude>org/cccs/parrot/web/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>

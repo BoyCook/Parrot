@@ -8,6 +8,7 @@ import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.oxm.ReplaceHibernateModifier;
 import org.cccs.parrot.web.converter.ParrotJSONHttpMessageConverter;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -31,6 +32,14 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     private GenericFinder finder;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @BeforeClass
+    public static void setupJetty() {
+        log.debug("RunOnce: setupJetty");
+        jetty = new JettyServer();
+        jetty.start();
+        baseUrl = jetty.getBaseUrl();
+    }
 
     @Before
     public void beforeEach() throws Exception {

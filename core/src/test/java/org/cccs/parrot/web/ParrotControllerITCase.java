@@ -2,6 +2,7 @@ package org.cccs.parrot.web;
 
 import org.cccs.parrot.context.ParrotContext;
 import org.cccs.parrot.domain.Person;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -22,6 +23,14 @@ public class ParrotControllerITCase extends JettyIntegrationTestEnvironment {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @BeforeClass
+    public static void setupJetty() {
+        log.debug("RunOnce: setupJetty");
+        jetty = new JettyServer();
+        jetty.start();
+        baseUrl = jetty.getBaseUrl();
+    }
 
     @Test
     public void getContextShouldWork() {

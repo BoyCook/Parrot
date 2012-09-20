@@ -2,12 +2,15 @@ package org.cccs.parrot.web;
 
 import org.cccs.parrot.domain.Person;
 import org.cccs.parrot.finder.GenericFinder;
+import org.cccs.parrot.oxm.ReplaceHibernateModifier;
+import org.cccs.parrot.web.converter.ParrotJSONHttpMessageConverter;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.springframework.http.client.ResponsePathReader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -32,10 +35,8 @@ public class ParrotControllerUpdatingITCase extends JettyIntegrationTestEnvironm
 
     @BeforeClass
     public static void setupJetty() {
-        log.debug("RunOnce: setupJetty");
-        jetty = new JettyServer();
-        jetty.start();
-        baseUrl = jetty.getBaseUrl();
+        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
+        startJetty();
     }
 
     @Before

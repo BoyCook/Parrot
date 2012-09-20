@@ -35,15 +35,12 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
 
     @BeforeClass
     public static void setupJetty() {
-        log.debug("RunOnce: setupJetty");
-        jetty = new JettyServer();
-        jetty.start();
-        baseUrl = jetty.getBaseUrl();
+        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
+        startJetty();
     }
 
     @Before
     public void beforeEach() throws Exception {
-        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
         finder = new GenericFinder(entityManagerFactory);
         setDataFileNames(new String[]{"/db/people.xml"});
         setTearDown(true);

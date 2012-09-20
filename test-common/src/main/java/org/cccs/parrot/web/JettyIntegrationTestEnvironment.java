@@ -4,9 +4,6 @@ import org.cccs.parrot.DataDrivenTestEnvironment;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
@@ -37,9 +34,20 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
 
     @BeforeClass
     public static void runOnce() {
-        log.debug("RunOnce: setup converters");
         marshaller = new XStreamMarshaller();
         xmlConverter = new MarshallingHttpMessageConverter(marshaller);
+    }
+
+    public static void startJetty() {
+        jetty = new JettyServer();
+        jetty.start();
+        baseUrl = jetty.getBaseUrl();
+    }
+
+    public static void startJetty(String webXml, String war) {
+        jetty = new JettyServer(webXml, war);
+        jetty.start();
+        baseUrl = jetty.getBaseUrl();
     }
 
     @SuppressWarnings("unchecked")

@@ -69,6 +69,10 @@ public final class ContextUtils {
         return ("/{" + c.getSimpleName() + "Id" + "}").toLowerCase();
     }
 
+    public static String getAttributePath(final Class c) {
+        return getUniquePath(c) + "/{attribute}";
+    }
+
     public static boolean isInDomain(Class c) {
         return (c.isAnnotationPresent(Entity.class) &&
                 c.getPackage().getName().equalsIgnoreCase(ContextBuilder.getContext().getPackageName()));

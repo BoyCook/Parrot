@@ -1,10 +1,7 @@
 package org.cccs.parrot.web;
 
 import org.cccs.parrot.ParrotTestUtils;
-import org.cccs.parrot.domain.Cat;
-import org.cccs.parrot.domain.Country;
-import org.cccs.parrot.domain.Dog;
-import org.cccs.parrot.domain.Person;
+import org.cccs.parrot.domain.*;
 import org.cccs.parrot.oxm.ReplaceHibernateModifier;
 import org.cccs.parrot.web.converter.ParrotJSONHttpMessageConverter;
 import org.junit.Before;
@@ -21,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 import static org.cccs.parrot.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -82,6 +80,13 @@ public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironme
     @Test
     public void findCountryByIdShouldWork() {
         assertEngland(client.getForObject(serviceBaseURL + "country/1", Country.class));
+    }
+
+    @Test
+    public void getCountryAttributeByIdShouldWork() {
+        KeyValue value = client.getForObject(serviceBaseURL + "country/1/name", KeyValue.class);
+        assertThat(value.getKey(), is(equalTo("name")));
+        assertThat(value.getValue(), is(equalTo("England")));
     }
 
     @Test

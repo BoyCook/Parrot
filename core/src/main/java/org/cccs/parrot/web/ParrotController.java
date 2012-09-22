@@ -4,6 +4,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.cccs.parrot.context.ContextBuilder;
 import org.cccs.parrot.context.ParrotContext;
 import org.cccs.parrot.domain.Entity;
+import org.cccs.parrot.domain.KeyValue;
 import org.cccs.parrot.finder.GenericFinder;
 import org.cccs.parrot.service.GenericService;
 import org.cccs.parrot.util.ClassUtils;
@@ -24,6 +25,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import static java.lang.String.format;
+import static org.cccs.parrot.util.ClassUtils.getPropertyValue;
+import static org.cccs.parrot.util.ContextUtils.getAttributePath;
 import static org.cccs.parrot.util.ContextUtils.getUniquePath;
 import static org.cccs.parrot.web.PathMatcher.getInboundPath;
 
@@ -78,13 +81,20 @@ public class ParrotController {
     @RequestMapping(value = "/**", method = RequestMethod.GET)
     @ResponseBody
     public Object getParrotEntity(HttpServletRequest request) {
-        final String matchedPath = PathMatcher.getMatcher().match(getInboundPath(request));
-        Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
-
         //TODO: build query from FULL path hierarchy, not just last entity
-        if (matchedPath.endsWith(getUniquePath(clazz))) {
+        final String matchedPath = PathMatcher.getMatcher().match(getInboundPath(request));
+        final Class clazz = ContextBuilder.getContext().getRequestMappings().get(matchedPath);
+        final String uniquePath = getUniquePath(clazz);
+        final String attributePath = getAttributePath(clazz);
+
+        if (matchedPath.endsWith(uniquePath)) {
             String key = extractParameterFromEnd(request, 1);
             return getFinder().find(clazz, NumberUtils.toLong(key));
+        } else if (matchedPath.endsWith(attributePath)) {
+            String attribute = extractParameterFromEnd(request, 1);
+            String key = extractParameterFromEnd(request, 2);
+            Object retVal = getFinder().find(clazz, NumberUtils.toLong(key));
+            return new KeyValue(attribute, getPropertyValue(retVal, attribute).toString());
         } else {
             return getFinder().all(clazz);
         }

@@ -116,7 +116,7 @@ public class ContextBuilder {
     public void addResource(final Map<String, Class> requestMappings, final Class c, String path) {
         String resourcePath = getResourcePath(c);
         String uniquePath = resourcePath + getUniquePath(c);
-        String uniqueAttribute = resourcePath + getUniquePath(c) + "/{attribute}";
+        String uniqueAttribute = resourcePath + getAttributePath(c);
         String fullResourcePath = path + resourcePath;
         String fullUniquePath = path + uniquePath;
         String fullUniqueAttribute = path + uniqueAttribute;

@@ -118,4 +118,9 @@ public final class ClassUtils {
         }
         return match;
     }
+
+    public static Object getPropertyValue(Object object, String name) {
+        PropertyDescriptor descriptor = BeanUtils.getPropertyDescriptor(object.getClass(), name);
+        return invokeReadMethod(object, descriptor.getReadMethod());
+    }
 }

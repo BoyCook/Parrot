@@ -54,6 +54,12 @@ public class PathMatcher {
         return bestPatternMatch;
     }
 
+    public static boolean isEntityPath(String path) {
+//        if (path)
+
+        return false;
+    }
+
     public static String getInboundPath(HttpServletRequest request) {
         String inboundPath = URL_PATH_HELPER.getPathWithinApplication(request);
         inboundPath = inboundPath.substring(ParrotConstants.SERVICE_PATH.length());

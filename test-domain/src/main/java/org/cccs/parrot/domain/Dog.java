@@ -13,7 +13,7 @@ import java.util.Set;
  * Date: 30/06/2011
  * Time: 17:08
  */
-@javax.persistence.Entity
+@Entity
 @Table
 public class Dog {
 

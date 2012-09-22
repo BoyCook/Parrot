@@ -12,7 +12,7 @@ import java.util.Set;
  * Date: 12/07/2011
  * Time: 15:53
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "country",
         uniqueConstraints = {
                 @UniqueConstraint(name = "UC_COUNTRY_NAME", columnNames = {"name"})

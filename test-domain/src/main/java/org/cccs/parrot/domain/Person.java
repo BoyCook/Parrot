@@ -1,6 +1,7 @@
 package org.cccs.parrot.domain;
 
 import org.cccs.parrot.Description;
+import org.cccs.parrot.Root;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -12,7 +13,8 @@ import java.util.Set;
  * Date: 30/06/2011
  * Time: 17:08
  */
-@javax.persistence.Entity
+@Root
+@Entity
 @Table(name = "Person",
     uniqueConstraints = {
         @UniqueConstraint(name = "UC_PERSON_NAME", columnNames = {"name", "email", "phone"})

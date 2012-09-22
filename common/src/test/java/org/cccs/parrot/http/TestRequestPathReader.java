@@ -6,7 +6,6 @@ import org.springframework.http.server.ServletServerHttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +30,7 @@ public class TestRequestPathReader {
     @Test
     public void getPathShouldWork() {
         when(serverRequest.getServletRequest()).thenReturn(request);
-//        when(request.getPathInfo()).thenReturn(anyString());
+        when(request.getPathInfo()).thenReturn("SOME_PATH");
         pathReader.getPath(serverRequest);
     }
 }

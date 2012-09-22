@@ -1,7 +1,10 @@
 package org.cccs.parrot.http;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.server.ServletServerHttpRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -14,11 +17,21 @@ import static org.mockito.Mockito.when;
  */
 public class TestRequestPathReader {
 
-    private PathReader pathReader = mock(RequestPathReader.class);
-    private ServletServerHttpRequest request = mock(ServletServerHttpRequest.class);
+    private PathReader pathReader;
+    private ServletServerHttpRequest serverRequest;
+    private HttpServletRequest request;
+
+    @Before
+    public void setup() {
+        pathReader = new RequestPathReader();
+        serverRequest = mock(ServletServerHttpRequest.class);
+        request = mock(HttpServletRequest.class);
+    }
 
     @Test
     public void getPathShouldWork() {
-        when(pathReader.getPath(request)).thenReturn(anyString());
+        when(serverRequest.getServletRequest()).thenReturn(request);
+//        when(request.getPathInfo()).thenReturn(anyString());
+        pathReader.getPath(serverRequest);
     }
 }

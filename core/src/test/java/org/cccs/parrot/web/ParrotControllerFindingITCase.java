@@ -18,7 +18,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 import static org.cccs.parrot.Assert.*;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -84,19 +83,27 @@ public class ParrotControllerFindingITCase extends JettyIntegrationTestEnvironme
 
     @Test
     public void getCountryAttributeByIdShouldWork() {
-        KeyValue value = client.getForObject(serviceBaseURL + "country/1/name", KeyValue.class);
-        assertThat(value.getKey(), is(equalTo("name")));
-        assertThat(value.getValue(), is(equalTo("England")));
+        assertEnglandKeyValue(client.getForObject(serviceBaseURL + "country/1/name", KeyValue.class));
     }
 
     @Test
-    public void findCountryByViaCatShouldWork() {
+    public void findCountryByIdViaCatShouldWork() {
         assertEngland(client.getForObject(serviceBaseURL + "person/1/cat/1/country/1", Country.class));
     }
 
     @Test
-    public void findCountryByViaDogShouldWork() {
+    public void getCountryAttributeByIdViaCatShouldWork() {
+        assertEnglandKeyValue(client.getForObject(serviceBaseURL + "person/1/cat/1/country/1/name", KeyValue.class));
+    }
+
+    @Test
+    public void findCountryByIdViaDogShouldWork() {
         assertEngland(client.getForObject(serviceBaseURL + "person/1/dog/1/country/1", Country.class));
+    }
+
+    @Test
+    public void getCountryAttributeByIdViaDogShouldWork() {
+        assertEnglandKeyValue(client.getForObject(serviceBaseURL + "person/1/dog/1/country/1/name", KeyValue.class));
     }
 
     @Test

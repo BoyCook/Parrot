@@ -1,9 +1,6 @@
 package org.cccs.parrot;
 
-import org.cccs.parrot.domain.Cat;
-import org.cccs.parrot.domain.Country;
-import org.cccs.parrot.domain.Dog;
-import org.cccs.parrot.domain.Person;
+import org.cccs.parrot.domain.*;
 import org.hamcrest.CoreMatchers;
 
 import java.util.List;
@@ -25,6 +22,12 @@ public final class Assert {
         assertNotNull(country);
         assertThat(country.getId(), is(greaterThanOrEqualTo(1l)));
         assertThat(country.getName(), is(equalTo("England")));
+    }
+
+    public static void assertEnglandKeyValue(final KeyValue country) {
+        assertNotNull(country);
+        assertThat(country.getKey(), is(equalTo("name")));
+        assertThat(country.getValue(), is(equalTo("England")));
     }
 
     public static void assertBagpuss(final Cat cat) {

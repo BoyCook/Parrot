@@ -51,9 +51,6 @@ public class DBUnitDataInstaller {
         IDatabaseConnection conn = tester.getConnection();
         conn.getConfig().setProperty(DatabaseConfig.FEATURE_BATCHED_STATEMENTS, true);
         conn.getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 1000);
-//        tester.getConnection().getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, false);
-//        tester.getConnection().getConfig().setProperty(DatabaseConfig.FEATURE_QUALIFIED_TABLE_NAMES, false);
-//        tester.getConnection().getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
         tester.setDataSet(getDataSet(getDataFileNames()));
         tester.onSetup();
         conn.close();
@@ -72,20 +69,15 @@ public class DBUnitDataInstaller {
     public void installClean() throws SQLException, DatabaseUnitException, IOException {
         Connection connection = getDataSource().getConnection();
         IDatabaseConnection conn = new HsqldbConnection(connection, "PUBLIC");
-        conn.getConfig().setProperty(DatabaseConfig.FEATURE_BATCHED_STATEMENTS, true);
-        conn.getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 1000);
-//        conn.getConfig().setProperty(DatabaseConfig.FEATURE_QUALIFIED_TABLE_NAMES, false);
-//        conn.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, false);
-//        DatabaseOperation.DELETE_ALL.execute(conn, getDataSet(new String[]{
-//                "/db/ticket_types.xml",
-//                "/db/tickets.xml",
-//                "/db/product_instances.xml"
-//        }));
-//        DatabaseOperation.CLEAN_INSERT.execute(conn, getDataSet(getDataFileNames()));
-        deleteAll();
-        DatabaseOperation.CLEAN_INSERT.execute(conn, getDataSet(getDataFileNames()));
-        conn.close();
-        connection.close();
+        try {
+            conn.getConfig().setProperty(DatabaseConfig.FEATURE_BATCHED_STATEMENTS, true);
+            conn.getConfig().setProperty(DatabaseConfig.PROPERTY_BATCH_SIZE, 1000);
+            deleteAll();
+            DatabaseOperation.CLEAN_INSERT.execute(conn, getDataSet(getDataFileNames()));
+        } finally {
+            conn.close();
+            connection.close();
+        }
     }
 
     public void deleteAll() throws SQLException {

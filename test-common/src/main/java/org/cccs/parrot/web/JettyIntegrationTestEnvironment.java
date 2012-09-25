@@ -3,7 +3,6 @@ package org.cccs.parrot.web;
 import org.cccs.parrot.DataDrivenTestEnvironment;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
@@ -24,30 +23,23 @@ import java.net.URL;
 public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvironment {
 
     protected static final Logger log = LoggerFactory.getLogger(JettyIntegrationTestEnvironment.class);
-    private static XStreamMarshaller marshaller;
-    protected String serviceBaseURL;
-    protected RestTemplate client;
-    public static URL baseUrl;
-    public static JettyServer jetty;
-    public static MarshallingHttpMessageConverter xmlConverter;
-    public static AbstractHttpMessageConverter jsonConverter;
-
-    @BeforeClass
-    public static void runOnce() {
-        marshaller = new XStreamMarshaller();
-        xmlConverter = new MarshallingHttpMessageConverter(marshaller);
-    }
+    public static final XStreamMarshaller MARSHALLER = new XStreamMarshaller();
+    public static final MarshallingHttpMessageConverter XML_CONVERTER = new MarshallingHttpMessageConverter(MARSHALLER);
+    private RestTemplate client;
+    private static URL baseUrl;
+    private static JettyServer jetty;
+    private static AbstractHttpMessageConverter jsonConverter;
 
     public static void startJetty() {
         jetty = new JettyServer();
         jetty.start();
-        baseUrl = jetty.getBaseUrl();
+        setBaseUrl(jetty.getBaseUrl());
     }
 
     public static void startJetty(String webXml, String war) {
         jetty = new JettyServer(webXml, war);
         jetty.start();
-        baseUrl = jetty.getBaseUrl();
+        setBaseUrl(jetty.getBaseUrl());
     }
 
     @SuppressWarnings("unchecked")
@@ -57,15 +49,38 @@ public abstract class JettyIntegrationTestEnvironment extends DataDrivenTestEnvi
         super.beforeEach();
         client = new RestTemplate();
         client.setMessageConverters(CollectionUtils.arrayToList(
-            new HttpMessageConverter<?>[] {
-                jsonConverter, xmlConverter, new SourceHttpMessageConverter()
-            }
+                new HttpMessageConverter<?>[]{
+                        getJsonConverter(), XML_CONVERTER, new SourceHttpMessageConverter()
+                }
         ));
-        serviceBaseURL = baseUrl + "/service/";
     }
 
     @AfterClass
     public static void stopWebService() throws Exception {
         jetty.stop();
+    }
+
+    public String getServiceBaseURL() {
+        return getBaseUrl() + "/service/";
+    }
+
+    public static URL getBaseUrl() {
+        return baseUrl;
+    }
+
+    public static void setBaseUrl(URL baseUrl) {
+        JettyIntegrationTestEnvironment.baseUrl = baseUrl;
+    }
+
+    public RestTemplate getClient() {
+        return client;
+    }
+
+    public static AbstractHttpMessageConverter getJsonConverter() {
+        return jsonConverter;
+    }
+
+    public static void setJsonConverter(AbstractHttpMessageConverter jsonConverter) {
+        JettyIntegrationTestEnvironment.jsonConverter = jsonConverter;
     }
 }

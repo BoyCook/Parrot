@@ -36,7 +36,7 @@ public class ParrotControllerUpdatingITCase extends JettyIntegrationTestEnvironm
 
     @BeforeClass
     public static void setupJetty() {
-        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
+        setJsonConverter(new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier()));
         startJetty();
     }
 
@@ -56,7 +56,7 @@ public class ParrotControllerUpdatingITCase extends JettyIntegrationTestEnvironm
         original.setEmail("updated@craigcook.co.uk");
         original.setPhone("999");
 
-        client.postForLocation(serviceBaseURL + "person/" + original.getId(), original);
+        getClient().postForLocation(getServiceBaseURL() + "person/" + original.getId(), original);
 
         Person updated = finder.find(Person.class, "name", "Craig Cook");
         assertThat(updated.getId(), is(greaterThanOrEqualTo(1l)));

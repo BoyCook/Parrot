@@ -37,7 +37,7 @@ public class ParrotControllerDeletingITCase extends JettyIntegrationTestEnvironm
 
     @BeforeClass
     public static void setupJetty() {
-        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
+        setJsonConverter(new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier()));
         startJetty();
     }
 
@@ -56,7 +56,7 @@ public class ParrotControllerDeletingITCase extends JettyIntegrationTestEnvironm
         thrown.expectMessage("Unable to find entity [Country] with [id] as [1]");
 
         assertEngland(finder.find(Country.class, 1));
-        client.delete(serviceBaseURL + "Country/1");
+        getClient().delete(getServiceBaseURL() + "Country/1");
         finder.find(Country.class, 1);
     }
 
@@ -66,7 +66,7 @@ public class ParrotControllerDeletingITCase extends JettyIntegrationTestEnvironm
         thrown.expectMessage("Unable to find entity [Cat] with [id] as [1]");
 
         assertBagpussWithOwner(finder.find(Cat.class, 1));
-        client.delete(serviceBaseURL + "Cat/1");
+        getClient().delete(getServiceBaseURL() + "Cat/1");
         finder.find(Cat.class, 1);
     }
 
@@ -76,7 +76,7 @@ public class ParrotControllerDeletingITCase extends JettyIntegrationTestEnvironm
         thrown.expectMessage("Unable to find entity [Dog] with [id] as [1]");
 
         assertFidoWithOwner(finder.find(Dog.class, 1));
-        client.delete(serviceBaseURL + "Dog/1");
+        getClient().delete(getServiceBaseURL() + "Dog/1");
         finder.find(Dog.class, 1);
     }
 
@@ -84,20 +84,20 @@ public class ParrotControllerDeletingITCase extends JettyIntegrationTestEnvironm
     public void deleteInvalidTypeShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.delete(serviceBaseURL + "FooBar/1");
+        getClient().delete(getServiceBaseURL() + "FooBar/1");
     }
 
     @Test
     public void deleteInvalidEntityShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.delete(serviceBaseURL + "Person/123");
+        getClient().delete(getServiceBaseURL() + "Person/123");
     }
 
     @Test
     public void deleteMandatoryForeignKeyForPersonShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("422 Unprocessable Entity");
-        client.delete(serviceBaseURL + "Person/1");
+        getClient().delete(getServiceBaseURL() + "Person/1");
     }
 }

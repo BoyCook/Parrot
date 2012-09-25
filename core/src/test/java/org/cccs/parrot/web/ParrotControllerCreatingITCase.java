@@ -36,7 +36,7 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
 
     @BeforeClass
     public static void setupJetty() {
-        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
+        setJsonConverter(new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier()));
         startJetty();
     }
 
@@ -51,7 +51,7 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
 
     @Test
     public void createCountryShouldWork() {
-        client.put(serviceBaseURL + "country", new Country("England"));
+        getClient().put(getServiceBaseURL() + "country", new Country("England"));
         assertEngland(finder.find(Country.class, "name", "England"));
     }
 
@@ -60,13 +60,13 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
         Person person = new Person("Dave Jones");
         person.setEmail("dave@jones.com");
         person.setPhone("07345123456");
-        client.put(serviceBaseURL + "person", person);
+        getClient().put(getServiceBaseURL() + "person", person);
         assertDave(finder.find(Person.class, "name", "Dave Jones"));
     }
 
     @Test
     public void createCatShouldWork() {
-        client.put(serviceBaseURL + "cat", new Cat("Bagpuss", getCraig()));
+        getClient().put(getServiceBaseURL() + "cat", new Cat("Bagpuss", getCraig()));
         assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
     }
 
@@ -74,7 +74,7 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createCatWithNoPersonShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("422 Unprocessable Entity");
-        client.put(serviceBaseURL + "cat", new Cat("Bagpuss"));
+        getClient().put(getServiceBaseURL() + "cat", new Cat("Bagpuss"));
         assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
     }
 
@@ -82,13 +82,13 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createCatWithInvalidPersonShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.put(serviceBaseURL + "cat", new Cat("Bagpuss", getPerson()));
+        getClient().put(getServiceBaseURL() + "cat", new Cat("Bagpuss", getPerson()));
         assertBagpuss(finder.find(Cat.class, "name", "Bagpuss"));
     }
 
     @Test
     public void createDogShouldWork() {
-        client.put(serviceBaseURL + "dog", new Dog("Fido", getCraig()));
+        getClient().put(getServiceBaseURL() + "dog", new Dog("Fido", getCraig()));
         assertFido(finder.find(Dog.class, "name", "Fido"));
     }
 
@@ -96,7 +96,7 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createDogWithNoPersonShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("422 Unprocessable Entity");
-        client.put(serviceBaseURL + "dog", new Dog("Fido"));
+        getClient().put(getServiceBaseURL() + "dog", new Dog("Fido"));
         assertFido(finder.find(Dog.class, "name", "Fido"));
     }
 
@@ -104,7 +104,7 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createDogWithInvalidPersonShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.put(serviceBaseURL + "dog", new Dog("Fido", getPerson()));
+        getClient().put(getServiceBaseURL() + "dog", new Dog("Fido", getPerson()));
         assertFido(finder.find(Dog.class, "name", "Fido"));
     }
 
@@ -112,14 +112,14 @@ public class ParrotControllerCreatingITCase extends JettyIntegrationTestEnvironm
     public void createInvalidTypeShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.put(serviceBaseURL + "invalid", new Object());
+        getClient().put(getServiceBaseURL() + "invalid", new Object());
     }
 
     @Test
     public void createInvalidTypeWithIdShouldFail() {
         thrown.expect(HttpClientErrorException.class);
         thrown.expectMessage("404 Not Found");
-        client.put(serviceBaseURL + "invalid/invalid", new Object());
+        getClient().put(getServiceBaseURL() + "invalid/invalid", new Object());
     }
 
     private Person getPerson() {

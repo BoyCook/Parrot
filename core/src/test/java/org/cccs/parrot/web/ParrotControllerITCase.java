@@ -29,27 +29,27 @@ public class ParrotControllerITCase extends JettyIntegrationTestEnvironment {
 
     @BeforeClass
     public static void setupJetty() {
-        jsonConverter = new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier());
+        setJsonConverter(new ParrotJSONHttpMessageConverter(new ResponsePathReader(), new ReplaceHibernateModifier()));
         startJetty();
     }
 
     @Test
     public void getContextShouldWork() {
-        client.getForObject(serviceBaseURL + "context", ParrotContext.class);
+        getClient().getForObject(getServiceBaseURL() + "context", ParrotContext.class);
     }
 
     @Test
     public void getModelShouldWork() {
-        client.getForObject(serviceBaseURL + "model", HashMap.class);
+        getClient().getForObject(getServiceBaseURL() + "model", HashMap.class);
     }
 
     @Test
     public void getResourcesShouldWork() {
-        client.getForObject(serviceBaseURL + "resources", HashMap.class);
+        getClient().getForObject(getServiceBaseURL() + "resources", HashMap.class);
     }
 
     @Test
     public void getExampleEntityShouldWork() {
-        client.getForObject(serviceBaseURL + "example/Person", Person.class);
+        getClient().getForObject(getServiceBaseURL() + "example/Person", Person.class);
     }
 }

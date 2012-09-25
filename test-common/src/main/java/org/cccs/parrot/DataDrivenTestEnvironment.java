@@ -18,12 +18,12 @@ public class DataDrivenTestEnvironment  {
     protected DataSource dataSource;
     @Autowired
     protected EntityManagerFactory entityManagerFactory;
+    private DBUnitDataInstaller installer;
     private String[] dataFileNames = new String[]{};
     private String[] deleteTables = new String[]{};
     //TODO: move defaults out of here
     private boolean tearDown = false;
     private static boolean dataInstalled = false;
-    protected DBUnitDataInstaller installer;
 
     @Before
     public void beforeEach() throws Exception {
@@ -70,5 +70,9 @@ public class DataDrivenTestEnvironment  {
 
     public void setTearDown(boolean tearDown) {
         this.tearDown = tearDown;
+    }
+
+    public DBUnitDataInstaller getInstaller() {
+        return installer;
     }
 }

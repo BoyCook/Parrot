@@ -31,10 +31,10 @@ import java.sql.SQLException;
  */
 public class DBUnitDataInstaller {
 
-    protected DataSource dataSource;
+    private DataSource dataSource;
     private String[] dataFileNames = new String[]{};
     private String[] deleteTables;
-    protected IDatabaseTester tester;
+    private IDatabaseTester tester;
 
     public DBUnitDataInstaller(final DataSource dataSource, final String[] dataFileNames) {
         this(dataSource, dataFileNames, new String[]{});

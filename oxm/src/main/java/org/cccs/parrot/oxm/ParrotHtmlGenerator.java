@@ -47,7 +47,7 @@ public class ParrotHtmlGenerator {
                 table.append(row);
                 row.append(new Th(ContextUtils.getDescription(descriptor)));
                 Attribute attribute = entity.getAttribute(descriptor.getName());
-                if (attribute.isEditable() || attribute.isSystemManaged()) {
+                if (!attribute.isEditable() || attribute.isSystemManaged()) {
                     row.append(new Td(value));
                 } else {
                     Td td = new Td();

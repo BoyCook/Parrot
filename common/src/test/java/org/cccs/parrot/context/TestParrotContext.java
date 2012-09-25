@@ -22,12 +22,10 @@ public class TestParrotContext {
     private Map<String, Class> expectedRequestMappings;
     private Map<String, Entity> expectedModel;
 
-    static {
-        ContextBuilder.init(PACKAGE_NAME);
-    }
-
     @Before
     public void before() {
+        new ContextBuilder(PACKAGE_NAME);
+
         expectedRequestMappings = new HashMap<String, Class>();
         expectedRequestMappings.put("/person", Person.class);
         expectedRequestMappings.put("/person/{personid}", Person.class);
@@ -87,10 +85,20 @@ public class TestParrotContext {
         assertThat(model.size(), is(equalTo(expectedModel.size())));
         assertMapEquals(context.getModel(), expectedModel);
 
-        assertThat(model.get("Country").getAttributes().size(), is(equalTo(4)));
+        Entity country = model.get("Country");
+        assertThat(country.getAttributes().size(), is(equalTo(4)));
         assertThat(model.get("Person").getAttributes().size(), is(equalTo(6)));
         assertThat(model.get("Cat").getAttributes().size(), is(equalTo(4)));
         assertThat(model.get("Dog").getAttributes().size(), is(equalTo(4)));
+
+        Attribute id = country.getAttribute("id");
+        assertThat(country.getPaths().size(), is(equalTo(0)));
+        assertTrue(id.isSystemManaged());
+        assertTrue(id.isIdentity());
+        assertTrue(id.isEditable());
+        assertTrue(id.isColumn());
+        assertThat(id.getDescription(), is(equalTo("ID")));
+        assertTrue(id.getClazz().equals(Long.class));
     }
 
     private void assertContext(ParrotContext context) {

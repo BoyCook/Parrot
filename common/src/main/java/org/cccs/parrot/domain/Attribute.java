@@ -14,6 +14,7 @@ public class Attribute extends DescribedEntity {
 
     public Attribute(String name, String description, Class clazz) {
         super(name, description, clazz);
+        setEditable(true);
     }
 
     public boolean isSystemManaged() {

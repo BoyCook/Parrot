@@ -87,14 +87,17 @@ public class ParrotController {
         final String uniquePath = getUniquePath(clazz);
         final String attributePath = getAttributePath(clazz);
 
+        //{entityType}/{entityId}
         if (matchedPath.endsWith(uniquePath)) {
             String key = extractParameterFromEnd(request, 1);
             return getFinder().find(clazz, NumberUtils.toLong(key));
+        //{entityType}/{entityId}/{attribute}
         } else if (matchedPath.endsWith(attributePath)) {
             String attribute = extractParameterFromEnd(request, 1);
             String key = extractParameterFromEnd(request, 2);
             Object retVal = getFinder().find(clazz, NumberUtils.toLong(key));
             return new KeyValue(attribute, getPropertyValue(retVal, attribute).toString());
+        //{entityType}
         } else {
             return getFinder().all(clazz);
         }
